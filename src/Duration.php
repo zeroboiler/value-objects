@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -29,8 +33,6 @@ final class Duration extends ValueObject
 
     /**
      * Create from seconds.
-     *
-     * @param  int|float  $seconds
      */
     public static function fromSeconds(int|float $seconds): self
     {
@@ -39,8 +41,6 @@ final class Duration extends ValueObject
 
     /**
      * Create from minutes.
-     *
-     * @param  int|float  $minutes
      */
     public static function fromMinutes(int|float $minutes): self
     {
@@ -49,8 +49,6 @@ final class Duration extends ValueObject
 
     /**
      * Create from hours.
-     *
-     * @param  int|float  $hours
      */
     public static function fromHours(int|float $hours): self
     {
@@ -126,7 +124,7 @@ final class Duration extends ValueObject
             $parts[] = $minutes === 1 ? '1 minute' : "{$minutes} minutes";
         }
 
-        if ($seconds > 0 || empty($parts)) {
+        if ($seconds > 0 || $parts === []) {
             $parts[] = $seconds === 1 ? '1 second' : "{$seconds} seconds";
         }
 

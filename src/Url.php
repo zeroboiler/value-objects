@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
 use Illuminate\Validation\ValidationException;
-use ValueError;
 
 /**
  * URL value object with validation and parsing.
@@ -22,6 +25,7 @@ final class Url extends ValueObject
 
     /**
      * @param  string  $url  Valid URL
+     *
      * @throws ValidationException If URL is invalid
      */
     public function __construct(string $url)

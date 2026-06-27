@@ -1,28 +1,38 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Model;
-use ZeroBoiler\ValueObjects\Casts\ValueObjectCast;
-use ZeroBoiler\ValueObjects\ValueObjects\Money;
+use ZeroBoiler\ValueObjects\Money;
+use ZeroBoiler\ValueObjects\ValueObjectCast;
 
 final class TestModelWithCast extends Model
 {
+    #[Override]
     protected $casts = [
         'price' => ValueObjectCast::class.':'.Money::class,
     ];
 
+    #[Override]
     protected $table = 'test_models';
 }
 
 final class TestModelWithCastable extends Model
 {
+    #[Override]
     protected $casts = [
         'price' => Money::class,
     ];
 
+    #[Override]
     protected $table = 'test_models';
 }
 
-test('value object cast converts JSON to instance on get', function () {
+test('value object cast converts JSON to instance on get', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
 
@@ -33,7 +43,7 @@ test('value object cast converts JSON to instance on get', function () {
         ->and($value->currency)->toBe('USD');
 });
 
-test('value object cast returns null for null value', function () {
+test('value object cast returns null for null value', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
 
@@ -42,7 +52,7 @@ test('value object cast returns null for null value', function () {
     expect($value)->toBeNull();
 });
 
-test('value object cast converts instance to JSON on set', function () {
+test('value object cast converts instance to JSON on set', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
     $money = new Money(15000, 'EUR');
@@ -52,7 +62,7 @@ test('value object cast converts instance to JSON on set', function () {
     expect($value)->toBe('{"amount":15000,"currency":"EUR"}');
 });
 
-test('value object cast returns null for null instance on set', function () {
+test('value object cast returns null for null instance on set', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
 
@@ -61,7 +71,7 @@ test('value object cast returns null for null instance on set', function () {
     expect($value)->toBeNull();
 });
 
-test('value object cast serializes to array for JSON resources', function () {
+test('value object cast serializes to array for JSON resources', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
     $money = new Money(20000, 'USD');
@@ -74,7 +84,7 @@ test('value object cast serializes to array for JSON resources', function () {
     ]);
 });
 
-test('value object cast returns null on serialize for null', function () {
+test('value object cast returns null on serialize for null', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
 
@@ -83,7 +93,7 @@ test('value object cast returns null on serialize for null', function () {
     expect($value)->toBeNull();
 });
 
-test('value object cast handles invalid JSON gracefully on get', function () {
+test('value object cast handles invalid JSON gracefully on get', function (): void {
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
 
@@ -92,11 +102,11 @@ test('value object cast handles invalid JSON gracefully on get', function () {
     expect($value)->toBeNull();
 });
 
-test('castable trait provides cast class', function () {
+test('castable trait provides cast class', function (): void {
     expect(Money::castUsing())->toBe(ValueObjectCast::class);
 });
 
-test('castable trait provides cast attributes', function () {
+test('castable trait provides cast attributes', function (): void {
     $attributes = Money::getCastAttributes();
 
     expect($attributes[Money::class])->toBe(ValueObjectCast::class.':'.Money::class);

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects\Console\Commands;
@@ -27,7 +31,7 @@ final class ListValueObjectsCommand extends Command
         $path = (string) $this->option('path');
         $basePath = base_path($path);
 
-        if (!is_dir($basePath)) {
+        if (! is_dir($basePath)) {
             $this->warn("Directory {$path} does not exist.");
             $this->info('You can create one with:');
             $this->line("  mkdir -p {$path}");
@@ -46,14 +50,16 @@ final class ListValueObjectsCommand extends Command
             $relativePath = $file->getRelativePathname();
             $className = str_replace(['/', '.php'], ['\\', ''], $relativePath);
 
-            if (!class_exists($className)) {
+            if (! class_exists($className)) {
                 continue;
             }
 
             try {
                 $reflection = new ReflectionClass($className);
-
-                if (!$reflection->isSubclassOf(ValueObject::class) || $reflection->isAbstract()) {
+                if (! $reflection->isSubclassOf(ValueObject::class)) {
+                    continue;
+                }
+                if ($reflection->isAbstract()) {
                     continue;
                 }
 
@@ -66,7 +72,7 @@ final class ListValueObjectsCommand extends Command
             }
         }
 
-        if (empty($classes)) {
+        if ($classes === []) {
             $this->info('No ValueObject classes found in '.$path);
 
             return self::SUCCESS;

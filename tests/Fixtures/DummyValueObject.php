@@ -9,7 +9,7 @@ use ZeroBoiler\ValueObjects\ValueObject;
 /**
  * Dummy value object for testing.
  */
-final readonly class DummyValueObject extends ValueObject
+final class DummyValueObject extends ValueObject
 {
     public string $value;
 

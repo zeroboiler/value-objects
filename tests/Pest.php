@@ -1,8 +1,35 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Translation\ArrayLoader;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Factory;
 use ZeroBoiler\ValueObjects\Tests\TestCase;
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrap Laravel Container for Validation
+|--------------------------------------------------------------------------
+|
+| Set up a minimal Laravel container to support validation in tests.
+|
+*/
+
+$container = Container::getInstance();
+
+// Create a translator
+$loader = new ArrayLoader;
+$translator = new Translator($loader, 'en');
+
+// Register validation factory
+$container->instance(ValidationFactory::class, new Factory($translator));
 
 /*
 |--------------------------------------------------------------------------

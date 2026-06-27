@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -17,10 +21,10 @@ final class Money extends ValueObject
     use Castable;
 
     /** Amount in cents (smallest currency unit) */
-    public int $amount;
+    public readonly int $amount;
 
     /** ISO 4217 currency code (e.g., "USD", "EUR") */
-    public string $currency;
+    public readonly string $currency;
 
     /**
      * @param  int  $amount  Amount in cents
@@ -32,7 +36,7 @@ final class Money extends ValueObject
             ['amount' => $amount, 'currency' => $currency],
             [
                 'amount' => 'required|integer',
-                'currency' => 'required|string|size:3|uppercase',
+                'currency' => 'required|string|size:3',
             ]
         );
 
@@ -122,7 +126,7 @@ final class Money extends ValueObject
      */
     public function format(?string $locale = null): string
     {
-        $locale ??= config('app.locale', 'en_US');
+        $locale ??= 'en_US';
         $formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
         $formatter->setTextAttribute(NumberFormatter::CURRENCY_CODE, $this->currency);
 

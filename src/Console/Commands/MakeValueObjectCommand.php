@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 /**
  * Generate a custom ValueObject class scaffold.
@@ -26,20 +29,17 @@ final class MakeValueObjectCommand extends Command
         $namespace = (string) ($this->option('namespace') ?? 'App\\ValueObjects');
 
         $className = $this->sanitizeClassName($name);
-        $fullNamespace = $namespace.'\\'.$className;
         $directory = str_replace('\\', '/', $namespace);
         $path = base_path($directory.'/'.$className.'.php');
 
-        if (!is_dir(dirname($path))) {
+        if (! is_dir(dirname($path))) {
             mkdir(dirname($path), 0755, true);
         }
 
-        if (file_exists($path)) {
-            if (!$this->confirm("File {$path} already exists. Overwrite?")) {
-                $this->info('Cancelled.');
+        if (file_exists($path) && ! $this->confirm("File {$path} already exists. Overwrite?")) {
+            $this->info('Cancelled.');
 
-                return self::SUCCESS;
-            }
+            return self::SUCCESS;
         }
 
         $stub = $this->getStub($className, $namespace);
@@ -60,13 +60,11 @@ final class MakeValueObjectCommand extends Command
         $name = preg_replace('/[^a-zA-Z0-9_]/', '', $name);
 
         // Ensure it starts with uppercase
-        return ucfirst($name);
+        return ucfirst((string) $name);
     }
 
     /**
      * Get the class stub template.
-     *
-     * @return string
      */
     private function getStub(string $className, string $namespace): string
     {

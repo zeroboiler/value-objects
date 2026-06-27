@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -22,15 +26,16 @@ final class Coordinates extends ValueObject
     /**
      * @param  float  $latitude  Latitude (-90 to 90)
      * @param  float  $longitude  Longitude (-180 to 180)
+     *
      * @throws ValueError If coordinates are invalid
      */
     public function __construct(float $latitude, float $longitude)
     {
-        if (!$this->isValidLat($latitude)) {
+        if (! $this->isValidLat($latitude)) {
             throw new ValueError("Invalid latitude: {$latitude}. Must be between -90 and 90.");
         }
 
-        if (!$this->isValidLng($longitude)) {
+        if (! $this->isValidLng($longitude)) {
             throw new ValueError("Invalid longitude: {$longitude}. Must be between -180 and 180.");
         }
 

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -18,6 +22,7 @@ final class Percentage extends ValueObject
 
     /**
      * @param  float  $value  Percentage value (0-100)
+     *
      * @throws ValueError If value is outside 0-100 range
      */
     public function __construct(float $value)

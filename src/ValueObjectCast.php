@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -28,22 +32,15 @@ use JsonException;
  */
 class ValueObjectCast implements CastsAttributes
 {
-    /** @var class-string<T> */
-    private readonly string $valueObjectClass;
-
     /**
      * @param  class-string<T>  $valueObjectClass
      */
-    public function __construct(string $valueObjectClass)
-    {
-        $this->valueObjectClass = $valueObjectClass;
-    }
+    public function __construct(private readonly string $valueObjectClass) {}
 
     /**
      * Cast DB value to ValueObject instance.
      *
      * @param  Model  $model
-     * @param  string  $key
      * @param  string|null  $value
      * @param  array<string, mixed>  $attributes
      * @return T|null
@@ -60,7 +57,7 @@ class ValueObjectCast implements CastsAttributes
             return null;
         }
 
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             return null;
         }
 

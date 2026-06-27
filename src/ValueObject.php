@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Validation\ValidationException;
 use JsonSerializable;
 use Stringable;
 
@@ -17,7 +23,7 @@ use Stringable;
  *
  * @template T
  */
-abstract readonly class ValueObject implements Jsonable, JsonSerializable, Stringable
+abstract class ValueObject implements Jsonable, JsonSerializable, Stringable
 {
     /**
      * Validate data using Laravel validator.
@@ -26,11 +32,13 @@ abstract readonly class ValueObject implements Jsonable, JsonSerializable, Strin
      *
      * @param  array<string, mixed>  $data
      * @param  array<string, string>  $rules
-     * @throws \Illuminate\Validation\ValidationException
+     *
+     * @throws ValidationException
      */
     protected function validate(array $data, array $rules): void
     {
-        $validator = Validator::make($data, $rules);
+        $factory = Container::getInstance()->make(ValidationFactory::class);
+        $validator = $factory->make($data, $rules);
 
         if ($validator->fails()) {
             $validator->validate(); // Throws ValidationException
@@ -57,7 +65,7 @@ abstract readonly class ValueObject implements Jsonable, JsonSerializable, Strin
     /**
      * Serialize value object to JSON.
      */
-    public function toJson(int $options = 0): string
+    public function toJson($options = 0): string
     {
         return json_encode($this, $options);
     }

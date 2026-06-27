@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -29,14 +33,6 @@ final class Address extends ValueObject
     /** Country name or ISO code */
     public string $country;
 
-    /**
-     * @param  string  $street
-     * @param  string|null  $street2
-     * @param  string  $city
-     * @param  string  $state
-     * @param  string  $postalCode
-     * @param  string  $country
-     */
     public function __construct(
         string $street,
         ?string $street2,
@@ -46,7 +42,7 @@ final class Address extends ValueObject
         string $country
     ) {
         $this->validate(
-            compact('street', 'street2', 'city', 'state', 'postalCode', 'country'),
+            ['street' => $street, 'street2' => $street2, 'city' => $city, 'state' => $state, 'postalCode' => $postalCode, 'country' => $country],
             [
                 'street' => 'required|string|max:255',
                 'street2' => 'nullable|string|max:255',
@@ -96,7 +92,7 @@ final class Address extends ValueObject
             $this->street2,
             trim("{$this->city}, {$this->state} {$this->postalCode}"),
             $this->country,
-        ], fn ($line) => $line !== null && $line !== '');
+        ], fn (?string $line): bool => $line !== null && $line !== '');
     }
 
     public function toArray(): array

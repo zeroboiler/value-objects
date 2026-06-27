@@ -1,43 +1,49 @@
 <?php
 
-use ZeroBoiler\ValueObjects\ValueObjects\Email;
-use Illuminate\Validation\ValidationException;
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
 
-test('email can be created', function () {
+declare(strict_types=1);
+
+use Illuminate\Validation\ValidationException;
+use ZeroBoiler\ValueObjects\Email;
+
+test('email can be created', function (): void {
     $email = new Email('test@example.com');
 
     expect($email->value)->toBe('test@example.com');
 });
 
-test('email is normalized to lowercase', function () {
+test('email is normalized to lowercase', function (): void {
     $email = new Email('TEST@EXAMPLE.COM');
 
     expect($email->value)->toBe('test@example.com');
 });
 
-test('email is trimmed', function () {
+test('email is trimmed', function (): void {
     $email = new Email('  test@example.com  ');
 
     expect($email->value)->toBe('test@example.com');
 });
 
-test('invalid email throws validation exception', function () {
-    expect(fn () => new Email('invalid-email'))->toThrow(ValidationException::class);
+test('invalid email throws validation exception', function (): void {
+    expect(fn (): Email => new Email('invalid-email'))->toThrow(ValidationException::class);
 });
 
-test('email can extract domain', function () {
+test('email can extract domain', function (): void {
     $email = new Email('test@example.com');
 
     expect($email->domain())->toBe('example.com');
 });
 
-test('email can extract local part', function () {
+test('email can extract local part', function (): void {
     $email = new Email('test@example.com');
 
     expect($email->localPart())->toBe('test');
 });
 
-test('email equals compares by value', function () {
+test('email equals compares by value', function (): void {
     $email1 = new Email('test@example.com');
     $email2 = new Email('TEST@example.com');
     $email3 = new Email('other@example.com');
@@ -46,13 +52,13 @@ test('email equals compares by value', function () {
         ->and($email1->equals($email3))->toBeFalse();
 });
 
-test('email can be converted to string', function () {
+test('email can be converted to string', function (): void {
     $email = new Email('test@example.com');
 
     expect((string) $email)->toBe('test@example.com');
 });
 
-test('email can be serialized', function () {
+test('email can be serialized', function (): void {
     $email = new Email('test@example.com');
 
     expect($email->toArray())->toBe(['email' => 'test@example.com']);

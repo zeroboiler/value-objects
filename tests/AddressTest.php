@@ -1,8 +1,14 @@
 <?php
 
-use ZeroBoiler\ValueObjects\ValueObjects\Address;
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
 
-test('address can be created', function () {
+declare(strict_types=1);
+
+use ZeroBoiler\ValueObjects\Address;
+
+test('address can be created', function (): void {
     $address = new Address(
         '123 Main St',
         'Apt 4B',
@@ -20,7 +26,7 @@ test('address can be created', function () {
         ->and($address->country)->toBe('USA');
 });
 
-test('address can be created without street2', function () {
+test('address can be created without street2', function (): void {
     $address = new Address(
         '123 Main St',
         null,
@@ -33,7 +39,7 @@ test('address can be created without street2', function () {
     expect($address->street2)->toBeNull();
 });
 
-test('address fields are trimmed', function () {
+test('address fields are trimmed', function (): void {
     $address = new Address(
         '  123 Main St  ',
         '  Apt 4B  ',
@@ -47,7 +53,7 @@ test('address fields are trimmed', function () {
         ->and($address->city)->toBe('Springfield');
 });
 
-test('address can get full address', function () {
+test('address can get full address', function (): void {
     $address = new Address(
         '123 Main St',
         'Apt 4B',
@@ -65,7 +71,7 @@ test('address can get full address', function () {
         ->toContain('62701');
 });
 
-test('address can get lines array', function () {
+test('address can get lines array', function (): void {
     $address = new Address(
         '123 Main St',
         'Apt 4B',
@@ -84,7 +90,7 @@ test('address can get lines array', function () {
         ->and($lines[3])->toBe('USA');
 });
 
-test('address lines filters null values', function () {
+test('address lines filters null values', function (): void {
     $address = new Address(
         '123 Main St',
         null,
@@ -99,7 +105,7 @@ test('address lines filters null values', function () {
     expect($lines)->not->toContain(null);
 });
 
-test('address equals compares by value', function () {
+test('address equals compares by value', function (): void {
     $address1 = new Address(
         '123 Main St',
         null,
@@ -129,7 +135,7 @@ test('address equals compares by value', function () {
         ->and($address1->equals($address3))->toBeFalse();
 });
 
-test('address can be converted to string', function () {
+test('address can be converted to string', function (): void {
     $address = new Address(
         '123 Main St',
         null,
@@ -142,7 +148,7 @@ test('address can be converted to string', function () {
     expect((string) $address)->toContain('123 Main St');
 });
 
-test('address can be serialized', function () {
+test('address can be serialized', function (): void {
     $address = new Address(
         '123 Main St',
         null,

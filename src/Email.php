@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -14,10 +18,11 @@ final class Email extends ValueObject
     use Castable;
 
     /** Normalized email address (lowercase) */
-    public string $value;
+    public readonly string $value;
 
     /**
      * @param  string  $email  Email address
+     *
      * @throws ValidationException If email is invalid
      */
     public function __construct(string $email)

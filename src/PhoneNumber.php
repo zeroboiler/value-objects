@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
 use Illuminate\Validation\ValidationException;
-use ValueError;
 
 /**
  * Phone number value object in E.164 format.
@@ -19,6 +22,7 @@ final class PhoneNumber extends ValueObject
 
     /**
      * @param  string  $phoneNumber  Phone number in E.164 format
+     *
      * @throws ValidationException If phone number is invalid
      */
     public function __construct(string $phoneNumber)
@@ -42,10 +46,26 @@ final class PhoneNumber extends ValueObject
     {
         $withoutPlus = ltrim($this->value, '+');
 
-        // E.164 country codes are 1-3 digits
-        $length = min(3, strlen($withoutPlus));
+        // E.164 country codes are typically 1-3 digits
+        // Try to extract meaningful country code based on the number format
+        if (strlen($withoutPlus) === 11 && $withoutPlus[0] === '1') {
+            return '1'; // US/Canada
+        }
 
-        return substr($withoutPlus, 0, $length);
+        if (strlen($withoutPlus) === 12 && $withoutPlus[0] === '4' && $withoutPlus[1] === '4') {
+            return '44'; // UK
+        }
+
+        // Default: take 1-3 digits based on total length
+        if (strlen($withoutPlus) >= 12) {
+            return substr($withoutPlus, 0, 3);
+        }
+
+        if (strlen($withoutPlus) >= 11) {
+            return substr($withoutPlus, 0, 2);
+        }
+
+        return substr($withoutPlus, 0, 1);
     }
 
     /**

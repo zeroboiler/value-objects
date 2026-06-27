@@ -1,60 +1,67 @@
 <?php
 
-use ZeroBoiler\ValueObjects\ValueObjects\Duration;
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
 
-test('duration can be created from milliseconds', function () {
+declare(strict_types=1);
+
+use Illuminate\Validation\ValidationException;
+use ZeroBoiler\ValueObjects\Duration;
+
+test('duration can be created from milliseconds', function (): void {
     $duration = new Duration(5000);
 
     expect($duration->milliseconds)->toBe(5000);
 });
 
-test('duration cannot be negative', function () {
-    expect(fn () => new Duration(-100))->toThrow(\Illuminate\Validation\ValidationException::class);
+test('duration cannot be negative', function (): void {
+    expect(fn (): Duration => new Duration(-100))->toThrow(ValidationException::class);
 });
 
-test('duration can be created from seconds', function () {
+test('duration can be created from seconds', function (): void {
     $duration = Duration::fromSeconds(5);
 
     expect($duration->milliseconds)->toBe(5000);
 });
 
-test('duration can be created from fractional seconds', function () {
+test('duration can be created from fractional seconds', function (): void {
     $duration = Duration::fromSeconds(2.5);
 
     expect($duration->milliseconds)->toBe(2500);
 });
 
-test('duration can be created from minutes', function () {
+test('duration can be created from minutes', function (): void {
     $duration = Duration::fromMinutes(2);
 
     expect($duration->milliseconds)->toBe(120000);
 });
 
-test('duration can be created from hours', function () {
+test('duration can be created from hours', function (): void {
     $duration = Duration::fromHours(1);
 
     expect($duration->milliseconds)->toBe(3600000);
 });
 
-test('duration can convert to seconds', function () {
+test('duration can convert to seconds', function (): void {
     $duration = new Duration(5000);
 
     expect($duration->toSeconds())->toBe(5.0);
 });
 
-test('duration can convert to minutes', function () {
+test('duration can convert to minutes', function (): void {
     $duration = new Duration(120000);
 
     expect($duration->toMinutes())->toBe(2.0);
 });
 
-test('duration can convert to hours', function () {
+test('duration can convert to hours', function (): void {
     $duration = new Duration(3600000);
 
     expect($duration->toHours())->toBe(1.0);
 });
 
-test('duration can be added', function () {
+test('duration can be added', function (): void {
     $d1 = new Duration(1000);
     $d2 = new Duration(500);
 
@@ -63,7 +70,7 @@ test('duration can be added', function () {
     expect($result->milliseconds)->toBe(1500);
 });
 
-test('duration can be subtracted', function () {
+test('duration can be subtracted', function (): void {
     $d1 = new Duration(1000);
     $d2 = new Duration(300);
 
@@ -72,7 +79,7 @@ test('duration can be subtracted', function () {
     expect($result->milliseconds)->toBe(700);
 });
 
-test('duration subtraction clamps to zero', function () {
+test('duration subtraction clamps to zero', function (): void {
     $d1 = new Duration(500);
     $d2 = new Duration(1000);
 
@@ -81,13 +88,13 @@ test('duration subtraction clamps to zero', function () {
     expect($result->milliseconds)->toBe(0);
 });
 
-test('duration can format human readable', function () {
+test('duration can format human readable', function (): void {
     $duration = new Duration(9030000); // 2 hours 30 minutes 30 seconds
 
     expect($duration->humanReadable())->toBeString();
 });
 
-test('duration human readable shows hours minutes seconds', function () {
+test('duration human readable shows hours minutes seconds', function (): void {
     $duration = Duration::fromHours(2)->add(Duration::fromMinutes(15))->add(Duration::fromSeconds(30));
 
     expect($duration->humanReadable())->toContain('hours')
@@ -95,7 +102,7 @@ test('duration human readable shows hours minutes seconds', function () {
         ->toContain('seconds');
 });
 
-test('duration equals compares by value', function () {
+test('duration equals compares by value', function (): void {
     $d1 = new Duration(5000);
     $d2 = new Duration(5000);
     $d3 = new Duration(6000);
@@ -104,13 +111,13 @@ test('duration equals compares by value', function () {
         ->and($d1->equals($d3))->toBeFalse();
 });
 
-test('duration can be converted to string', function () {
+test('duration can be converted to string', function (): void {
     $duration = new Duration(5000);
 
     expect((string) $duration)->toBeString();
 });
 
-test('duration can be serialized', function () {
+test('duration can be serialized', function (): void {
     $duration = new Duration(5000);
 
     expect($duration->toArray())->toBe(['milliseconds' => 5000]);

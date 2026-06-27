@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This file is part of ZeroBoiler, licensed under the proprietary license.
+ */
+
 declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
@@ -29,7 +33,7 @@ trait Castable
     /**
      * Get the cast class name for this ValueObject.
      *
-     * @return class-string<\ZeroBoiler\ValueObjects\Casts\ValueObjectCast>
+     * @return class-string<Casts\ValueObjectCast>
      */
     public static function castUsing(): string
     {
