@@ -12,7 +12,6 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use JsonException;
 use ReflectionClass;
-use ReflectionNamedType;
 use ReflectionParameter;
 
 /**
@@ -111,12 +110,14 @@ class ValueObjectCast implements CastsAttributes
     /**
      * Map toArray() associative keys back to constructor parameter names.
      *
-     * Each ValueObject's toArray() returns keys like ['email' => '...'] or
-     * ['amount' => 100, 'currency' => 'USD']. The constructor may use
-     * different parameter names (e.g., $email vs $value). This method
-     * resolves the mapping by:
-     * 1. Direct name match (toArray key === param name)
-     * 2. Positional fallback (order-based)
+     * For single-parameter VOs (Email, Url, etc.), pass the first value
+     * from the toArray() data directly, since the constructor takes a
+     * single scalar.
+     *
+     * For multi-parameter VOs (Money, Address, Coordinates, etc.), use
+     * strict name-based matching: each constructor parameter name must
+     * match a key in the toArray() output. This avoids the ambiguity of
+     * type-based fuzzy matching.
      *
      * @param  array<string, mixed>  $data
      * @return array<int|string, mixed> Named/positional arguments for constructor
@@ -140,50 +141,44 @@ class ValueObjectCast implements CastsAttributes
             return array_values($data);
         }
 
+        // Single-param VO: pass the first data value positionally.
+        // This handles VOs like Email($email) or Url($url) whose toArray()
+        // may include extra computed keys (e.g., scheme, host) that are
+        // not constructor arguments.
+        if (count($params) === 1) {
+            $paramName = $params[0]->getName();
+
+            // Prefer a direct name match if available
+            if (array_key_exists($paramName, $data)) {
+                return [$paramName => $data[$paramName]];
+            }
+
+            // Otherwise pass the first value positionally
+            $values = array_values($data);
+
+            return $values === [] ? [] : [$values[0]];
+        }
+
+        // Multi-param VO: use strict name-based matching only.
+        // Each constructor parameter must find its value by name in the
+        // toArray() output. This avoids ambiguity from type-based
+        // guessing that could assign the wrong value to the wrong param.
         $args = [];
-        $remainingData = $data;
 
         foreach ($params as $param) {
             $paramName = $param->getName();
 
-            // 1. Direct match: toArray key matches param name
-            if (array_key_exists($paramName, $remainingData)) {
-                $args[$paramName] = $remainingData[$paramName];
-                unset($remainingData[$paramName]);
-
+            if (array_key_exists($paramName, $data)) {
+                $args[$paramName] = $data[$paramName];
+            } elseif ($param->isDefaultValueAvailable()) {
+                // Skip params with defaults — the constructor will use
+                // the default value.
                 continue;
-            }
-
-            // 2. Type-based match: find a value in remaining data that
-            //    matches the parameter type
-            $type = $param->getType();
-            if ($type instanceof ReflectionNamedType) {
-                foreach ($remainingData as $dataKey => $dataValue) {
-                    if ($this->matchesType($type->getName(), $dataValue)) {
-                        $args[$paramName] = $dataValue;
-                        unset($remainingData[$dataKey]);
-
-                        continue 2;
-                    }
-                }
+            } elseif ($param->allowsNull()) {
+                $args[$paramName] = null;
             }
         }
 
         return $args;
-    }
-
-    /**
-     * Check if a value matches a PHP type.
-     */
-    private function matchesType(string $expectedType, mixed $value): bool
-    {
-        return match ($expectedType) {
-            'string' => is_string($value),
-            'int', 'integer' => is_int($value),
-            'float', 'double' => is_float($value) || is_int($value),
-            'bool', 'boolean' => is_bool($value),
-            'array' => is_array($value),
-            default => true, // Mixed or class type — assume valid
-        };
     }
 }
