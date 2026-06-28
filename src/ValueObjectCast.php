@@ -63,7 +63,24 @@ class ValueObjectCast implements CastsAttributes
 
         try {
             $data = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException) {
+        } catch (JsonException $e) {
+            // Log the corruption — returning null silently would hide data loss.
+            // We still return null to avoid crashing the app, but the error
+            // log surfaces the problem for investigation.
+            // Use report() when available (Laravel), otherwise fall back to
+            // error_log so the cast works outside a full Laravel app boot.
+            $exception = new \RuntimeException(
+                "Failed to decode JSON for ValueObjectCast({$this->valueObjectClass}): " . $value,
+                0,
+                $e
+            );
+
+            if (\function_exists('report')) {
+                report($exception);
+            } else {
+                \error_log($exception->getMessage());
+            }
+
             return null;
         }
 

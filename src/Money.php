@@ -210,7 +210,25 @@ final class Money extends ValueObject
         $formatter->setTextAttribute(NumberFormatter::CURRENCY_CODE, $this->currency);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $decimals);
 
-        return $formatter->format($this->amount / $this->subunitDivisor());
+        // Use bcmath for precision-safe division to avoid float overflow
+        // for large amounts (e.g., billions in minor units).
+        if (extension_loaded('bcmath')) {
+            $major = bcdiv(
+                (string) $this->amount,
+                (string) $this->subunitDivisor(),
+                $decimals,
+            );
+        } else {
+            // Fallback: use float but with explicit precision control
+            $major = number_format(
+                $this->amount / $this->subunitDivisor(),
+                $decimals,
+                '.',
+                '',
+            );
+        }
+
+        return $formatter->format((float) $major);
     }
 
     /**
@@ -218,6 +236,15 @@ final class Money extends ValueObject
      */
     public function toMajor(): float
     {
+        // Use bcmath for precision-safe conversion when available
+        if (extension_loaded('bcmath')) {
+            return (float) bcdiv(
+                (string) $this->amount,
+                (string) $this->subunitDivisor(),
+                $this->decimalPlaces(),
+            );
+        }
+
         return $this->amount / $this->subunitDivisor();
     }
 
