@@ -15,6 +15,8 @@ use ValueError;
  * Money value object using integer cents for precision.
  *
  * Uses ISO 4217 currency codes.
+ *
+ * @extends ValueObject<array<string, mixed>>
  */
 final class Money extends ValueObject
 {

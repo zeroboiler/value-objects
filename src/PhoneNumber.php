@@ -12,6 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 /**
  * Phone number value object in E.164 format.
+ *
+ * @extends ValueObject<array<string, mixed>>
  */
 final class PhoneNumber extends ValueObject
 {

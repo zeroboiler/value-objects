@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
-use ValueError;
-
 /**
  * Percentage value object (0-100).
+ *
+ * @extends ValueObject<array<string, mixed>>
  */
 final class Percentage extends ValueObject
 {
@@ -22,8 +22,6 @@ final class Percentage extends ValueObject
 
     /**
      * @param  float  $value  Percentage value (0-100)
-     *
-     * @throws ValueError If value is outside 0-100 range
      */
     public function __construct(float $value)
     {

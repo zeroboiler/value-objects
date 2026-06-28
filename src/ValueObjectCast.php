@@ -29,6 +29,8 @@ use JsonException;
  *   ];
  *
  * @template T of ValueObject
+ *
+ * @implements CastsAttributes<T|null, T|null>
  */
 class ValueObjectCast implements CastsAttributes
 {

@@ -10,6 +10,8 @@ namespace ZeroBoiler\ValueObjects;
 
 /**
  * Duration value object in milliseconds.
+ *
+ * @extends ValueObject<array<string, mixed>>
  */
 final class Duration extends ValueObject
 {

@@ -33,7 +33,7 @@ trait Castable
     /**
      * Get the cast class name for this ValueObject.
      *
-     * @return class-string<Casts\ValueObjectCast>
+     * @return class-string<ValueObjectCast<ValueObject<mixed>>>
      */
     public static function castUsing(): string
     {

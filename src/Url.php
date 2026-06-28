@@ -8,10 +8,13 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
  * URL value object with validation and parsing.
+ *
+ * @extends ValueObject<array<string, mixed>>
  */
 final class Url extends ValueObject
 {
@@ -20,7 +23,9 @@ final class Url extends ValueObject
     /** Full URL */
     public string $value;
 
-    /** Parsed URL components */
+    /** Parsed URL components
+     * @var array<string, string|int|null>
+     */
     private array $parsed;
 
     /**
@@ -41,7 +46,7 @@ final class Url extends ValueObject
 
         if ($parsed === false) {
             throw new ValidationException(
-                validator()->make(['url' => $normalized], ['url' => 'required|url'])
+                Validator::make(['url' => $normalized], ['url' => 'required|url'])
             );
         }
 

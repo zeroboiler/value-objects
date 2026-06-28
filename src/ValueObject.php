@@ -48,6 +48,7 @@ abstract class ValueObject implements Jsonable, JsonSerializable, Stringable
     /**
      * Compare two value objects by value.
      *
+     * @param  ValueObject<mixed>  $other
      * @return bool True if all attributes are equal
      */
     public function equals(self $other): bool
