@@ -92,16 +92,25 @@ final class Money extends ValueObject
 
     /**
      * Multiply by a factor.
+     *
+     * Uses BCMath when available for precise integer arithmetic.
+     * Falls back to float with rounding for environments without ext-bcmath.
      */
     public function multiply(float $factor): self
     {
-        $newAmount = (int) round($this->amount * $factor);
+        if (extension_loaded('bcmath')) {
+            $newAmount = (int) bcmul((string) $this->amount, (string) $factor, 0);
+        } else {
+            $newAmount = (int) round($this->amount * $factor);
+        }
 
         return new self($newAmount, $this->currency);
     }
 
     /**
      * Divide by a divisor.
+     *
+     * Uses BCMath when available for precise integer arithmetic.
      *
      * @throws ValueError If divisor is zero
      */
@@ -111,9 +120,25 @@ final class Money extends ValueObject
             throw new ValueError('Cannot divide money by zero');
         }
 
-        $newAmount = (int) round($this->amount / $divisor);
+        if (extension_loaded('bcmath')) {
+            $newAmount = (int) bcdiv((string) $this->amount, (string) $divisor, 0);
+        } else {
+            $newAmount = (int) round($this->amount / $divisor);
+        }
 
         return new self($newAmount, $this->currency);
+    }
+
+    /**
+     * Apply a percentage (e.g., tax) and return the result.
+     *
+     * Example: Money::fromMajor(9.99, 'EUR')->percentage(19) for 19% VAT.
+     *
+     * @param  float  $percent  Percentage to apply (e.g., 19 for 19%)
+     */
+    public function percentage(float $percent): self
+    {
+        return $this->multiply($percent / 100);
     }
 
     /**

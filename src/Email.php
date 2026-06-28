@@ -44,7 +44,13 @@ final class Email extends ValueObject
      */
     public function domain(): string
     {
-        return substr(strrchr($this->value, '@'), 1);
+        $atPos = strrpos($this->value, '@');
+
+        if ($atPos === false) {
+            return '';
+        }
+
+        return substr($this->value, $atPos + 1);
     }
 
     /**
@@ -52,7 +58,13 @@ final class Email extends ValueObject
      */
     public function localPart(): string
     {
-        return substr($this->value, 0, strrpos($this->value, '@'));
+        $atPos = strrpos($this->value, '@');
+
+        if ($atPos === false) {
+            return $this->value;
+        }
+
+        return substr($this->value, 0, $atPos);
     }
 
     public function toArray(): array
