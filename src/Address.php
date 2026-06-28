@@ -18,22 +18,22 @@ final class Address extends ValueObject
     use Castable;
 
     /** Street address (line 1) */
-    public string $street;
+    public readonly string $street;
 
     /** Optional apartment/suite number */
-    public ?string $street2;
+    public readonly ?string $street2;
 
     /** City */
-    public string $city;
+    public readonly string $city;
 
     /** State/Province */
-    public string $state;
+    public readonly string $state;
 
     /** ZIP/Postal code */
-    public string $postalCode;
+    public readonly string $postalCode;
 
     /** Country name or ISO code */
-    public string $country;
+    public readonly string $country;
 
     public function __construct(
         string $street,

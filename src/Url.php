@@ -21,7 +21,7 @@ final class Url extends ValueObject
     use Castable;
 
     /** Full URL */
-    public string $value;
+    public readonly string $value;
 
     /** Parsed URL components
      * @var array<string, string|int|null>
@@ -133,9 +133,30 @@ final class Url extends ValueObject
      */
     public function withScheme(string $scheme): self
     {
-        $newUrl = preg_replace('/^https?:\/\//i', strtolower($scheme).'://', $this->value, 1);
+        $parsed = $this->parsed;
+        $parsed['scheme'] = strtolower($scheme);
 
-        return new self($newUrl);
+        return new self($this->buildUrl($parsed));
+    }
+
+    /**
+     * Reconstruct URL from parsed components.
+     *
+     * @param  array<string, string|int|null>  $parsed
+     */
+    private function buildUrl(array $parsed): string
+    {
+        $scheme = isset($parsed['scheme']) ? $parsed['scheme'].'://' : '';
+        $host = $parsed['host'] ?? '';
+        $port = isset($parsed['port']) ? ':'.$parsed['port'] : '';
+        $user = $parsed['user'] ?? '';
+        $pass = isset($parsed['pass']) ? ':'.$parsed['pass'] : '';
+        $userinfo = $user !== '' ? $user.$pass.'@' : '';
+        $path = $parsed['path'] ?? '';
+        $query = isset($parsed['query']) ? '?'.$parsed['query'] : '';
+        $fragment = isset($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
+
+        return $scheme.$userinfo.$host.$port.$path.$query.$fragment;
     }
 
     public function toArray(): array

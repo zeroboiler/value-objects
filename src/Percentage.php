@@ -18,7 +18,7 @@ final class Percentage extends ValueObject
     use Castable;
 
     /** Percentage value (0-100) */
-    public float $value;
+    public readonly float $value;
 
     /**
      * @param  float  $value  Percentage value (0-100)
@@ -94,7 +94,7 @@ final class Percentage extends ValueObject
      */
     public function isZero(): bool
     {
-        return $this->value === 0.0;
+        return abs($this->value) < PHP_FLOAT_EPSILON;
     }
 
     /**
@@ -102,7 +102,7 @@ final class Percentage extends ValueObject
      */
     public function isFull(): bool
     {
-        return $this->value === 100.0;
+        return abs($this->value - 100.0) < PHP_FLOAT_EPSILON;
     }
 
     public function toArray(): array

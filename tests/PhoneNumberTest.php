@@ -71,3 +71,60 @@ test('phone number can be serialized', function (): void {
 
     expect($phone->toArray())->toBe(['phone' => '+1234567890']);
 });
+
+// Bug fix tests: #489, #106 — countryCode() and format() correctness
+
+test('phone number countryCode for Turkey (#489)', function (): void {
+    $phone = new PhoneNumber('+902123456789');
+
+    expect($phone->countryCode())->toBe('90');
+});
+
+test('phone number countryCode for Germany (#489)', function (): void {
+    $phone = new PhoneNumber('+4915123456789');
+
+    expect($phone->countryCode())->toBe('49');
+});
+
+test('phone number countryCode for Japan (#489)', function (): void {
+    $phone = new PhoneNumber('+81312345678');
+
+    expect($phone->countryCode())->toBe('81');
+});
+
+test('phone number countryCode for China (#489)', function (): void {
+    $phone = new PhoneNumber('+8613812345678');
+
+    expect($phone->countryCode())->toBe('86');
+});
+
+test('phone number countryCode for India (#489)', function (): void {
+    $phone = new PhoneNumber('+919812345678');
+
+    expect($phone->countryCode())->toBe('91');
+});
+
+test('phone number countryCode for Brazil (#489)', function (): void {
+    $phone = new PhoneNumber('+5511987654321');
+
+    expect($phone->countryCode())->toBe('55');
+});
+
+test('phone number countryCode for three-digit code (#489)', function (): void {
+    // +351 is Portugal
+    $phone = new PhoneNumber('+351912345678');
+
+    expect($phone->countryCode())->toBe('351');
+});
+
+test('phone number format for US number (#106)', function (): void {
+    $phone = new PhoneNumber('+12125551234');
+
+    expect($phone->format())->toBe('+1 212 555 1234');
+});
+
+test('phone number format for UK mobile (#106)', function (): void {
+    $phone = new PhoneNumber('+447123456789');
+
+    expect($phone->format())->toContain('+44');
+});

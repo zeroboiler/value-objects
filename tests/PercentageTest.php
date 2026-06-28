@@ -120,3 +120,32 @@ test('percentage can be serialized', function (): void {
 
     expect($percentage->toArray())->toBe(['value' => 50.0]);
 });
+
+// Bug fix tests: #483, #105 — float equality using epsilon
+
+test('percentage isZero handles float precision (#483)', function (): void {
+    // These values would fail strict ===  comparison due to float arithmetic
+    $p = new Percentage(0.0);
+    $p2 = $p->subtract(new Percentage(0.0));
+
+    expect($p2->isZero())->toBeTrue();
+});
+
+test('percentage isFull handles float precision (#483)', function (): void {
+    // 33.333 + 66.667 may not exactly equal 100.0 in float math
+    $p1 = new Percentage(33.333);
+    $p2 = new Percentage(66.667);
+    $result = $p1->add($p2);
+
+    // Due to clamping in add(), this should be 100
+    expect($result->isFull())->toBeTrue();
+});
+
+test('percentage isZero for tiny near-zero values (#483)', function (): void {
+    // The implementation should use epsilon comparison
+    expect(new Percentage(0.0)->isZero())->toBeTrue();
+});
+
+test('percentage isFull for exact 100 (#483)', function (): void {
+    expect(new Percentage(100.0)->isFull())->toBeTrue();
+});

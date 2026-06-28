@@ -20,10 +20,10 @@ final class Coordinates extends ValueObject
     use Castable;
 
     /** Latitude in decimal degrees (-90 to 90) */
-    public float $latitude;
+    public readonly float $latitude;
 
     /** Longitude in decimal degrees (-180 to 180) */
-    public float $longitude;
+    public readonly float $longitude;
 
     /**
      * @param  float  $latitude  Latitude (-90 to 90)

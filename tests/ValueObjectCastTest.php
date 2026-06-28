@@ -111,3 +111,55 @@ test('castable trait provides cast attributes', function (): void {
 
     expect($attributes[Money::class])->toBe(ValueObjectCast::class.':'.Money::class);
 });
+
+// Bug fix tests: #467 — spread operator constructor mismatch
+
+use ZeroBoiler\ValueObjects\Email;
+use ZeroBoiler\ValueObjects\PhoneNumber;
+use ZeroBoiler\ValueObjects\Url;
+
+test('value object cast reconstructs Email from toArray keys (#467)', function (): void {
+    $cast = new ValueObjectCast(Email::class);
+    $model = new TestModelWithCast;
+
+    // Email::toArray() returns ['email' => '...'] but constructor takes $email param
+    $value = $cast->get($model, 'email', '{"email":"test@example.com"}', []);
+
+    expect($value)->toBeInstanceOf(Email::class)
+        ->and((string) $value)->toBe('test@example.com');
+});
+
+test('value object cast reconstructs PhoneNumber from toArray keys (#467)', function (): void {
+    $cast = new ValueObjectCast(PhoneNumber::class);
+    $model = new TestModelWithCast;
+
+    // PhoneNumber::toArray() returns ['phone' => '...'] but constructor takes $phoneNumber
+    $value = $cast->get($model, 'phone', '{"phone":"+1234567890"}', []);
+
+    expect($value)->toBeInstanceOf(PhoneNumber::class)
+        ->and((string) $value)->toBe('+1234567890');
+});
+
+test('value object cast reconstructs Url from toArray keys (#467)', function (): void {
+    $cast = new ValueObjectCast(Url::class);
+    $model = new TestModelWithCast;
+
+    // Url::toArray() returns multiple keys including 'url', 'scheme', etc.
+    // Constructor only takes $url
+    $json = json_encode(['url' => 'https://example.com', 'scheme' => 'https', 'host' => 'example.com', 'path' => '/', 'query' => '', 'fragment' => '']);
+    $value = $cast->get($model, 'url', $json, []);
+
+    expect($value)->toBeInstanceOf(Url::class)
+        ->and((string) $value)->toBe('https://example.com');
+});
+
+test('value object cast reconstructs Money with type-based matching (#467)', function (): void {
+    $cast = new ValueObjectCast(Money::class);
+    $model = new TestModelWithCast;
+
+    $value = $cast->get($model, 'price', '{"amount":5000,"currency":"EUR"}', []);
+
+    expect($value)->toBeInstanceOf(Money::class)
+        ->and($value->amount)->toBe(5000)
+        ->and($value->currency)->toBe('EUR');
+});

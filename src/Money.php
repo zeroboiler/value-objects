@@ -12,9 +12,9 @@ use NumberFormatter;
 use ValueError;
 
 /**
- * Money value object using integer cents for precision.
+ * Money value object using integer minor units for precision.
  *
- * Uses ISO 4217 currency codes.
+ * Uses ISO 4217 currency codes and correct subunit divisors.
  *
  * @extends ValueObject<array<string, mixed>>
  */
@@ -22,14 +22,34 @@ final class Money extends ValueObject
 {
     use Castable;
 
-    /** Amount in cents (smallest currency unit) */
+    /** Amount in minor units (cents, fils, etc.) */
     public readonly int $amount;
 
     /** ISO 4217 currency code (e.g., "USD", "EUR") */
     public readonly string $currency;
 
     /**
-     * @param  int  $amount  Amount in cents
+     * Currencies with zero decimal places (no "cents" subunit).
+     * Source: ISO 4217.
+     *
+     * @var array<int, string>
+     */
+    private const array ZERO_DECIMAL_CURRENCIES = [
+        'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA',
+        'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF',
+    ];
+
+    /**
+     * Currencies with 3 decimal places.
+     *
+     * @var array<int, string>
+     */
+    private const array THREE_DECIMAL_CURRENCIES = [
+        'BHD', 'IQD', 'JOD', 'KWD', 'LYD', 'OMR', 'TND',
+    ];
+
+    /**
+     * @param  int  $amount  Amount in minor units (cents)
      * @param  string  $currency  ISO 4217 currency code
      */
     public function __construct(int $amount, string $currency = 'USD')
@@ -121,18 +141,51 @@ final class Money extends ValueObject
     }
 
     /**
+     * Get the number of decimal places for this currency.
+     *
+     * Most currencies use 2 (e.g., USD: 100 cents = 1 dollar).
+     * JPY, KRW, etc. use 0 (no subunit).
+     * BHD, KWD, etc. use 3.
+     */
+    public function decimalPlaces(): int
+    {
+        if (in_array($this->currency, self::ZERO_DECIMAL_CURRENCIES, true)) {
+            return 0;
+        }
+
+        if (in_array($this->currency, self::THREE_DECIMAL_CURRENCIES, true)) {
+            return 3;
+        }
+
+        return 2;
+    }
+
+    /**
+     * Get the subunit divisor (e.g., 100 for USD, 1 for JPY, 1000 for KWD).
+     */
+    public function subunitDivisor(): int
+    {
+        return 10 ** $this->decimalPlaces();
+    }
+
+    /**
      * Format money for display.
      *
+     * Uses NumberFormatter with correct subunit divisor per ISO 4217.
+     *
      * @param  string|null  $locale  Locale for formatting (e.g., "en_US")
-     * @return string Formatted amount (e.g., "$1,234.56")
+     * @return string Formatted amount (e.g., "$1,234.56" or "¥1,234")
      */
     public function format(?string $locale = null): string
     {
         $locale ??= 'en_US';
+        $decimals = $this->decimalPlaces();
+
         $formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
         $formatter->setTextAttribute(NumberFormatter::CURRENCY_CODE, $this->currency);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $decimals);
 
-        return $formatter->format($this->amount / 100);
+        return $formatter->format($this->amount / $this->subunitDivisor());
     }
 
     /**
@@ -140,7 +193,7 @@ final class Money extends ValueObject
      */
     public function toMajor(): float
     {
-        return $this->amount / 100;
+        return $this->amount / $this->subunitDivisor();
     }
 
     /**
@@ -150,7 +203,10 @@ final class Money extends ValueObject
      */
     public static function fromMajor(float $amount, string $currency = 'USD'): self
     {
-        return new self((int) round($amount * 100), $currency);
+        $temp = new self(0, $currency);
+        $divisor = $temp->subunitDivisor();
+
+        return new self((int) round($amount * $divisor), $currency);
     }
 
     public function toArray(): array

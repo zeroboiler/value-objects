@@ -18,7 +18,7 @@ final class Duration extends ValueObject
     use Castable;
 
     /** Duration in milliseconds */
-    public int $milliseconds;
+    public readonly int $milliseconds;
 
     /**
      * @param  int  $milliseconds  Duration in milliseconds

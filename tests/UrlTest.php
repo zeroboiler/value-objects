@@ -115,6 +115,41 @@ test('url can be created with new scheme', function (): void {
         ->and($httpsUrl->isHttps())->toBeTrue();
 });
 
+// Bug fix tests: #488 — withScheme breaks for URLs with 'http' or 'https' in path
+
+test('url withScheme preserves path containing http (#488)', function (): void {
+    $url = new Url('https://example.com/http-redirect-target');
+    $result = $url->withScheme('http');
+
+    expect($result->value)->toBe('http://example.com/http-redirect-target');
+});
+
+test('url withScheme preserves path containing https (#488)', function (): void {
+    $url = new Url('http://example.com/https-everywhere');
+    $result = $url->withScheme('https');
+
+    expect($result->value)->toBe('https://example.com/https-everywhere');
+});
+
+test('url withScheme preserves query and fragment', function (): void {
+    $url = new Url('http://example.com/path?redirect=https://other.com#section');
+    $result = $url->withScheme('https');
+
+    expect($result->scheme())->toBe('https')
+        ->and($result->host())->toBe('example.com')
+        ->and($result->path())->toBe('/path')
+        ->and($result->query())->toBe('redirect=https://other.com')
+        ->and($result->fragment())->toBe('section');
+});
+
+test('url withScheme works with port and userinfo', function (): void {
+    $url = new Url('http://user:pass@example.com:8080/path');
+    $result = $url->withScheme('https');
+
+    expect($result->scheme())->toBe('https')
+        ->and($result->host())->toBe('example.com');
+});
+
 test('url equals compares by value', function (): void {
     $url1 = new Url('https://example.com');
     $url2 = new Url('https://example.com');
