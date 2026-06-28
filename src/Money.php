@@ -95,11 +95,15 @@ final class Money extends ValueObject
      *
      * Uses BCMath when available for precise integer arithmetic.
      * Falls back to float with rounding for environments without ext-bcmath.
+     * Both paths use round-half-away-from-zero for consistency.
      */
     public function multiply(float $factor): self
     {
         if (extension_loaded('bcmath')) {
-            $newAmount = (int) bcmul((string) $this->amount, (string) $factor, 0);
+            // Scale=1 to preserve a decimal for rounding, then round consistently
+            $product = bcmul((string) $this->amount, (string) $factor, 1);
+            // Apply round-half-away-from-zero to match non-bcmath behavior
+            $newAmount = (int) ($product >= 0 ? bcadd($product, '0.5', 1) : bcsub($product, '0.5', 1));
         } else {
             $newAmount = (int) round($this->amount * $factor);
         }
@@ -111,6 +115,7 @@ final class Money extends ValueObject
      * Divide by a divisor.
      *
      * Uses BCMath when available for precise integer arithmetic.
+     * Both paths use round-half-away-from-zero for consistency.
      *
      * @throws ValueError If divisor is zero
      */
@@ -121,7 +126,9 @@ final class Money extends ValueObject
         }
 
         if (extension_loaded('bcmath')) {
-            $newAmount = (int) bcdiv((string) $this->amount, (string) $divisor, 0);
+            // Scale=1 for rounding precision, then round consistently
+            $quotient = bcdiv((string) $this->amount, (string) $divisor, 1);
+            $newAmount = (int) ($quotient >= 0 ? bcadd($quotient, '0.5', 1) : bcsub($quotient, '0.5', 1));
         } else {
             $newAmount = (int) round($this->amount / $divisor);
         }

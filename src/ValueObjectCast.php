@@ -70,7 +70,7 @@ class ValueObjectCast implements CastsAttributes
             // Use report() when available (Laravel), otherwise fall back to
             // error_log so the cast works outside a full Laravel app boot.
             $exception = new \RuntimeException(
-                "Failed to decode JSON for ValueObjectCast({$this->valueObjectClass}): " . $value,
+                "Failed to decode JSON for ValueObjectCast({$this->valueObjectClass}): ".$value,
                 0,
                 $e
             );
