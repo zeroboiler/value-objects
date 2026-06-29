@@ -51,9 +51,15 @@ final class Money extends ValueObject
     /**
      * @param  int  $amount  Amount in minor units (cents)
      * @param  string  $currency  ISO 4217 currency code
-     */
+    */
     public function __construct(int $amount, string $currency = 'USD')
     {
+        $currency = strtoupper(trim($currency));
+
+        if (! $this->isValidCurrencyCode($currency)) {
+            throw new ValueError("Invalid ISO 4217 currency code: '{$currency}'");
+        }
+
         $this->validate(
             ['amount' => $amount, 'currency' => $currency],
             [
@@ -63,8 +69,47 @@ final class Money extends ValueObject
         );
 
         $this->amount = $amount;
-        $this->currency = strtoupper($currency);
+        $this->currency = $currency;
     }
+
+    /**
+     * Check if a currency code is a valid ISO 4217 code.
+     *
+     * Uses the list of active ISO 4217 currency codes.
+     *
+     * @param  string  $code  Upper-case 3-letter code
+     */
+    private function isValidCurrencyCode(string $code): bool
+    {
+        return in_array($code, self::ISO_4217_CODES, true);
+    }
+
+    /**
+     * All active ISO 4217 currency codes.
+     *
+     * Source: ISO 4217 — current active codes.
+     *
+     * @var array<int, string>
+     */
+    private const array ISO_4217_CODES = [
+        'AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AUD', 'AWG', 'AZN',
+        'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BOV',
+        'BRL', 'BSD', 'BTN', 'BWP', 'BYN', 'BZD', 'CAD', 'CDF', 'CHE', 'CHF',
+        'CHW', 'CLF', 'CLP', 'CNY', 'COP', 'COU', 'CRC', 'CUP', 'CVE', 'CZK',
+        'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ERN', 'ETB', 'EUR', 'FJD', 'FKP',
+        'GBP', 'GEL', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD', 'HKD', 'HNL',
+        'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'INR', 'IQD', 'IRR', 'ISK', 'JMD',
+        'JOD', 'JPY', 'KES', 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD',
+        'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL', 'LYD', 'MAD', 'MDL', 'MGA',
+        'MKD', 'MMK', 'MNT', 'MOP', 'MRU', 'MUR', 'MVR', 'MWK', 'MXN', 'MXV',
+        'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB',
+        'PEN', 'PGK', 'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB',
+        'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK', 'SGD', 'SHP', 'SLL', 'SOS',
+        'SRD', 'SSP', 'STN', 'SVC', 'SYP', 'SZL', 'THB', 'TJS', 'TMT', 'TND',
+        'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH', 'UGX', 'USD', 'USN', 'UYI',
+        'UYU', 'UZS', 'VED', 'VES', 'VND', 'VUV', 'WST', 'XAF', 'XCD', 'XOF',
+        'XPF', 'YER', 'ZAR', 'ZMW', 'ZWL',
+    ];
 
     /**
      * Add two money values (must be same currency).

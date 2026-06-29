@@ -65,6 +65,8 @@ abstract class ValueObject implements Jsonable, JsonSerializable, Stringable
 
     /**
      * Serialize value object to JSON.
+     *
+     * @param  int  $options  JSON encode options (JSON_THROW_ON_ERROR, etc.)
      */
     public function toJson($options = 0): string
     {

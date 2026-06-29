@@ -11,9 +11,9 @@ use ZeroBoiler\ValueObjects\ValueObject;
  */
 final class DummyValueObject extends ValueObject
 {
-    public string $value;
+    public readonly string $value;
 
-    public int $count;
+    public readonly int $count;
 
     public function __construct(string $value, int $count)
     {

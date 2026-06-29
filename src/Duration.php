@@ -21,13 +21,13 @@ final class Duration extends ValueObject
     public readonly int $milliseconds;
 
     /**
-     * @param  int  $milliseconds  Duration in milliseconds
+     * @param  int  $milliseconds  Duration in milliseconds (can be negative for differences)
      */
     public function __construct(int $milliseconds)
     {
         $this->validate(
             ['milliseconds' => $milliseconds],
-            ['milliseconds' => 'required|integer|min:0']
+            ['milliseconds' => 'required|integer']
         );
 
         $this->milliseconds = $milliseconds;
@@ -97,10 +97,32 @@ final class Duration extends ValueObject
 
     /**
      * Subtract another duration.
+     *
+     * Allows negative results to surface logic errors rather than
+     * silently clamping to zero. Use clamp() if non-negative is required.
+     *
+     * @throws \ValueError If result would be negative (set $allowNegative to false)
      */
-    public function subtract(self $other): self
+    public function subtract(self $other, bool $allowNegative = true): self
     {
-        return new self(max(0, $this->milliseconds - $other->milliseconds));
+        $result = $this->milliseconds - $other->milliseconds;
+
+        if ($result < 0 && ! $allowNegative) {
+            throw new \ValueError(
+                'Duration subtraction results in a negative value (' . $result . 'ms). ' .
+                'Pass $allowNegative=true or check inputs.'
+            );
+        }
+
+        return new self($result);
+    }
+
+    /**
+     * Clamp duration to a minimum of zero.
+     */
+    public function clampToZero(): self
+    {
+        return new self(max(0, $this->milliseconds));
     }
 
     /**

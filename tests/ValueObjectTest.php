@@ -16,8 +16,7 @@ beforeEach(function (): void {
 test('value object is immutable', function (): void {
     $vo = new DummyValueObject('test', 42);
 
-    // Properties are not readonly, so mutation is possible
-    // This test documents current behavior, not enforced immutability
+    // Properties are readonly, enforcing immutability
     expect($vo->value)->toBe('test');
 });
 

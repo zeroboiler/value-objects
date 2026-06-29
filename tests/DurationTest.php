@@ -15,8 +15,10 @@ test('duration can be created from milliseconds', function (): void {
     expect($duration->milliseconds)->toBe(5000);
 });
 
-test('duration cannot be negative', function (): void {
-    expect(fn (): Duration => new Duration(-100))->toThrow(ValidationException::class);
+test('duration can be negative (for representing differences)', function (): void {
+    $duration = new Duration(-100);
+
+    expect($duration->milliseconds)->toBe(-100);
 });
 
 test('duration can be created from seconds', function (): void {
@@ -79,11 +81,20 @@ test('duration can be subtracted', function (): void {
     expect($result->milliseconds)->toBe(700);
 });
 
-test('duration subtraction clamps to zero', function (): void {
+test('duration subtraction allows negative results', function (): void {
     $d1 = new Duration(500);
     $d2 = new Duration(1000);
 
     $result = $d1->subtract($d2);
+
+    expect($result->milliseconds)->toBe(-500);
+});
+
+test('duration subtraction can clamp to zero', function (): void {
+    $d1 = new Duration(500);
+    $d2 = new Duration(1000);
+
+    $result = $d1->subtract($d2)->clampToZero();
 
     expect($result->milliseconds)->toBe(0);
 });

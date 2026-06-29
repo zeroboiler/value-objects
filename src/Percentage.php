@@ -91,10 +91,10 @@ final class Percentage extends ValueObject
 
     /**
      * Check if percentage is zero.
-     */
+    */
     public function isZero(): bool
     {
-        return abs($this->value) < PHP_FLOAT_EPSILON;
+        return abs($this->value) < 0.0001;
     }
 
     /**
@@ -102,7 +102,7 @@ final class Percentage extends ValueObject
      */
     public function isFull(): bool
     {
-        return abs($this->value - 100.0) < PHP_FLOAT_EPSILON;
+        return abs($this->value - 100.0) < 0.0001;
     }
 
     public function toArray(): array
