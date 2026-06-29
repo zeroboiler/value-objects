@@ -5,7 +5,7 @@ Immutable value objects with validation and Eloquent auto-casting for Laravel 13
 ## Features
 
 - ✅ Immutable value objects with validation
-- ✅ Built-in value objects: Money, Email, PhoneNumber, Address, Percentage, Duration, Coordinates, Url
+- ✅ Built-in value objects: Money, Currency, Email, PhoneNumber, Address, Percentage, Duration, Coordinates, Url
 - ✅ Eloquent auto-casting support
 - ✅ Castable trait for easy integration
 - ✅ JSON serialization (`toArray()`, `toJson()`, `JsonSerializable`)
@@ -93,14 +93,36 @@ class Product extends Model
 
 ```php
 use ZeroBoiler\ValueObjects\ValueObjects\Money;
+use ZeroBoiler\ValueObjects\ValueObjects\Currency;
 
 $price = new Money(1999, 'USD'); // $19.99 in cents
+
+// Accepts Currency VO too
+$price = new Money(1999, new Currency('USD'));
+
+// Get the Currency VO
+$price->currency(); // Currency('USD')
+$price->currency()->decimalPlaces(); // 2
+$price->currency()->subunitName(); // "cent"
 
 // Arithmetic
 $total = $price->add(new Money(500, 'USD'));
 $discounted = $price->subtract(new Money(200, 'USD'));
 $doubled = $price->multiply(2);
 $halved = $price->divide(2);
+
+// Currency conversion
+$usd = new Money(10000, 'USD'); // $100.00
+$eur = $usd->convert('EUR', 0.85); // €85.00
+$eur = $usd->convert(new Currency('EUR'), 0.85); // same, with VO
+
+// Allocation (split evenly with no remainder loss)
+$parts = new Money(100, 'USD')->allocate(3);
+// [Money(34), Money(33), Money(33)] — sum is exactly 100
+
+// Allocation by ratios
+$parts = new Money(100, 'USD')->allocateRatios([1, 1, 2]);
+// [Money(25), Money(25), Money(50)]
 
 // Queries
 $price->isZero();      // bool
@@ -114,6 +136,37 @@ echo $price->toMajor();             // 19.99
 
 // Factory methods
 $money = Money::fromMajor(19.99, 'USD');
+```
+
+### Currency
+
+```php
+use ZeroBoiler\ValueObjects\ValueObjects\Currency;
+
+$usd = new Currency('USD');
+$usd->code;              // "USD"
+$usd->decimalPlaces();   // 2
+$usd->subunitDivisor();  // 100
+$usd->subunitName();     // "cent"
+$usd->symbol();          // "$"
+
+// Zero-decimal currencies (JPY, KRW, ISK, etc.)
+$jpy = new Currency('JPY');
+$jpy->decimalPlaces();   // 0
+$jpy->subunitDivisor();  // 1
+
+// Three-decimal currencies (BHD, KWD, etc.)
+$kwd = new Currency('KWD');
+$kwd->decimalPlaces();   // 3
+$kwd->subunitDivisor();  // 1000
+
+// Validation
+Currency::isValid('USD');  // true
+Currency::isValid('XYZ');  // false
+
+// Equality
+$usd->equals(new Currency('USD'));  // true
+$usd->equals(new Currency('EUR'));  // false
 ```
 
 ### Email

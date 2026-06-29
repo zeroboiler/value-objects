@@ -15,6 +15,7 @@ use ValueError;
  * Money value object using integer minor units for precision.
  *
  * Uses ISO 4217 currency codes and correct subunit divisors.
+ * Supports multi-currency operations, conversion, and allocation.
  *
  * @extends ValueObject<array<string, mixed>>
  */
@@ -29,34 +30,20 @@ final class Money extends ValueObject
     public readonly string $currency;
 
     /**
-     * Currencies with zero decimal places (no "cents" subunit).
-     * Source: ISO 4217.
-     *
-     * @var array<int, string>
-     */
-    private const array ZERO_DECIMAL_CURRENCIES = [
-        'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA',
-        'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF',
-    ];
-
-    /**
-     * Currencies with 3 decimal places.
-     *
-     * @var array<int, string>
-     */
-    private const array THREE_DECIMAL_CURRENCIES = [
-        'BHD', 'IQD', 'JOD', 'KWD', 'LYD', 'OMR', 'TND',
-    ];
-
-    /**
      * @param  int  $amount  Amount in minor units (cents)
-     * @param  string  $currency  ISO 4217 currency code
+     * @param  string|Currency  $currency  ISO 4217 currency code or Currency VO
+     *
+     * @throws ValueError If the currency code is not a valid ISO 4217 code
     */
-    public function __construct(int $amount, string $currency = 'USD')
+    public function __construct(int $amount, string|Currency $currency = 'USD')
     {
+        if ($currency instanceof Currency) {
+            $currency = $currency->code;
+        }
+
         $currency = strtoupper(trim($currency));
 
-        if (! $this->isValidCurrencyCode($currency)) {
+        if (! Currency::isValid($currency)) {
             throw new ValueError("Invalid ISO 4217 currency code: '{$currency}'");
         }
 
@@ -73,43 +60,12 @@ final class Money extends ValueObject
     }
 
     /**
-     * Check if a currency code is a valid ISO 4217 code.
-     *
-     * Uses the list of active ISO 4217 currency codes.
-     *
-     * @param  string  $code  Upper-case 3-letter code
+     * Get the Currency value object for this money.
      */
-    private function isValidCurrencyCode(string $code): bool
+    public function currency(): Currency
     {
-        return in_array($code, self::ISO_4217_CODES, true);
+        return new Currency($this->currency);
     }
-
-    /**
-     * All active ISO 4217 currency codes.
-     *
-     * Source: ISO 4217 — current active codes.
-     *
-     * @var array<int, string>
-     */
-    private const array ISO_4217_CODES = [
-        'AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AUD', 'AWG', 'AZN',
-        'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BOV',
-        'BRL', 'BSD', 'BTN', 'BWP', 'BYN', 'BZD', 'CAD', 'CDF', 'CHE', 'CHF',
-        'CHW', 'CLF', 'CLP', 'CNY', 'COP', 'COU', 'CRC', 'CUP', 'CVE', 'CZK',
-        'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ERN', 'ETB', 'EUR', 'FJD', 'FKP',
-        'GBP', 'GEL', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD', 'HKD', 'HNL',
-        'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'INR', 'IQD', 'IRR', 'ISK', 'JMD',
-        'JOD', 'JPY', 'KES', 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD',
-        'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL', 'LYD', 'MAD', 'MDL', 'MGA',
-        'MKD', 'MMK', 'MNT', 'MOP', 'MRU', 'MUR', 'MVR', 'MWK', 'MXN', 'MXV',
-        'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB',
-        'PEN', 'PGK', 'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB',
-        'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK', 'SGD', 'SHP', 'SLL', 'SOS',
-        'SRD', 'SSP', 'STN', 'SVC', 'SYP', 'SZL', 'THB', 'TJS', 'TMT', 'TND',
-        'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH', 'UGX', 'USD', 'USN', 'UYI',
-        'UYU', 'UZS', 'VED', 'VES', 'VND', 'VUV', 'WST', 'XAF', 'XCD', 'XOF',
-        'XPF', 'YER', 'ZAR', 'ZMW', 'ZWL',
-    ];
 
     /**
      * Add two money values (must be same currency).
@@ -133,6 +89,127 @@ final class Money extends ValueObject
         $this->assertSameCurrency($other);
 
         return new self($this->amount - $other->amount, $this->currency);
+    }
+
+    /**
+     * Convert this money to a different currency using an exchange rate.
+     *
+     * The rate is the price of 1 unit of the source currency in the target currency.
+     * For example, if 1 USD = 0.85 EUR, the rate is 0.85.
+     *
+     * Rounding follows the target currency's decimal places to ensure the
+     * result is a valid minor-unit amount in the target currency.
+     *
+     * @param  Currency|string  $to  Target currency (code or VO)
+     * @param  float  $rate  Exchange rate (source → target)
+     *
+     * @throws ValueError If rate is not positive
+     */
+    public function convert(Currency|string $to, float $rate): self
+    {
+        if ($rate <= 0.0) {
+            throw new ValueError('Exchange rate must be positive');
+        }
+
+        $targetCurrency = $to instanceof Currency ? $to->code : strtoupper(trim($to));
+
+        if (! Currency::isValid($targetCurrency)) {
+            throw new ValueError("Invalid ISO 4217 currency code: '{$targetCurrency}'");
+        }
+
+        $target = new Currency($targetCurrency);
+
+        // Convert to major units, apply rate, then convert to target minor units
+        $sourceMajor = $this->amount / $this->subunitDivisor();
+        $targetMajor = $sourceMajor * $rate;
+        $targetMinor = (int) round($targetMajor * $target->subunitDivisor());
+
+        return new self($targetMinor, $targetCurrency);
+    }
+
+    /**
+     * Allocate money into N equal parts, distributing the remainder.
+     *
+     * Uses the largest-remainder method to ensure the sum of parts
+     * equals the original amount exactly.
+     *
+     * Example: 100 cents / 3 = [34, 33, 33] (not [33, 33, 33])
+     *
+     * @param  int  $parts  Number of parts to split into
+     * @return array<int, self>
+     *
+     * @throws ValueError If parts is less than 1
+     */
+    public function allocate(int $parts): array
+    {
+        if ($parts < 1) {
+            throw new ValueError('Cannot allocate into fewer than 1 part');
+        }
+
+        if ($parts === 1) {
+            return [new self($this->amount, $this->currency)];
+        }
+
+        $baseShare = intdiv($this->amount, $parts);
+        $remainder = $this->amount - ($baseShare * $parts);
+
+        $result = [];
+
+        for ($i = 0; $i < $parts; $i++) {
+            // Distribute remainder cents one-by-one to the first parts.
+            // For positive amounts, remainder > 0 means extra cents.
+            // For negative amounts, remainder is handled correctly by
+            // intdiv truncation toward zero (e.g., -100/3 = -34 rem 2).
+            $extra = $i < abs($remainder) ? (int) ($remainder <=> 0) : 0;
+            $result[] = new self($baseShare + $extra, $this->currency);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Allocate money according to proportions (ratios).
+     *
+     * Example: Money(100)->allocateRatios([1, 1, 2]) = [25, 25, 50]
+     *
+     * @param  array<int, int>  $ratios  Integer ratios (all must be >= 0)
+     * @return array<int, self>
+     *
+     * @throws ValueError If ratios is empty or contains negative values
+     */
+    public function allocateRatios(array $ratios): array
+    {
+        if ($ratios === []) {
+            throw new ValueError('Cannot allocate with empty ratios');
+        }
+
+        foreach ($ratios as $ratio) {
+            if ($ratio < 0) {
+                throw new ValueError('Ratios must be non-negative');
+            }
+        }
+
+        $total = array_sum($ratios);
+
+        if ($total === 0) {
+            throw new ValueError('Sum of ratios must be greater than zero');
+        }
+
+        $result = [];
+        $allocated = 0;
+
+        for ($i = 0; $i < count($ratios); $i++) {
+            if ($i === count($ratios) - 1) {
+                // Last part gets the remainder to avoid rounding drift
+                $result[] = new self($this->amount - $allocated, $this->currency);
+            } else {
+                $share = intdiv($this->amount * $ratios[$i], $total);
+                $result[] = new self($share, $this->currency);
+                $allocated += $share;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -226,15 +303,7 @@ final class Money extends ValueObject
      */
     public function decimalPlaces(): int
     {
-        if (in_array($this->currency, self::ZERO_DECIMAL_CURRENCIES, true)) {
-            return 0;
-        }
-
-        if (in_array($this->currency, self::THREE_DECIMAL_CURRENCIES, true)) {
-            return 3;
-        }
-
-        return 2;
+        return $this->currency()->decimalPlaces();
     }
 
     /**
@@ -242,7 +311,7 @@ final class Money extends ValueObject
      */
     public function subunitDivisor(): int
     {
-        return 10 ** $this->decimalPlaces();
+        return $this->currency()->subunitDivisor();
     }
 
     /**
