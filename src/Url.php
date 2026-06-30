@@ -14,6 +14,9 @@ use Illuminate\Validation\ValidationException;
 /**
  * URL value object with validation and parsing.
  *
+ * Supports all standard URL schemes (http, https, ftp, mailto, ws, etc.)
+ * rather than being limited to http/https only.
+ *
  * @extends ValueObject<array<string, mixed>>
  */
 final class Url extends ValueObject
@@ -129,12 +132,41 @@ final class Url extends ValueObject
     /**
      * Get URL with modified scheme.
      *
-     * @param  string  $scheme  New scheme (e.g., "https")
+     * Supports any valid URI scheme per RFC 3986 (http, https, ftp, mailto,
+     * ws, wss, etc.). For schemes that use authority-less format (mailto:,
+     * tel:, data:), the URL is reconstructed appropriately.
+     *
+     * @param  string  $scheme  New scheme (e.g., "https", "ftp", "mailto")
+     *
+     * @throws ValidationException If scheme is invalid
      */
     public function withScheme(string $scheme): self
     {
+        $scheme = strtolower(trim($scheme));
+
+        // Validate scheme format per RFC 3986: ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
+        if (! preg_match('/^[a-z][a-z0-9+\-.]*$/', $scheme)) {
+            throw new ValidationException(
+                Validator::make(
+                    ['scheme' => $scheme],
+                    ['scheme' => 'required|string|regex:/^[a-z][a-z0-9+\-.]*$/']
+                )
+            );
+        }
+
         $parsed = $this->parsed;
-        $parsed['scheme'] = strtolower($scheme);
+        $parsed['scheme'] = $scheme;
+
+        // For schemes without authority (mailto, tel, data, etc.),
+        // construct the URL using scheme:path format without //.
+        $authorityLessSchemes = ['mailto', 'tel', 'fax', 'sms', 'data', 'blob'];
+        if (in_array($scheme, $authorityLessSchemes, true)) {
+            $path = $parsed['path'] ?? '';
+            $query = isset($parsed['query']) ? '?'.$parsed['query'] : '';
+            $fragment = isset($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
+
+            return new self("{$scheme}:{$path}{$query}{$fragment}");
+        }
 
         return new self($this->buildUrl($parsed));
     }

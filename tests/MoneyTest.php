@@ -9,6 +9,36 @@ declare(strict_types=1);
 use ZeroBoiler\ValueObjects\Currency;
 use ZeroBoiler\ValueObjects\Money;
 
+// --- Overflow detection tests (#4) ---
+
+test('money add throws OverflowException on positive overflow', function (): void {
+    $max = new Money(PHP_INT_MAX, 'USD');
+    $one = new Money(1, 'USD');
+
+    expect(fn (): Money => $max->add($one))->toThrow(OverflowException::class);
+});
+
+test('money multiply throws OverflowException on large factor', function (): void {
+    $large = new Money(PHP_INT_MAX - 100, 'USD');
+
+    expect(fn (): Money => $large->multiply(3.0))->toThrow(OverflowException::class);
+});
+
+test('money multiply by zero returns zero', function (): void {
+    $money = new Money(1000, 'USD');
+    $result = $money->multiply(0.0);
+    expect($result->amount)->toBe(0);
+});
+
+test('money fromMajor throws OverflowException on extreme amounts', function (): void {
+    expect(fn (): Money => Money::fromMajor(1e18, 'USD'))->toThrow(OverflowException::class);
+});
+
+test('money add does not throw on normal amounts', function (): void {
+    $result = (new Money(100, 'USD'))->add(new Money(200, 'USD'));
+    expect($result->amount)->toBe(300);
+});
+
 // --- Currency VO integration (#159) ---
 
 test('money can be created with Currency VO', function (): void {

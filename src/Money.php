@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace ZeroBoiler\ValueObjects;
 
 use NumberFormatter;
+use OverflowException;
 use ValueError;
 
 /**
@@ -16,6 +17,9 @@ use ValueError;
  *
  * Uses ISO 4217 currency codes and correct subunit divisors.
  * Supports multi-currency operations, conversion, and allocation.
+ *
+ * All arithmetic operations detect integer overflow and throw
+ * OverflowException rather than silently wrapping around.
  *
  * @extends ValueObject<array<string, mixed>>
  */
@@ -71,24 +75,44 @@ final class Money extends ValueObject
      * Add two money values (must be same currency).
      *
      * @throws ValueError If currencies differ
+     * @throws OverflowException If the result exceeds PHP_INT_MAX or PHP_INT_MIN
      */
     public function add(self $other): self
     {
         $this->assertSameCurrency($other);
 
-        return new self($this->amount + $other->amount, $this->currency);
+        $result = $this->amount + $other->amount;
+
+        // In PHP 8.5, integer overflow promotes to float.
+        // Detect this and throw instead of passing a float to the constructor.
+        if (is_float($result)) {
+            throw new OverflowException(
+                "Money addition overflow: {$this->amount} + {$other->amount} exceeds integer limits"
+            );
+        }
+
+        return new self($result, $this->currency);
     }
 
     /**
      * Subtract money from this value.
      *
      * @throws ValueError If currencies differ
+     * @throws OverflowException If the result exceeds integer limits
      */
     public function subtract(self $other): self
     {
         $this->assertSameCurrency($other);
 
-        return new self($this->amount - $other->amount, $this->currency);
+        $result = $this->amount - $other->amount;
+
+        if (is_float($result)) {
+            throw new OverflowException(
+                "Money subtraction overflow: {$this->amount} - {$other->amount} exceeds integer limits"
+            );
+        }
+
+        return new self($result, $this->currency);
     }
 
     /**
@@ -104,6 +128,7 @@ final class Money extends ValueObject
      * @param  float  $rate  Exchange rate (source → target)
      *
      * @throws ValueError If rate is not positive
+     * @throws OverflowException If the converted amount exceeds integer limits
      */
     public function convert(Currency|string $to, float $rate): self
     {
@@ -119,10 +144,52 @@ final class Money extends ValueObject
 
         $target = new Currency($targetCurrency);
 
-        // Convert to major units, apply rate, then convert to target minor units
+        // Use bcmath for the entire pipeline when available to avoid
+        // float precision loss on large amounts.
+        if (extension_loaded('bcmath')) {
+            $sourceMajor = bcdiv(
+                (string) $this->amount,
+                (string) $this->subunitDivisor(),
+                10
+            );
+            $targetMajor = bcmul($sourceMajor, (string) $rate, 10);
+            $targetMinor = bcmul(
+                $targetMajor,
+                (string) $target->subunitDivisor(),
+                0
+            );
+
+            // Overflow check
+            if (bccomp($targetMinor, (string) PHP_INT_MAX) > 0
+                || bccomp($targetMinor, (string) PHP_INT_MIN) < 0
+            ) {
+                throw new OverflowException(
+                    "Money convert overflow: result {$targetMinor} exceeds integer limits"
+                );
+            }
+
+            // Round half away from zero
+            if (bccomp($targetMinor, '0') >= 0) {
+                $targetMinor = bcadd($targetMinor, '0', 0);
+            } else {
+                $targetMinor = bcsub($targetMinor, '0', 0);
+            }
+
+            return new self((int) $targetMinor, $targetCurrency);
+        }
+
+        // Float fallback
         $sourceMajor = $this->amount / $this->subunitDivisor();
         $targetMajor = $sourceMajor * $rate;
-        $targetMinor = (int) round($targetMajor * $target->subunitDivisor());
+        $floatResult = $targetMajor * $target->subunitDivisor();
+
+        if (abs($floatResult) > (float) PHP_INT_MAX) {
+            throw new OverflowException(
+                'Money convert overflow: result exceeds integer limits'
+            );
+        }
+
+        $targetMinor = (int) round($floatResult);
 
         return new self($targetMinor, $targetCurrency);
     }
@@ -176,6 +243,7 @@ final class Money extends ValueObject
      * @return array<int, self>
      *
      * @throws ValueError If ratios is empty or contains negative values
+     * @throws OverflowException If amount * ratio exceeds integer limits
      */
     public function allocateRatios(array $ratios): array
     {
@@ -193,6 +261,20 @@ final class Money extends ValueObject
 
         if ($total === 0) {
             throw new ValueError('Sum of ratios must be greater than zero');
+        }
+
+        // Overflow guard for amount * ratio multiplication
+        if (extension_loaded('bcmath')) {
+            foreach ($ratios as $ratio) {
+                $check = bcmul((string) $this->amount, (string) $ratio, 0);
+                if (bccomp($check, (string) PHP_INT_MAX) > 0
+                    || bccomp($check, (string) PHP_INT_MIN) < 0
+                ) {
+                    throw new OverflowException(
+                        "Money allocateRatios overflow: {$this->amount} * {$ratio} exceeds integer limits"
+                    );
+                }
+            }
         }
 
         $result = [];
@@ -219,17 +301,51 @@ final class Money extends ValueObject
      * Uses BCMath when available for precise integer arithmetic.
      * Falls back to float with rounding for environments without ext-bcmath.
      * Both paths use round-half-away-from-zero for consistency.
+     *
+     * @throws OverflowException If the result exceeds integer limits
      */
     public function multiply(float $factor): self
     {
-        if (extension_loaded('bcmath')) {
-            // Scale=1 to preserve a decimal for rounding, then round consistently
-            $product = bcmul((string) $this->amount, (string) $factor, 1);
-            // Apply round-half-away-from-zero to match non-bcmath behavior
-            $newAmount = (int) ($product >= 0 ? bcadd($product, '0.5', 1) : bcsub($product, '0.5', 1));
-        } else {
-            $newAmount = (int) round($this->amount * $factor);
+        if ($factor === 0.0) {
+            return new self(0, $this->currency);
         }
+
+        if (extension_loaded('bcmath')) {
+            // Use bcmath for arbitrary precision, then verify it fits in an int
+            $scale = $factor === floor($factor) ? 0 : 2;
+            $product = bcmul((string) $this->amount, (string) $factor, $scale);
+
+            // Overflow check against PHP_INT_MAX/MIN
+            if (bccomp($product, (string) PHP_INT_MAX) > 0
+                || bccomp($product, (string) PHP_INT_MIN) < 0
+            ) {
+                throw new OverflowException(
+                    "Money multiply overflow: {$this->amount} * {$factor} exceeds integer limits"
+                );
+            }
+
+            // Round half away from zero
+            if ($scale > 0) {
+                if (bccomp($product, '0') >= 0) {
+                    $product = bcadd($product, '0.5', 0);
+                } else {
+                    $product = bcsub($product, '0.5', 0);
+                }
+            }
+
+            return new self((int) $product, $this->currency);
+        }
+
+        // Float fallback with overflow detection
+        $floatResult = $this->amount * $factor;
+
+        if (abs($floatResult) > (float) PHP_INT_MAX) {
+            throw new OverflowException(
+                "Money multiply overflow: {$this->amount} * {$factor} exceeds integer limits"
+            );
+        }
+
+        $newAmount = (int) round($floatResult);
 
         return new self($newAmount, $this->currency);
     }
@@ -249,12 +365,20 @@ final class Money extends ValueObject
         }
 
         if (extension_loaded('bcmath')) {
-            // Scale=1 for rounding precision, then round consistently
-            $quotient = bcdiv((string) $this->amount, (string) $divisor, 1);
-            $newAmount = (int) ($quotient >= 0 ? bcadd($quotient, '0.5', 1) : bcsub($quotient, '0.5', 1));
-        } else {
-            $newAmount = (int) round($this->amount / $divisor);
+            // Higher scale for precision, then round
+            $quotient = bcdiv((string) $this->amount, (string) $divisor, 2);
+
+            // Round half away from zero
+            if (bccomp($quotient, '0') >= 0) {
+                $quotient = bcadd($quotient, '0.5', 0);
+            } else {
+                $quotient = bcsub($quotient, '0.5', 0);
+            }
+
+            return new self((int) $quotient, $this->currency);
         }
+
+        $newAmount = (int) round($this->amount / $divisor);
 
         return new self($newAmount, $this->currency);
     }
@@ -265,6 +389,8 @@ final class Money extends ValueObject
      * Example: Money::fromMajor(9.99, 'EUR')->percentage(19) for 19% VAT.
      *
      * @param  float  $percent  Percentage to apply (e.g., 19 for 19%)
+     *
+     * @throws OverflowException If the result exceeds integer limits
      */
     public function percentage(float $percent): self
     {
@@ -374,13 +500,23 @@ final class Money extends ValueObject
      * Create from major units (dollars, euros, etc.).
      *
      * @param  float  $amount  Amount in major units
+     *
+     * @throws OverflowException If the converted minor units exceed integer limits
      */
     public static function fromMajor(float $amount, string $currency = 'USD'): self
     {
         $temp = new self(0, $currency);
         $divisor = $temp->subunitDivisor();
 
-        return new self((int) round($amount * $divisor), $currency);
+        $floatResult = $amount * $divisor;
+
+        if (abs($floatResult) > (float) PHP_INT_MAX) {
+            throw new OverflowException(
+                "Money fromMajor overflow: {$amount} * {$divisor} exceeds integer limits"
+            );
+        }
+
+        return new self((int) round($floatResult), $currency);
     }
 
     public function toArray(): array
