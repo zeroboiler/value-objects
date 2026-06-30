@@ -170,8 +170,14 @@ final class Money extends ValueObject
                 );
             }
 
-            // Round half away from zero
-            $targetMinor = bccomp($targetMinor, '0') >= 0 ? bcadd($targetMinor, '0', 0) : bcsub($targetMinor, '0', 0);
+            // Round half away from zero (banker's rounding would use bcdiv, but we want standard rounding)
+            if (bccomp($targetMinor, '0') >= 0) {
+                // For positive numbers: add 0.5 then truncate
+                $targetMinor = bcadd($targetMinor, '0.5', 0);
+            } else {
+                // For negative numbers: subtract 0.5 then truncate
+                $targetMinor = bcsub($targetMinor, '0.5', 0);
+            }
 
             return new self((int) $targetMinor, $targetCurrency);
         }

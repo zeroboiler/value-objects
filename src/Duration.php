@@ -132,11 +132,12 @@ final class Duration extends ValueObject
      */
     public function humanReadable(): string
     {
-        $totalSeconds = $this->toSeconds();
+        $isNegative = $this->milliseconds < 0;
+        $totalSeconds = abs($this->toSeconds());
+        $ms = abs($this->milliseconds) % 1000;
         $hours = (int) floor($totalSeconds / 3600);
         $minutes = (int) floor(($totalSeconds % 3600) / 60);
         $seconds = (int) floor($totalSeconds % 60);
-        $ms = $this->milliseconds % 1000;
 
         $parts = [];
 
@@ -156,7 +157,8 @@ final class Duration extends ValueObject
             $parts[] = "{$ms}ms";
         }
 
-        return implode(' ', $parts);
+        $result = implode(' ', $parts);
+        return $isNegative ? "-{$result}" : $result;
     }
 
     public function toArray(): array
