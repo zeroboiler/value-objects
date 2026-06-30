@@ -35,7 +35,7 @@ test('money fromMajor throws OverflowException on extreme amounts', function ():
 });
 
 test('money add does not throw on normal amounts', function (): void {
-    $result = (new Money(100, 'USD'))->add(new Money(200, 'USD'));
+    $result = new Money(100, 'USD')->add(new Money(200, 'USD'));
     expect($result->amount)->toBe(300);
 });
 

@@ -85,6 +85,7 @@ final class Money extends ValueObject
 
         // In PHP 8.5, integer overflow promotes to float.
         // Detect this and throw instead of passing a float to the constructor.
+        // @phpstan-ignore function.impossibleType (runtime overflow check: int+int can promote to float)
         if (is_float($result)) {
             throw new OverflowException(
                 "Money addition overflow: {$this->amount} + {$other->amount} exceeds integer limits"
@@ -106,6 +107,7 @@ final class Money extends ValueObject
 
         $result = $this->amount - $other->amount;
 
+        // @phpstan-ignore function.impossibleType (runtime overflow check: int-int can promote to float)
         if (is_float($result)) {
             throw new OverflowException(
                 "Money subtraction overflow: {$this->amount} - {$other->amount} exceeds integer limits"
@@ -169,11 +171,7 @@ final class Money extends ValueObject
             }
 
             // Round half away from zero
-            if (bccomp($targetMinor, '0') >= 0) {
-                $targetMinor = bcadd($targetMinor, '0', 0);
-            } else {
-                $targetMinor = bcsub($targetMinor, '0', 0);
-            }
+            $targetMinor = bccomp($targetMinor, '0') >= 0 ? bcadd($targetMinor, '0', 0) : bcsub($targetMinor, '0', 0);
 
             return new self((int) $targetMinor, $targetCurrency);
         }
@@ -326,11 +324,7 @@ final class Money extends ValueObject
 
             // Round half away from zero
             if ($scale > 0) {
-                if (bccomp($product, '0') >= 0) {
-                    $product = bcadd($product, '0.5', 0);
-                } else {
-                    $product = bcsub($product, '0.5', 0);
-                }
+                $product = bccomp($product, '0') >= 0 ? bcadd($product, '0.5', 0) : bcsub($product, '0.5', 0);
             }
 
             return new self((int) $product, $this->currency);
@@ -369,11 +363,7 @@ final class Money extends ValueObject
             $quotient = bcdiv((string) $this->amount, (string) $divisor, 2);
 
             // Round half away from zero
-            if (bccomp($quotient, '0') >= 0) {
-                $quotient = bcadd($quotient, '0.5', 0);
-            } else {
-                $quotient = bcsub($quotient, '0.5', 0);
-            }
+            $quotient = bccomp($quotient, '0') >= 0 ? bcadd($quotient, '0.5', 0) : bcsub($quotient, '0.5', 0);
 
             return new self((int) $quotient, $this->currency);
         }
