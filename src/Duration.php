@@ -109,7 +109,7 @@ final class Duration extends ValueObject
 
         if ($result < 0 && ! $allowNegative) {
             throw new \ValueError(
-                'Duration subtraction results in a negative value (' . $result . 'ms). ' .
+                'Duration subtraction results in a negative value ('.$result.'ms). '.
                 'Pass $allowNegative=true or check inputs.'
             );
         }

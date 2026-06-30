@@ -34,7 +34,7 @@ final class Money extends ValueObject
      * @param  string|Currency  $currency  ISO 4217 currency code or Currency VO
      *
      * @throws ValueError If the currency code is not a valid ISO 4217 code
-    */
+     */
     public function __construct(int $amount, string|Currency $currency = 'USD')
     {
         if ($currency instanceof Currency) {
@@ -160,7 +160,7 @@ final class Money extends ValueObject
             // For positive amounts, remainder > 0 means extra cents.
             // For negative amounts, remainder is handled correctly by
             // intdiv truncation toward zero (e.g., -100/3 = -34 rem 2).
-            $extra = $i < abs($remainder) ? (int) ($remainder <=> 0) : 0;
+            $extra = $i < abs($remainder) ? $remainder <=> 0 : 0;
             $result[] = new self($baseShare + $extra, $this->currency);
         }
 
@@ -197,8 +197,9 @@ final class Money extends ValueObject
 
         $result = [];
         $allocated = 0;
+        $counter = count($ratios);
 
-        for ($i = 0; $i < count($ratios); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             if ($i === count($ratios) - 1) {
                 // Last part gets the remainder to avoid rounding drift
                 $result[] = new self($this->amount - $allocated, $this->currency);

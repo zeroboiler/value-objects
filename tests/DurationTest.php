@@ -6,7 +6,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Validation\ValidationException;
 use ZeroBoiler\ValueObjects\Duration;
 
 test('duration can be created from milliseconds', function (): void {

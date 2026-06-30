@@ -91,7 +91,7 @@ final class Percentage extends ValueObject
 
     /**
      * Check if percentage is zero.
-    */
+     */
     public function isZero(): bool
     {
         return abs($this->value) < 0.0001;

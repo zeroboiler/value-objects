@@ -279,7 +279,7 @@ test('money allocate sum equals original', function (): void {
     $money = new Money(99, 'USD');
     $parts = $money->allocate(7);
 
-    $sum = array_sum(array_map(fn (Money $m) => $m->amount, $parts));
+    $sum = array_sum(array_map(fn (Money $m): int => $m->amount, $parts));
 
     expect($sum)->toBe(99);
 });
@@ -313,7 +313,7 @@ test('money allocate handles negative amounts', function (): void {
     $money = new Money(-100, 'USD');
     $parts = $money->allocate(3);
 
-    $sum = array_sum(array_map(fn (Money $m) => $m->amount, $parts));
+    $sum = array_sum(array_map(fn (Money $m): int => $m->amount, $parts));
 
     expect($sum)->toBe(-100);
 });

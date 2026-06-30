@@ -164,7 +164,7 @@ final class Currency extends ValueObject
         // Extract the symbol prefix (everything before the first digit)
         $symbol = preg_replace('/[\d\s,.]+.*$/', '', $formatted);
 
-        return trim($symbol) !== '' ? trim($symbol) : $this->code;
+        return trim((string) $symbol) !== '' ? trim((string) $symbol) : $this->code;
     }
 
     /**
@@ -172,6 +172,7 @@ final class Currency extends ValueObject
      *
      * @param  ValueObject<mixed>  $other
      */
+    #[\Override]
     public function equals(ValueObject $other): bool
     {
         return $other instanceof self && $this->code === $other->code;
