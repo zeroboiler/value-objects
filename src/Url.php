@@ -191,7 +191,32 @@ final class Url extends ValueObject
         return $scheme.$userinfo.$host.$port.$path.$query.$fragment;
     }
 
+    /**
+     * Serialize to array for round-trip-safe storage.
+     *
+     * Returns only the constructor-shaped data so that
+     * ValueObjectCast can reconstruct the VO unambiguously.
+     *
+     * Use {@see toExpandedArray()} for display/API output that
+     * includes all parsed URL components.
+     *
+     * @return array<string, string>
+     */
     public function toArray(): array
+    {
+        return ['url' => $this->value];
+    }
+
+    /**
+     * Serialize to expanded array with all parsed URL components.
+     *
+     * Use this for API responses or display where the consumer
+     * wants direct access to scheme, host, path, query, fragment
+     * without re-parsing the URL.
+     *
+     * @return array<string, string>
+     */
+    public function toExpandedArray(): array
     {
         return [
             'url' => $this->value,

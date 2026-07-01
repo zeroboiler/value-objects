@@ -9,11 +9,8 @@ declare(strict_types=1);
 namespace ZeroBoiler\ValueObjects;
 
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\ValidationException;
-use JsonSerializable;
-use Stringable;
 
 /**
  * Base class for immutable value objects.
@@ -21,9 +18,13 @@ use Stringable;
  * Value objects represent a value through their attributes, not identity.
  * Two value objects are equal if all their attributes are equal.
  *
- * @template T
+ * All value objects implement {@see ValueObjectInterface} which serves
+ * as the cross-package type for accepting arbitrary value objects.
+ *
+ * @template TKey of array-key
+ * @template TValue
  */
-abstract class ValueObject implements Jsonable, JsonSerializable, Stringable
+abstract class ValueObject implements ValueObjectInterface
 {
     /**
      * Validate data using Laravel validator.
@@ -48,10 +49,9 @@ abstract class ValueObject implements Jsonable, JsonSerializable, Stringable
     /**
      * Compare two value objects by value.
      *
-     * @param  ValueObject<mixed>  $other
      * @return bool True if all attributes are equal
      */
-    public function equals(self $other): bool
+    public function equals(ValueObjectInterface $other): bool
     {
         return $this->toArray() === $other->toArray();
     }

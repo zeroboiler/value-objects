@@ -97,9 +97,9 @@ test('value object cast handles invalid JSON gracefully on get', function (): vo
     $cast = new ValueObjectCast(Money::class);
     $model = new TestModelWithCast;
 
-    $value = $cast->get($model, 'price', 'invalid-json', []);
-
-    expect($value)->toBeNull();
+    // Per #659: invalid JSON throws RuntimeException instead of silently returning null
+    expect(fn () => $cast->get($model, 'price', 'invalid-json', []))
+        ->toThrow(RuntimeException::class);
 });
 
 test('castable trait provides cast class', function (): void {

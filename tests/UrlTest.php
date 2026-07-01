@@ -168,7 +168,13 @@ test('url can be converted to string', function (): void {
 test('url can be serialized', function (): void {
     $url = new Url('https://example.com/path?foo=bar#section');
 
+    // toArray() returns only constructor-shaped data for round-trip safety
     expect($url->toArray())->toBe([
+        'url' => 'https://example.com/path?foo=bar#section',
+    ]);
+
+    // toExpandedArray() includes all parsed components
+    expect($url->toExpandedArray())->toBe([
         'url' => 'https://example.com/path?foo=bar#section',
         'scheme' => 'https',
         'host' => 'example.com',

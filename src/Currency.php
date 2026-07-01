@@ -170,10 +170,10 @@ final class Currency extends ValueObject
     /**
      * Check if this currency equals another.
      *
-     * @param  ValueObject<mixed>  $other
+     * @param  ValueObjectInterface<mixed>  $other
      */
     #[\Override]
-    public function equals(ValueObject $other): bool
+    public function equals(ValueObjectInterface $other): bool
     {
         return $other instanceof self && $this->code === $other->code;
     }
