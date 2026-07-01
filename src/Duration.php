@@ -158,6 +158,7 @@ final class Duration extends ValueObject
         }
 
         $result = implode(' ', $parts);
+
         return $isNegative ? "-{$result}" : $result;
     }
 
