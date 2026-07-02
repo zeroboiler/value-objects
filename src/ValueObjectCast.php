@@ -14,6 +14,7 @@ use JsonException;
 use ReflectionClass;
 use ReflectionParameter;
 use RuntimeException;
+use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
 /**
  * Universal value object cast for Eloquent models.
@@ -38,7 +39,7 @@ use RuntimeException;
  *   #[CastableAs(fromArray: 'fromCast', toArray: 'toCast')]
  *   class MyVo extends ValueObject { ... }
  *
- * @template T of ValueObject
+ * @template T of ValueObjectContract
  *
  * @implements CastsAttributes<T|null, T|null>
  */

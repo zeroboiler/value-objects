@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace ZeroBoiler\ValueObjects;
 
 use ValueError;
+use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
 /**
  * Currency value object representing an ISO 4217 currency.
@@ -169,11 +170,9 @@ final class Currency extends ValueObject
 
     /**
      * Check if this currency equals another.
-     *
-     * @param  ValueObjectInterface<mixed>  $other
      */
     #[\Override]
-    public function equals(ValueObjectInterface $other): bool
+    public function equals(?ValueObjectContract $other): bool
     {
         return $other instanceof self && $this->code === $other->code;
     }
@@ -215,5 +214,38 @@ final class Currency extends ValueObject
     public function __toString(): string
     {
         return $this->code;
+    }
+
+    /**
+     * Get the primitive value for database storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return $this->code;
+    }
+
+    /**
+     * Create from a primitive database value (string code).
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        if (! is_string($value)) {
+            throw new \InvalidArgumentException('Currency expects a string, got '.get_debug_type($value));
+        }
+
+        return new self($value);
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'string';
     }
 }

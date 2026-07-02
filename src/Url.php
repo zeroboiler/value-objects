@@ -232,4 +232,37 @@ final class Url extends ValueObject
     {
         return $this->value;
     }
+
+    /**
+     * Get the primitive value for database storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return $this->value;
+    }
+
+    /**
+     * Create from a primitive database value (string).
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        if (! is_string($value)) {
+            throw new \InvalidArgumentException('Url expects a string, got '.get_debug_type($value));
+        }
+
+        return new self($value);
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'string';
+    }
 }

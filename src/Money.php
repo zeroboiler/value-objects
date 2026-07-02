@@ -529,6 +529,72 @@ final class Money extends ValueObject
     }
 
     /**
+     * Get the primitive value for database storage.
+     *
+     * Returns JSON string of amount + currency for composite storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return json_encode([
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+        ], JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Create from a primitive database value.
+     *
+     * Accepts JSON string ({"amount":100,"currency":"USD"}),
+     * plain integer (treated as amount in USD), or array.
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        if (is_int($value)) {
+            return new self($value, 'USD');
+        }
+
+        if (is_array($value)) {
+            return new self(
+                $value['amount'] ?? 0,
+                $value['currency'] ?? 'USD'
+            );
+        }
+
+        if (is_string($value)) {
+            $decoded = json_decode($value, true, 512);
+
+            if (is_array($decoded)) {
+                return new self(
+                    $decoded['amount'] ?? 0,
+                    $decoded['currency'] ?? 'USD'
+                );
+            }
+
+            // Numeric string — treat as amount in USD
+            if (is_numeric($value)) {
+                return new self((int) $value, 'USD');
+            }
+        }
+
+        throw new \InvalidArgumentException(
+            'Money::fromPrimitive() expects JSON string, int, or array, got '.get_debug_type($value)
+        );
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'json';
+    }
+
+    /**
      * Ensure currencies match for arithmetic operations.
      *
      * @throws ValueError If currencies differ

@@ -113,4 +113,65 @@ final class Coordinates extends ValueObject
     {
         return "({$this->latitude}, {$this->longitude})";
     }
+
+    /**
+     * Get the primitive value for database storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return json_encode([
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+        ], JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Create from a primitive database value.
+     *
+     * Accepts JSON string, array with latitude/longitude keys, or
+     * comma-separated string like "40.7128,-74.0060".
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        if (is_array($value)) {
+            return new self(
+                (float) ($value['latitude'] ?? 0),
+                (float) ($value['longitude'] ?? 0)
+            );
+        }
+
+        if (is_string($value)) {
+            $decoded = json_decode($value, true, 512);
+
+            if (is_array($decoded)) {
+                return new self(
+                    (float) ($decoded['latitude'] ?? 0),
+                    (float) ($decoded['longitude'] ?? 0)
+                );
+            }
+
+            // Try comma-separated format "lat,lng"
+            $parts = explode(',', $value);
+            if (count($parts) === 2) {
+                return new self((float) trim($parts[0]), (float) trim($parts[1]));
+            }
+        }
+
+        throw new \InvalidArgumentException(
+            'Coordinates::fromPrimitive() expects JSON string or array with latitude/longitude, got '.get_debug_type($value)
+        );
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'json';
+    }
 }

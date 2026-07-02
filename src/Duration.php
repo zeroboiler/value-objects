@@ -171,4 +171,44 @@ final class Duration extends ValueObject
     {
         return $this->humanReadable();
     }
+
+    /**
+     * Get the primitive value for database storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return $this->milliseconds;
+    }
+
+    /**
+     * Create from a primitive database value (integer milliseconds).
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        if (! is_int($value)) {
+            // Allow numeric strings
+            if (is_string($value) && is_numeric($value)) {
+                return new self((int) $value);
+            }
+
+            throw new \InvalidArgumentException(
+                'Duration expects an integer (milliseconds), got '.get_debug_type($value)
+            );
+        }
+
+        return new self($value);
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'integer';
+    }
 }

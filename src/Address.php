@@ -113,4 +113,54 @@ final class Address extends ValueObject
     {
         return $this->full();
     }
+
+    /**
+     * Get the primitive value for database storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Create from a primitive database value.
+     *
+     * Accepts JSON string or array with address fields.
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        $data = $value;
+
+        if (is_string($value)) {
+            $data = json_decode($value, true, 512);
+        }
+
+        if (! is_array($data)) {
+            throw new \InvalidArgumentException(
+                'Address::fromPrimitive() expects JSON string or array, got '.get_debug_type($value)
+            );
+        }
+
+        return new self(
+            street: $data['street'] ?? '',
+            street2: $data['street2'] ?? null,
+            city: $data['city'] ?? '',
+            state: $data['state'] ?? '',
+            postalCode: $data['postalCode'] ?? '',
+            country: $data['country'] ?? '',
+        );
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'json';
+    }
 }

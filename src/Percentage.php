@@ -116,6 +116,49 @@ final class Percentage extends ValueObject
     }
 
     /**
+     * Get the primitive value for database storage.
+     */
+    #[\Override]
+    public function toPrimitive(): mixed
+    {
+        return $this->value;
+    }
+
+    /**
+     * Create from a primitive database value (float).
+     */
+    #[\Override]
+    public static function fromPrimitive(mixed $value): static
+    {
+        if (is_int($value)) {
+            return new self((float) $value);
+        }
+
+        if (is_float($value)) {
+            return new self($value);
+        }
+
+        if (is_string($value) && is_numeric($value)) {
+            return new self((float) $value);
+        }
+
+        throw new \InvalidArgumentException(
+            'Percentage expects a numeric value, got '.get_debug_type($value)
+        );
+    }
+
+    /**
+     * Get the SQL column type for migrations.
+     *
+     * @return non-empty-string
+     */
+    #[\Override]
+    public static function columnType(): string
+    {
+        return 'float';
+    }
+
+    /**
      * Check if value has decimal part.
      */
     private function isDecimal(): bool

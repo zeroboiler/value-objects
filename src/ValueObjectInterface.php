@@ -8,48 +8,24 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use JsonSerializable;
-use Stringable;
+use ZeroBoiler\ValueObjects\Contracts\ValueObject;
+use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
 /**
- * Interface for all ZeroBoiler value objects.
+ * Legacy interface for all ZeroBoiler value objects.
  *
- * Provides a single type to type-hint against when accepting
- * any value object across packages (DTO, persistence, etc.).
+ * @deprecated Use {@see ValueObject} instead.
+ *             This interface extends the contract for backward compatibility
+ *             and will be removed in v1.0. Migrate your type-hints to the
+ *             Contracts namespace.
  *
  * @template TKey of array-key
  * @template TValue
  *
- * @extends Arrayable<TKey, TValue>
- * @extends Jsonable<int|string>
+ * @extends ValueObjectContract<TKey, TValue>
  */
-interface ValueObjectInterface extends Arrayable, Jsonable, JsonSerializable, Stringable
+interface ValueObjectInterface extends ValueObjectContract
 {
-    /**
-     * Compare this value object with another by value.
-     *
-     * @return bool True if all attributes are equal
-     */
-    public function equals(self $other): bool;
-
-    /**
-     * Serialize value object to array.
-     *
-     * @return array<TKey, TValue>
-     */
-    public function toArray(): array;
-
-    /**
-     * Serialize value object to JSON.
-     *
-     * @param  int  $options  JSON encode options
-     */
-    public function toJson($options = 0): string;
-
-    /**
-     * String representation of the value object.
-     */
-    public function __toString(): string;
+    // All methods inherited from ValueObjectContract.
+    // This interface exists solely for backward compatibility.
 }

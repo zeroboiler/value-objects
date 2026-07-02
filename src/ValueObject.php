@@ -11,6 +11,7 @@ namespace ZeroBoiler\ValueObjects;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\ValidationException;
+use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
 /**
  * Base class for immutable value objects.
@@ -18,7 +19,7 @@ use Illuminate\Validation\ValidationException;
  * Value objects represent a value through their attributes, not identity.
  * Two value objects are equal if all their attributes are equal.
  *
- * All value objects implement {@see ValueObjectInterface} which serves
+ * All value objects implement {@see ValueObjectContract} which serves
  * as the cross-package type for accepting arbitrary value objects.
  *
  * @template TKey of array-key
@@ -47,12 +48,73 @@ abstract class ValueObject implements ValueObjectInterface
     }
 
     /**
-     * Compare two value objects by value.
+     * Get the primitive value for database storage.
+     *
+     * Default implementation returns the JSON-encoded array representation.
+     * Single-value VOs should override this to return the scalar directly.
+     */
+    public function toPrimitive(): mixed
+    {
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Create an instance from a primitive database value.
+     *
+     * Default implementation attempts JSON decode then maps keys to
+     * constructor parameters. Single-value VOs should override this.
+     *
+     *
+     * @throws \InvalidArgumentException If reconstruction fails
+     * @throws ValidationException If validation fails
+     */
+    public static function fromPrimitive(mixed $value): static
+    {
+        // If the value is already an array, use named arguments
+        if (is_array($value)) {
+            return new static(...$value);
+        }
+
+        // If it's JSON, decode and map
+        if (is_string($value)) {
+            $decoded = json_decode($value, true, 512);
+
+            if (is_array($decoded)) {
+                return new static(...$decoded);
+            }
+
+            // Scalar string — pass to constructor
+            return new static($value);
+        }
+
+        // Numeric or other scalar
+        return new static($value);
+    }
+
+    /**
+     * Get the SQL column type for SchemaBuilder / migrations.
+     *
+     * Default is 'json' for composite VOs. Single-value VOs should
+     * override to return the appropriate scalar type.
+     *
+     * @return non-empty-string
+     */
+    public static function columnType(): string
+    {
+        return 'json';
+    }
+
+    /**
+     * Compare this value object with another by value.
      *
      * @return bool True if all attributes are equal
      */
-    public function equals(ValueObjectInterface $other): bool
+    public function equals(?ValueObjectContract $other): bool
     {
+        if (! $other instanceof ValueObjectContract) {
+            return false;
+        }
+
         return $this->toArray() === $other->toArray();
     }
 
