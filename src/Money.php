@@ -72,6 +72,79 @@ final class Money extends ValueObject
     }
 
     /**
+     * Convert this money to a different currency using an exchange rate.
+     *
+     * Alias for convert(), matching the naming convention requested in #592.
+     *
+     * @param  Currency|string  $to  Target currency (code or VO)
+     * @param  float  $rate  Exchange rate (source → target)
+     *
+     * @throws ValueError If rate is not positive
+     * @throws OverflowException If the converted amount exceeds integer limits
+     */
+    public function convertTo(Currency|string $to, float $rate): self
+    {
+        return $this->convert($to, $rate);
+    }
+
+    /**
+     * Convert using an ExchangeRateProvider for automatic rate lookup.
+     *
+     * @param  Currency|string  $to  Target currency
+     * @param  ExchangeRateProvider  $provider  Rate provider implementation
+     *
+     * @throws ValueError If the provider returns an invalid rate
+     * @throws OverflowException If the converted amount exceeds integer limits
+     */
+    public function convertVia(Currency|string $to, ExchangeRateProvider $provider): self
+    {
+        $targetCurrency = $to instanceof Currency ? $to->code : strtoupper(trim($to));
+        $rate = $provider->getRate($this->currency, $targetCurrency);
+
+        return $this->convert($targetCurrency, $rate);
+    }
+
+    /**
+     * Static factory for USD amounts.
+     *
+     * @param  int  $amount  Amount in cents
+     */
+    public static function usd(int $amount): self
+    {
+        return new self($amount, 'USD');
+    }
+
+    /**
+     * Static factory for EUR amounts.
+     *
+     * @param  int  $amount  Amount in cents
+     */
+    public static function eur(int $amount): self
+    {
+        return new self($amount, 'EUR');
+    }
+
+    /**
+     * Static factory for GBP amounts.
+     *
+     * @param  int  $amount  Amount in pence
+     */
+    public static function gbp(int $amount): self
+    {
+        return new self($amount, 'GBP');
+    }
+
+    /**
+     * Static factory for JPY amounts.
+     *
+     * @param  int  $amount  Amount in yen (no subunit)
+     */
+    public static function jpy(int $amount): self
+    {
+        return new self($amount, 'JPY');
+    }
+
+    /**
      * Add two money values (must be same currency).
      *
      * @throws ValueError If currencies differ

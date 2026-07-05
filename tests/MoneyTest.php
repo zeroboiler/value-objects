@@ -391,3 +391,75 @@ test('money allocateRatios throws on negative ratio', function (): void {
 test('money allocateRatios throws on all-zero ratios', function (): void {
     expect(fn (): array => new Money(100, 'USD')->allocateRatios([0, 0]))->toThrow(ValueError::class);
 });
+
+// --- convertTo() and static factory tests (#592) ---
+
+test('money convertTo is alias for convert', function (): void {
+    $usd = new Money(1000, 'USD');
+    $eur = $usd->convertTo('EUR', 0.92);
+
+    expect($eur->currency)->toBe('EUR')
+        ->and($eur->amount)->toBeGreaterThan(0);
+});
+
+test('money convertTo with Currency VO', function (): void {
+    $usd = new Money(1000, 'USD');
+    $eur = $usd->convertTo(new Currency('EUR'), 0.92);
+
+    expect($eur->currency)->toBe('EUR');
+});
+
+test('money usd factory creates USD money', function (): void {
+    $money = Money::usd(1000);
+
+    expect($money->amount)->toBe(1000)
+        ->and($money->currency)->toBe('USD');
+});
+
+test('money eur factory creates EUR money', function (): void {
+    $money = Money::eur(500);
+
+    expect($money->amount)->toBe(500)
+        ->and($money->currency)->toBe('EUR');
+});
+
+test('money gbp factory creates GBP money', function (): void {
+    $money = Money::gbp(2500);
+
+    expect($money->amount)->toBe(2500)
+        ->and($money->currency)->toBe('GBP');
+});
+
+test('money jpy factory creates JPY money', function (): void {
+    $money = Money::jpy(5000);
+
+    expect($money->amount)->toBe(5000)
+        ->and($money->currency)->toBe('JPY');
+});
+
+// --- ExchangeRateProvider tests (#592) ---
+
+test('money convertVia uses exchange rate provider', function (): void {
+    $provider = new class implements \ZeroBoiler\ValueObjects\ExchangeRateProvider
+    {
+        public function getRate(string $from, string $to): float
+        {
+            return match ([$from, $to]) {
+                ['USD', 'EUR'] => 0.92,
+                ['EUR', 'USD'] => 1.087,
+                default => 1.0,
+            };
+        }
+    };
+
+    $usd = Money::usd(1000);
+    $eur = $usd->convertVia('EUR', $provider);
+
+    expect($eur->currency)->toBe('EUR')
+        ->and($eur->amount)->toBeGreaterThan(900)
+        ->and($eur->amount)->toBeLessThan(950);
+});
+
+test('exchange rate provider interface exists', function (): void {
+    expect(interface_exists(\ZeroBoiler\ValueObjects\ExchangeRateProvider::class))->toBeTrue();
+});
