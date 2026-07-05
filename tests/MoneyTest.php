@@ -6,6 +6,7 @@
 
 declare(strict_types=1);
 
+use ZeroBoiler\ValueObjects\ExchangeRateProvider;
 use ZeroBoiler\ValueObjects\Currency;
 use ZeroBoiler\ValueObjects\Money;
 
@@ -440,7 +441,7 @@ test('money jpy factory creates JPY money', function (): void {
 // --- ExchangeRateProvider tests (#592) ---
 
 test('money convertVia uses exchange rate provider', function (): void {
-    $provider = new class implements \ZeroBoiler\ValueObjects\ExchangeRateProvider
+    $provider = new class implements ExchangeRateProvider
     {
         public function getRate(string $from, string $to): float
         {
@@ -461,5 +462,5 @@ test('money convertVia uses exchange rate provider', function (): void {
 });
 
 test('exchange rate provider interface exists', function (): void {
-    expect(interface_exists(\ZeroBoiler\ValueObjects\ExchangeRateProvider::class))->toBeTrue();
+    expect(interface_exists(ExchangeRateProvider::class))->toBeTrue();
 });
