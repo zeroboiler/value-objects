@@ -567,9 +567,9 @@ final class Money extends ValueObject
      * via NumberFormatter (which handles grouping and currency symbol), then
      * appends the decimal separator and fraction digits manually.
      *
-     * @param NumberFormatter $formatter Configured currency formatter
-     * @param string $majorBC Major amount as bcmath string (e.g., "9999999999999.99")
-     * @param int $decimals Number of decimal places for the currency
+     * @param  NumberFormatter  $formatter  Configured currency formatter
+     * @param  string  $majorBC  Major amount as bcmath string (e.g., "9999999999999.99")
+     * @param  int  $decimals  Number of decimal places for the currency
      */
     private function formatLargeAmount(NumberFormatter $formatter, string $majorBC, int $decimals): string
     {
@@ -598,10 +598,10 @@ final class Money extends ValueObject
         $prefix = $isNegative ? '-' : '';
 
         if ($decimals > 0) {
-            return $prefix . $formattedInt . $decimalSep . $fracPart;
+            return $prefix.$formattedInt.$decimalSep.$fracPart;
         }
 
-        return $prefix . $formattedInt;
+        return $prefix.$formattedInt;
     }
 
     /**

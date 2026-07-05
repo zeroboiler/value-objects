@@ -6,8 +6,8 @@
 
 declare(strict_types=1);
 
-use ZeroBoiler\ValueObjects\ExchangeRateProvider;
 use ZeroBoiler\ValueObjects\Currency;
+use ZeroBoiler\ValueObjects\ExchangeRateProvider;
 use ZeroBoiler\ValueObjects\Money;
 
 // --- Overflow detection tests (#4) ---
