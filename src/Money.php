@@ -514,6 +514,9 @@ final class Money extends ValueObject
      * Format money for display.
      *
      * Uses NumberFormatter with correct subunit divisor per ISO 4217.
+     * When bcmath is available, the major-unit string is split into integer
+     * and fraction parts and passed to NumberFormatter separately to avoid
+     * float precision loss on very large amounts.
      *
      * @param  string|null  $locale  Locale for formatting (e.g., "en_US")
      * @return string Formatted amount (e.g., "$1,234.56" or "¥1,234")
@@ -535,17 +538,70 @@ final class Money extends ValueObject
                 (string) $this->subunitDivisor(),
                 $decimals,
             );
-        } else {
-            // Fallback: use float but with explicit precision control
-            $major = number_format(
-                $this->amount / $this->subunitDivisor(),
-                $decimals,
-                '.',
-                '',
-            );
+
+            // For very large amounts, avoid float precision loss by formatting
+            // the integer part via NumberFormatter and appending the fraction manually.
+            // PHP's float has ~15 significant digits; amounts >= 10^15 lose precision.
+            if (bccomp(ltrim($major, '-'), '1000000000000000') >= 0) {
+                return $this->formatLargeAmount($formatter, $major, $decimals);
+            }
+
+            return $formatter->format((float) $major);
         }
 
+        // Fallback: use float but with explicit precision control
+        $major = number_format(
+            $this->amount / $this->subunitDivisor(),
+            $decimals,
+            '.',
+            '',
+        );
+
         return $formatter->format((float) $major);
+    }
+
+    /**
+     * Format a large bcmath amount string using NumberFormatter without float precision loss.
+     *
+     * Splits the amount into integer and fraction parts, formats the integer part
+     * via NumberFormatter (which handles grouping and currency symbol), then
+     * appends the decimal separator and fraction digits manually.
+     *
+     * @param NumberFormatter $formatter Configured currency formatter
+     * @param string $majorBC Major amount as bcmath string (e.g., "9999999999999.99")
+     * @param int $decimals Number of decimal places for the currency
+     */
+    private function formatLargeAmount(NumberFormatter $formatter, string $majorBC, int $decimals): string
+    {
+        $isNegative = str_starts_with($majorBC, '-');
+        $majorBC = ltrim($majorBC, '-');
+
+        if (str_contains($majorBC, '.')) {
+            [$intPart, $fracPart] = explode('.', $majorBC, 2);
+            $fracPart = substr(str_pad($fracPart, $decimals, '0'), 0, $decimals);
+        } else {
+            $intPart = $majorBC;
+            $fracPart = str_repeat('0', $decimals);
+        }
+
+        // Format the integer part with the currency symbol and grouping
+        $formattedInt = $formatter->format((float) $intPart);
+
+        // NumberFormatter with CURRENCY type already appends currency code/symbol.
+        // For the integer-only formatting above, it may add .00 — strip it.
+        $decimalSep = $formatter->getSymbol(NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+        if (str_contains($formattedInt, $decimalSep)) {
+            $formattedInt = rtrim(rtrim($formattedInt, '0'), $decimalSep);
+        }
+
+        // Build the final formatted string
+        $prefix = $isNegative ? '-' : '';
+
+        if ($decimals > 0) {
+            return $prefix . $formattedInt . $decimalSep . $fracPart;
+        }
+
+        return $prefix . $formattedInt;
     }
 
     /**
