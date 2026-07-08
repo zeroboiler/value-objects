@@ -249,11 +249,7 @@ final class Money extends ValueObject
 
             // Round half away from zero: add/subtract 0.5 and truncate to scale 0.
             // This works correctly because $targetMinor still has fractional digits.
-            if (bccomp($targetMinor, '0') >= 0) {
-                $targetMinor = bcadd($targetMinor, '0.5', 0);
-            } else {
-                $targetMinor = bcsub($targetMinor, '0.5', 0);
-            }
+            $targetMinor = bccomp($targetMinor, '0') >= 0 ? bcadd($targetMinor, '0.5', 0) : bcsub($targetMinor, '0.5', 0);
 
             return new self((int) $targetMinor, $targetCurrency);
         }
@@ -286,6 +282,14 @@ final class Money extends ValueObject
      * @return array<int, self>
      *
      * @throws ValueError If parts is less than 1
+     *
+     * Note on negative amounts (IMP-2 R42):
+     * For negative amounts, the remainder is distributed to the first parts,
+     * meaning the first recipients bear the larger debt. For example:
+     *   Money(-100)->allocate(3) → [-34, -33, -33]
+     * This mirrors positive allocation where first parts get the extra cent:
+     *   Money(100)->allocate(3)  → [34, 33, 33]
+     * This is intentional and consistent with standard accounting practice.
      */
     public function allocate(int $parts): array
     {
