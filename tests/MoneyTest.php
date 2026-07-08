@@ -294,6 +294,28 @@ test('money convert handles zero amount', function (): void {
         ->and($eur->currency)->toBe('EUR');
 });
 
+test('money convert rounds negative amounts correctly (BUG-2 R42)', function (): void {
+    // -100.5 cents → should round to -101 (round half away from zero)
+    // With amount=-10050 USD (−$100.50) and rate 0.01 (target JPY, no subunit)
+    // Actually test directly: -201 cents USD → EUR at rate 0.5
+    // -201 cents = -$2.01, * 0.5 = -$1.005 → should round to -101 cents (−$1.01)
+    $usd = new Money(-201, 'USD');
+    $eur = $usd->convert('EUR', 0.5);
+
+    expect($eur->amount)->toBe(-101)
+        ->and($eur->currency)->toBe('EUR');
+});
+
+test('money convert negative amount rounds half away from zero', function (): void {
+    // -100 cents USD → EUR at rate 0.855
+    // -100/100 = -1.00 major, * 0.855 = -0.855 major, * 100 = -85.5 minor
+    // Round half away from zero: -86
+    $usd = new Money(-100, 'USD');
+    $eur = $usd->convert('EUR', 0.855);
+
+    expect($eur->amount)->toBe(-86);
+});
+
 // --- allocate() tests (#159) ---
 
 test('money allocate into equal parts', function (): void {

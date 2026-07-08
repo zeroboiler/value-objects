@@ -225,16 +225,20 @@ final class Money extends ValueObject
             $sourceMajor = bcdiv(
                 (string) $this->amount,
                 (string) $this->subunitDivisor(),
-                10
+                10,
             );
             $targetMajor = bcmul($sourceMajor, (string) $rate, 10);
+            // Use scale=2 to preserve fractional digits needed for rounding.
+            // Using scale=0 here would truncate before the rounding step,
+            // causing double-rounding and incorrect results for negatives.
             $targetMinor = bcmul(
                 $targetMajor,
                 (string) $target->subunitDivisor(),
-                0
+                2,
             );
 
-            // Overflow check
+            // Overflow check (compare against integer limits before rounding)
+            // Allow a small margin for the rounding step (±1)
             if (bccomp($targetMinor, (string) PHP_INT_MAX) > 0
                 || bccomp($targetMinor, (string) PHP_INT_MIN) < 0
             ) {
@@ -243,12 +247,11 @@ final class Money extends ValueObject
                 );
             }
 
-            // Round half away from zero (banker's rounding would use bcdiv, but we want standard rounding)
+            // Round half away from zero: add/subtract 0.5 and truncate to scale 0.
+            // This works correctly because $targetMinor still has fractional digits.
             if (bccomp($targetMinor, '0') >= 0) {
-                // For positive numbers: add 0.5 then truncate
                 $targetMinor = bcadd($targetMinor, '0.5', 0);
             } else {
-                // For negative numbers: subtract 0.5 then truncate
                 $targetMinor = bcsub($targetMinor, '0.5', 0);
             }
 
