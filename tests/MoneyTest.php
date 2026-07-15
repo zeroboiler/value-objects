@@ -31,6 +31,20 @@ test('money multiply by zero returns zero', function (): void {
     expect($result->amount)->toBe(0);
 });
 
+test('money multiply throws OverflowException on negative overflow', function (): void {
+    $large = new Money(PHP_INT_MIN + 100, 'USD');
+
+    expect(fn (): Money => $large->multiply(3.0))->toThrow(OverflowException::class);
+});
+
+test('money multiply handles large amounts within bounds', function (): void {
+    // A billion * 2 should be safely within bounds
+    $safe = new Money(1_000_000_000, 'USD');
+    $result = $safe->multiply(2);
+
+    expect($result->amount)->toBe(2_000_000_000);
+});
+
 test('money fromMajor throws OverflowException on extreme amounts', function (): void {
     expect(fn (): Money => Money::fromMajor(1e18, 'USD'))->toThrow(OverflowException::class);
 });
@@ -127,6 +141,56 @@ test('money division by zero throws', function (): void {
     $money = new Money(100, 'USD');
 
     expect(fn (): Money => $money->divide(0))->toThrow(ValueError::class);
+});
+
+test('money divide throws OverflowException with very small divisor', function (): void {
+    $large = new Money(PHP_INT_MAX - 100, 'USD');
+
+    expect(fn (): Money => $large->divide(0.0001))->toThrow(OverflowException::class);
+});
+
+test('money divide throws OverflowException with large amount and small divisor', function (): void {
+    $large = new Money(PHP_INT_MAX, 'USD');
+
+    expect(fn (): Money => $large->divide(0.5))->toThrow(OverflowException::class);
+});
+
+test('money divide throws OverflowException with negative amount and small divisor', function (): void {
+    $large = new Money(PHP_INT_MIN + 100, 'USD');
+
+    expect(fn (): Money => $large->divide(0.0001))->toThrow(OverflowException::class);
+});
+
+test('money divide does not overflow on normal amounts', function (): void {
+    $money = new Money(100, 'USD');
+    $result = $money->divide(3);
+
+    // 100 / 3 = 33.33... → rounds to 33
+    expect($result->amount)->toBe(33);
+});
+
+test('money divide handles negative amounts correctly', function (): void {
+    $money = new Money(-100, 'USD');
+    $result = $money->divide(3);
+
+    // -100 / 3 = -33.33... → rounds to -33 (round half away from zero)
+    expect($result->amount)->toBe(-33);
+});
+
+test('money divide result stays within bounds for edge case', function (): void {
+    // A billion / 0.5 = 2 billion — safely within bounds
+    $safe = new Money(1_000_000_000, 'USD');
+    $result = $safe->divide(0.5);
+
+    expect($result->amount)->toBe(2_000_000_000);
+});
+
+test('money multiply and divide are inverse operations', function (): void {
+    $money = new Money(12345, 'USD');
+    $multiplied = $money->multiply(3.0);
+    $divided = $multiplied->divide(3.0);
+
+    expect($divided->amount)->toBe(12345);
 });
 
 // --- Query methods ---
