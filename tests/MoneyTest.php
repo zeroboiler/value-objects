@@ -129,6 +129,32 @@ test('money division by zero throws', function (): void {
     expect(fn (): Money => $money->divide(0))->toThrow(ValueError::class);
 });
 
+test('money divide throws OverflowException on very small divisor (#4)', function (): void {
+    $large = new Money(PHP_INT_MAX - 100, 'USD');
+
+    expect(fn (): Money => $large->divide(0.0001))->toThrow(OverflowException::class);
+});
+
+test('money divide throws OverflowException on negative overflow (#4)', function (): void {
+    $large = new Money(PHP_INT_MIN + 100, 'USD');
+
+    expect(fn (): Money => $large->divide(0.0001))->toThrow(OverflowException::class);
+});
+
+test('money divide does not overflow on normal amounts', function (): void {
+    $money = new Money(100, 'USD');
+    $result = $money->divide(3);
+
+    expect($result->amount)->toBe(33);
+});
+
+test('money divide handles negative divisor without overflow', function (): void {
+    $money = new Money(100, 'USD');
+    $result = $money->divide(-2);
+
+    expect($result->amount)->toBe(-50);
+});
+
 // --- Query methods ---
 
 test('money can check if zero', function (): void {
