@@ -435,8 +435,10 @@ final class Money extends ValueObject
      *
      * Uses BCMath when available for precise integer arithmetic.
      * Both paths use round-half-away-from-zero for consistency.
+     * Both paths detect integer overflow from very small divisors.
      *
      * @throws ValueError If divisor is zero
+     * @throws OverflowException If the result exceeds integer limits
      */
     public function divide(float $divisor): self
     {
@@ -448,13 +450,31 @@ final class Money extends ValueObject
             // Higher scale for precision, then round
             $quotient = bcdiv((string) $this->amount, (string) $divisor, 2);
 
+            // Overflow check against PHP_INT_MAX/MIN before rounding
+            if (bccomp($quotient, (string) PHP_INT_MAX) > 0
+                || bccomp($quotient, (string) PHP_INT_MIN) < 0
+            ) {
+                throw new OverflowException(
+                    "Money divide overflow: {$this->amount} / {$divisor} exceeds integer limits"
+                );
+            }
+
             // Round half away from zero
             $quotient = bccomp($quotient, '0') >= 0 ? bcadd($quotient, '0.5', 0) : bcsub($quotient, '0.5', 0);
 
             return new self((int) $quotient, $this->currency);
         }
 
-        $newAmount = (int) round($this->amount / $divisor);
+        // Float fallback with overflow detection
+        $floatResult = $this->amount / $divisor;
+
+        if (abs($floatResult) > (float) PHP_INT_MAX) {
+            throw new OverflowException(
+                "Money divide overflow: {$this->amount} / {$divisor} exceeds integer limits"
+            );
+        }
+
+        $newAmount = (int) round($floatResult);
 
         return new self($newAmount, $this->currency);
     }
