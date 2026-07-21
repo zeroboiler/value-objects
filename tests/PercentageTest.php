@@ -41,13 +41,12 @@ test('percentage can be added', function (): void {
     expect($result->value)->toBe(50.0);
 });
 
-test('percentage addition clamps to 100', function (): void {
+test('percentage addition throws on overflow above 100 (#36)', function (): void {
     $p1 = new Percentage(80.0);
     $p2 = new Percentage(50.0);
 
-    $result = $p1->add($p2);
-
-    expect($result->value)->toBe(100.0);
+    expect(fn (): Percentage => $p1->add($p2))
+        ->toThrow(InvalidArgumentException::class);
 });
 
 test('percentage can be subtracted', function (): void {
@@ -59,13 +58,12 @@ test('percentage can be subtracted', function (): void {
     expect($result->value)->toBe(30.0);
 });
 
-test('percentage subtraction clamps to 0', function (): void {
+test('percentage subtraction throws on overflow below 0 (#36)', function (): void {
     $p1 = new Percentage(10.0);
     $p2 = new Percentage(30.0);
 
-    $result = $p1->subtract($p2);
-
-    expect($result->value)->toBe(0.0);
+    expect(fn (): Percentage => $p1->subtract($p2))
+        ->toThrow(InvalidArgumentException::class);
 });
 
 test('percentage can be multiplied', function (): void {

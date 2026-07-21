@@ -117,20 +117,35 @@ final class PhoneNumber extends ValueObject
         }
 
         // UK format: +44 20 1234 5678 or +44 7123 456789
+        // UK area codes vary: 2-digit (e.g., 20 for London), 3-digit (e.g., 121 for Birmingham),
+        // 4-digit (e.g., 1263 for smaller areas), or mobile (7xxx, 8xxx, 9xxx).
         if ($code === '44') {
-            if (strlen($number) === 9 && str_starts_with($number, '0')) {
-                return sprintf('+%s %s %s', $code, substr($number, 0, 3), substr($number, 3));
-            }
+            // UK numbers after the '44' country code are 9-10 digits.
+            // Area codes starting with 1 or 2 are geographic (2-4 digits area code).
+            // Numbers starting with 7 are mobile (+44 7XXX XXXXXX).
+            if (strlen($number) >= 9 && strlen($number) <= 10) {
+                // Determine area code length based on UK numbering rules
+                $firstDigit = $number[0];
 
-            if (strlen($number) >= 9) {
-                // Group: area code (3-4) + subscriber (rest in groups)
-                $areaLen = strlen($number) > 9 ? 4 : 3;
+                if ($firstDigit === '1' || $firstDigit === '2') {
+                    // Geographic: 2-digit area code for large cities (e.g., 20 London, 121 Birmingham)
+                    // Use 3 for 10-digit numbers, 2 for 9-digit numbers
+                    $areaLen = strlen($number) === 10 ? 3 : 2;
+                } elseif ($firstDigit === '7') {
+                    // Mobile numbers: 4-digit prefix (e.g., 7123)
+                    $areaLen = 4;
+                } else {
+                    // Other UK numbers: default to 3-digit grouping
+                    $areaLen = 3;
+                }
 
-                return sprintf('+%s %s %s',
-                    $code,
-                    substr($number, 0, $areaLen),
-                    trim(chunk_split(substr($number, $areaLen), 4, ' '))
-                );
+                $areaCode = substr($number, 0, $areaLen);
+                $subscriber = substr($number, $areaLen);
+
+                // Format subscriber number in groups of 4 for readability
+                $formattedSubscriber = trim(chunk_split($subscriber, 4, ' '));
+
+                return sprintf('+%s %s %s', $code, $areaCode, $formattedSubscriber);
             }
         }
 

@@ -512,3 +512,71 @@ test('money convertVia uses exchange rate provider', function (): void {
 test('exchange rate provider interface exists', function (): void {
     expect(interface_exists(ExchangeRateProvider::class))->toBeTrue();
 });
+
+// Comparison method tests (#38)
+
+test('money greaterThan returns true for larger amount (#38)', function (): void {
+    $m1 = new Money(200, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->greaterThan($m2))->toBeTrue();
+});
+
+test('money greaterThan returns false for smaller amount (#38)', function (): void {
+    $m1 = new Money(50, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->greaterThan($m2))->toBeFalse();
+});
+
+test('money lessThan returns true for smaller amount (#38)', function (): void {
+    $m1 = new Money(50, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->lessThan($m2))->toBeTrue();
+});
+
+test('money lessThan returns false for larger amount (#38)', function (): void {
+    $m1 = new Money(200, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->lessThan($m2))->toBeFalse();
+});
+
+test('money greaterThanOrEqual returns true for equal amounts (#38)', function (): void {
+    $m1 = new Money(100, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->greaterThanOrEqual($m2))->toBeTrue();
+});
+
+test('money greaterThanOrEqual returns true for greater amount (#38)', function (): void {
+    $m1 = new Money(200, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->greaterThanOrEqual($m2))->toBeTrue();
+});
+
+test('money lessThanOrEqual returns true for equal amounts (#38)', function (): void {
+    $m1 = new Money(100, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->lessThanOrEqual($m2))->toBeTrue();
+});
+
+test('money lessThanOrEqual returns true for smaller amount (#38)', function (): void {
+    $m1 = new Money(50, 'USD');
+    $m2 = new Money(100, 'USD');
+
+    expect($m1->lessThanOrEqual($m2))->toBeTrue();
+});
+
+test('money comparison throws on different currencies (#38)', function (): void {
+    $m1 = new Money(100, 'USD');
+    $m2 = new Money(100, 'EUR');
+
+    expect(fn (): bool => $m1->greaterThan($m2))->toThrow(ValueError::class);
+    expect(fn (): bool => $m1->lessThan($m2))->toThrow(ValueError::class);
+    expect(fn (): bool => $m1->greaterThanOrEqual($m2))->toThrow(ValueError::class);
+    expect(fn (): bool => $m1->lessThanOrEqual($m2))->toThrow(ValueError::class);
+});

@@ -751,6 +751,54 @@ final class Money extends ValueObject
     }
 
     /**
+     * Check if this money is greater than another.
+     *
+     * @throws ValueError If currencies differ
+     */
+    public function greaterThan(self $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount > $other->amount;
+    }
+
+    /**
+     * Check if this money is less than another.
+     *
+     * @throws ValueError If currencies differ
+     */
+    public function lessThan(self $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount < $other->amount;
+    }
+
+    /**
+     * Check if this money is greater than or equal to another.
+     *
+     * @throws ValueError If currencies differ
+     */
+    public function greaterThanOrEqual(self $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount >= $other->amount;
+    }
+
+    /**
+     * Check if this money is less than or equal to another.
+     *
+     * @throws ValueError If currencies differ
+     */
+    public function lessThanOrEqual(self $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount <= $other->amount;
+    }
+
+    /**
      * Ensure currencies match for arithmetic operations.
      *
      * @throws ValueError If currencies differ

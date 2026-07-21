@@ -128,3 +128,30 @@ test('phone number format for UK mobile (#106)', function (): void {
 
     expect($phone->format())->toContain('+44');
 });
+
+// Bug fix tests: #37 — UK format() unreachable code
+
+test('phone number format for UK London landline (#37)', function (): void {
+    $phone = new PhoneNumber('+442071234567');
+
+    $formatted = $phone->format();
+
+    expect($formatted)->toBe('+44 207 1234 567');
+});
+
+test('phone number format for UK mobile with proper grouping (#37)', function (): void {
+    $phone = new PhoneNumber('+447123456789');
+
+    $formatted = $phone->format();
+
+    expect($formatted)->toBe('+44 7123 4567 89');
+});
+
+test('phone number format for UK Birmingham landline (#37)', function (): void {
+    $phone = new PhoneNumber('+441212345678');
+
+    $formatted = $phone->format();
+
+    expect($formatted)->toContain('+44');
+    expect($formatted)->toContain('121');
+});

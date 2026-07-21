@@ -61,20 +61,36 @@ final class Percentage extends ValueObject
 
     /**
      * Add percentage to this value.
+     *
+     * @throws \InvalidArgumentException If the result exceeds 0-100 range
      */
     public function add(self $other): self
     {
-        $newValue = min(100, max(0, $this->value + $other->value));
+        $newValue = $this->value + $other->value;
+
+        if ($newValue > 100 || $newValue < 0) {
+            throw new \InvalidArgumentException(
+                sprintf('Percentage addition overflow: %.2f + %.2f = %.2f exceeds 0-100 range', $this->value, $other->value, $newValue)
+            );
+        }
 
         return new self($newValue);
     }
 
     /**
      * Subtract percentage from this value.
+     *
+     * @throws \InvalidArgumentException If the result exceeds 0-100 range
      */
     public function subtract(self $other): self
     {
-        $newValue = min(100, max(0, $this->value - $other->value));
+        $newValue = $this->value - $other->value;
+
+        if ($newValue > 100 || $newValue < 0) {
+            throw new \InvalidArgumentException(
+                sprintf('Percentage subtraction overflow: %.2f - %.2f = %.2f exceeds 0-100 range', $this->value, $other->value, $newValue)
+            );
+        }
 
         return new self($newValue);
     }
