@@ -13,6 +13,13 @@ use Illuminate\Validation\ValidationException;
 /**
  * Phone number value object in E.164 format.
  *
+ * Country code detection uses a prefix-based lookup against the ITU-T E.164
+ * country calling code table. This is a deterministic heuristic — it correctly
+ * identifies all assigned country codes but cannot disambiguate countries that
+ * share a code (e.g., US/Canada/Caribbean all use +1). For full phone number
+ * parsing including region detection, install giggsey/libphonenumber-for-php
+ * (suggested in composer.json) and use it alongside this value object.
+ *
  * @extends ValueObject<array<string, mixed>>
  */
 final class PhoneNumber extends ValueObject
@@ -71,11 +78,16 @@ final class PhoneNumber extends ValueObject
     ];
 
     /**
-     * Get country code from phone number.
+     * Get country calling code from phone number.
      *
-     * Uses proper E.164 country calling code prefixes for accurate detection.
+     * Uses longest-prefix matching against the full ITU-T E.164 country calling
+     * code table. This reliably extracts the dialling code (e.g., "1", "44",
+     * "90", "351") but cannot determine the specific country when multiple
+     * countries share a code (e.g., +1 covers US, Canada, and NANP Caribbean).
      *
-     * @return string Country code (e.g., "1", "44", "90")
+     * For country-level resolution, use giggsey/libphonenumber-for-php.
+     *
+     * @return string Country calling code (e.g., "1", "44", "90", "351")
      */
     public function countryCode(): string
     {

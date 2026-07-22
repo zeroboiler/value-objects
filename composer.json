@@ -49,6 +49,9 @@
             ]
         }
     },
+    "suggest": {
+        "giggsey/libphonenumber-for-php": "For accurate phone number parsing, validation, and country code detection instead of the prefix-based heuristic"
+    },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
