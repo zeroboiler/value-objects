@@ -61,21 +61,24 @@ abstract class ValueObject implements ValueObjectInterface
     /**
      * Create an instance from a primitive database value.
      *
-     * Default implementation attempts JSON decode then maps keys to
-     * constructor parameters. Single-value VOs should override this.
-     *
+     * Default implementation attempts JSON decode then uses PHP's
+     * natural spread behavior: sequential arrays become positional
+     * arguments, associative arrays become named arguments.
+     * Single-value VOs should override this.
      *
      * @throws \InvalidArgumentException If reconstruction fails
      * @throws ValidationException If validation fails
      */
     public static function fromPrimitive(mixed $value): static
     {
-        // If the value is already an array, use named arguments
+        // If the value is already an array, spread it directly.
+        // PHP handles sequential arrays as positional args and
+        // associative arrays as named args (#6).
         if (is_array($value)) {
             return new static(...$value);
         }
 
-        // If it's JSON, decode and map
+        // If it's JSON, decode and spread
         if (is_string($value)) {
             $decoded = json_decode($value, true, 512);
 
