@@ -3,7 +3,7 @@
     "description": "Immutable value objects with validation and Eloquent auto-casting for Laravel 13",
     "type": "library",
     "license": "proprietary",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
