@@ -117,7 +117,6 @@ final class Address extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
@@ -128,7 +127,6 @@ final class Address extends ValueObject
      *
      * Accepts JSON string or array with address fields.
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         $data = $value;
@@ -158,7 +156,6 @@ final class Address extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'json';

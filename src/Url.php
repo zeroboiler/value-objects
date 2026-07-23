@@ -236,7 +236,6 @@ final class Url extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
@@ -245,7 +244,6 @@ final class Url extends ValueObject
     /**
      * Create from a primitive database value (string).
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
@@ -260,7 +258,6 @@ final class Url extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'string';

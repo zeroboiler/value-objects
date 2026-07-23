@@ -689,7 +689,6 @@ final class Money extends ValueObject
      *
      * Returns JSON string of amount + currency for composite storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode([
@@ -704,7 +703,6 @@ final class Money extends ValueObject
      * Accepts JSON string ({"amount":100,"currency":"USD"}),
      * plain integer (treated as amount in USD), or array.
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (is_int($value)) {
@@ -744,7 +742,6 @@ final class Money extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'json';

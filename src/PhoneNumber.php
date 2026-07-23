@@ -180,7 +180,6 @@ final class PhoneNumber extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
@@ -189,7 +188,6 @@ final class PhoneNumber extends ValueObject
     /**
      * Create from a primitive database value (string).
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
@@ -204,7 +202,6 @@ final class PhoneNumber extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'string';

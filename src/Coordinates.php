@@ -117,7 +117,6 @@ final class Coordinates extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode([
@@ -132,7 +131,6 @@ final class Coordinates extends ValueObject
      * Accepts JSON string, array with latitude/longitude keys, or
      * comma-separated string like "40.7128,-74.0060".
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (is_array($value)) {
@@ -169,7 +167,6 @@ final class Coordinates extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'json';

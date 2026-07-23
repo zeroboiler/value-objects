@@ -134,7 +134,6 @@ final class Percentage extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
@@ -143,7 +142,6 @@ final class Percentage extends ValueObject
     /**
      * Create from a primitive database value (float).
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (is_int($value)) {
@@ -168,7 +166,6 @@ final class Percentage extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'float';

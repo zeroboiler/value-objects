@@ -14,7 +14,6 @@ use ZeroBoiler\ValueObjects\Console\Commands\MakeValueObjectCommand;
 
 final class ValueObjectsServiceProvider extends ServiceProvider
 {
-    #[\Override]
     public function register(): void
     {
         //

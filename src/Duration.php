@@ -175,7 +175,6 @@ final class Duration extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->milliseconds;
@@ -184,7 +183,6 @@ final class Duration extends ValueObject
     /**
      * Create from a primitive database value (integer milliseconds).
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_int($value)) {
@@ -206,7 +204,6 @@ final class Duration extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'integer';
