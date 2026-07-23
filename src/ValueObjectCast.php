@@ -115,8 +115,8 @@ class ValueObjectCast implements CastsAttributes
         }
 
         if (! is_array($data)) {
-            // Scalar value — try passing directly to constructor
-            return new ($this->valueObjectClass)($value);
+            // Scalar value — use decoded value (json_decode already unwrapped quotes)
+            return new ($this->valueObjectClass)($data);
         }
 
         $args = $this->mapToArrayKeys($data);
