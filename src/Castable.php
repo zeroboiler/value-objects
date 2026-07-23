@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+
 /**
  * Trait to auto-register ValueObjects as Eloquent casts.
  *
@@ -35,9 +37,11 @@ trait Castable
      *
      * @return class-string<ValueObjectCast<ValueObject<mixed>>>
      */
-    public static function castUsing(array $arguments = []): string
+    public static function castUsing(array $arguments = []): CastsAttributes
     {
-        return ValueObjectCast::class;
+        $class = static::class;
+
+        return new ValueObjectCast($class);
     }
 
     /**

@@ -99,7 +99,7 @@ test('value object cast handles invalid JSON gracefully on get', function (): vo
 });
 
 test('castable trait provides cast class', function (): void {
-    expect(Money::castUsing())->toBe(ValueObjectCast::class);
+    expect(Money::castUsing())->toBeInstanceOf(ValueObjectCast::class);
 });
 
 test('castable trait provides cast attributes', function (): void {
