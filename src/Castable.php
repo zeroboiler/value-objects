@@ -35,7 +35,7 @@ trait Castable
      *
      * @return class-string<ValueObjectCast<ValueObject<mixed>>>
      */
-    public static function castUsing(): string
+    public static function castUsing(array $arguments = []): string
     {
         return ValueObjectCast::class;
     }
