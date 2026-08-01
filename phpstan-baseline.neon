@@ -7,19 +7,7 @@ parameters:
 			path: src/Address.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Address.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Address.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Address.php
@@ -31,19 +19,7 @@ parameters:
 			path: src/Coordinates.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Coordinates.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Coordinates.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Coordinates.php
@@ -55,19 +31,7 @@ parameters:
 			path: src/Currency.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Currency.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Currency.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Currency.php
@@ -79,19 +43,7 @@ parameters:
 			path: src/Duration.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Duration.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Duration.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Duration.php
@@ -103,19 +55,7 @@ parameters:
 			path: src/Email.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Email.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Email.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Email.php
@@ -127,19 +67,7 @@ parameters:
 			path: src/Money.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Money.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Money.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Money.php
@@ -151,19 +79,7 @@ parameters:
 			path: src/Percentage.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Percentage.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Percentage.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Percentage.php
@@ -175,19 +91,7 @@ parameters:
 			path: src/PhoneNumber.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/PhoneNumber.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/PhoneNumber.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/PhoneNumber.php
@@ -199,19 +103,7 @@ parameters:
 			path: src/Url.php
 
 		-
-			message: '#^Generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return does not specify all template types of class ZeroBoiler\\ValueObjects\\ValueObject\: TKey, TValue$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: src/Url.php
-
-		-
 			message: '#^Type array\<string, mixed\> in generic type ZeroBoiler\\ValueObjects\\ValueObject\<array\<string, mixed\>\> in PHPDoc tag @extends is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
-			identifier: generics.notSubtype
-			count: 1
-			path: src/Url.php
-
-		-
-			message: '#^Type mixed in generic type ZeroBoiler\\ValueObjects\\ValueObject\<mixed\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of class ZeroBoiler\\ValueObjects\\ValueObject\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: src/Url.php
@@ -225,7 +117,7 @@ parameters:
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
-			count: 6
+			count: 4
 			path: src/ValueObject.php
 
 		-

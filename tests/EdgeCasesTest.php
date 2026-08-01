@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ZeroBoiler, licensed under the proprietary license.
  */
@@ -149,9 +150,7 @@ test('url withScheme accepts scheme with dots (#7)', function (): void {
     try {
         $result = $url->withScheme('v2.0');
         expect($result->scheme())->toBe('v2.0');
-    } catch (ValidationException) {
-        expect(true)->toBeTrue();
-    } catch (RuntimeException) {
+    } catch (ValidationException|RuntimeException) {
         expect(true)->toBeTrue();
     }
 });
@@ -162,9 +161,7 @@ test('url withScheme accepts scheme with hyphens (#7)', function (): void {
     try {
         $result = $url->withScheme('my-scheme');
         expect($result->scheme())->toBe('my-scheme');
-    } catch (ValidationException) {
-        expect(true)->toBeTrue();
-    } catch (RuntimeException) {
+    } catch (ValidationException|RuntimeException) {
         expect(true)->toBeTrue();
     }
 });

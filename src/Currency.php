@@ -21,6 +21,7 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  */
 final class Currency extends ValueObject
 {
+    /** @use Castable<self> */
     use Castable;
 
     /** ISO 4217 currency code (e.g., "USD", "EUR", "JPY") */
@@ -171,6 +172,7 @@ final class Currency extends ValueObject
     /**
      * Check if this currency equals another.
      */
+    #[\Override]
     public function equals(?ValueObjectContract $other): bool
     {
         return $other instanceof self && $this->code === $other->code;
@@ -218,6 +220,7 @@ final class Currency extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->code;
@@ -226,6 +229,7 @@ final class Currency extends ValueObject
     /**
      * Create from a primitive database value (string code).
      */
+    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
@@ -240,6 +244,7 @@ final class Currency extends ValueObject
      *
      * @return non-empty-string
      */
+    #[\Override]
     public static function columnType(): string
     {
         return 'string';

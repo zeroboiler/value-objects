@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace ZeroBoiler\ValueObjects;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
 /**
  * Trait to auto-register ValueObjects as Eloquent casts.
@@ -28,17 +29,21 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
  * Then in your model:
  *   protected $casts = [
  *       'price' => Money::class,  // Auto-registered!
- *   ];
+ *   ]
+ *
+ * @template T of ValueObjectContract
  */
 trait Castable
 {
     /**
      * Get the cast class name for this ValueObject.
      *
-     * @return class-string<ValueObjectCast<ValueObject<mixed>>>
+     * @param  array<int|string, mixed>  $arguments
+     * @return ValueObjectCast<self>
      */
     public static function castUsing(array $arguments = []): CastsAttributes
     {
+        /** @var class-string<self> $class */
         $class = static::class;
 
         return new ValueObjectCast($class);

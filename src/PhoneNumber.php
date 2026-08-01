@@ -24,6 +24,7 @@ use Illuminate\Validation\ValidationException;
  */
 final class PhoneNumber extends ValueObject
 {
+    /** @use Castable<self> */
     use Castable;
 
     /** E.164 formatted phone number (e.g., "+1234567890") */
@@ -180,6 +181,7 @@ final class PhoneNumber extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
@@ -188,6 +190,7 @@ final class PhoneNumber extends ValueObject
     /**
      * Create from a primitive database value (string).
      */
+    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
@@ -202,6 +205,7 @@ final class PhoneNumber extends ValueObject
      *
      * @return non-empty-string
      */
+    #[\Override]
     public static function columnType(): string
     {
         return 'string';
