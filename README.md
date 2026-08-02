@@ -242,9 +242,16 @@ $duration = Duration::fromMinutes(90);
 $duration->toSeconds();  // 5400
 $duration->toMinutes();  // 90
 $duration->toHours();    // 1.5
+$duration->toDays();     // 0.0625
 
 // Human readable
 $duration->humanReadable(); // "1 hour 30 minutes"
+
+// Parse from human-readable string
+Duration::fromHuman('1h 30m');       // 5400000ms
+Duration::fromHuman('2d 4h');        // 187200000ms
+Duration::fromHuman('500ms');        // 500ms
+Duration::fromHuman('1d 2h 30m 45s'); // full combo
 
 // Arithmetic
 $extended = $duration->add(Duration::fromMinutes(30));
@@ -253,6 +260,7 @@ $shortened = $duration->subtract(Duration::fromMinutes(15));
 // Factory methods
 $duration = Duration::fromSeconds(3600);
 $duration = Duration::fromHours(2);
+$duration = Duration::fromDays(7);    // 1 week
 ```
 
 ### Coordinates
