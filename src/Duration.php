@@ -137,8 +137,9 @@ final class Duration extends ValueObject
         $totalSeconds = abs($this->toSeconds());
         $ms = abs($this->milliseconds) % 1000;
         $hours = (int) floor($totalSeconds / 3600);
-        $minutes = (int) floor(($totalSeconds % 3600) / 60);
-        $seconds = (int) floor($totalSeconds % 60);
+        $remaining = fmod($totalSeconds, 3600);
+        $minutes = (int) floor($remaining / 60);
+        $seconds = (int) floor(fmod($remaining, 60));
 
         $parts = [];
 
@@ -150,11 +151,11 @@ final class Duration extends ValueObject
             $parts[] = $minutes === 1 ? '1 minute' : "{$minutes} minutes";
         }
 
-        if ($seconds > 0 || $parts === []) {
+        if ($seconds > 0 || ($parts === [] && $ms === 0)) {
             $parts[] = $seconds === 1 ? '1 second' : "{$seconds} seconds";
         }
 
-        if ($ms > 0 && count($parts) < 2) {
+        if ($ms > 0) {
             $parts[] = "{$ms}ms";
         }
 
