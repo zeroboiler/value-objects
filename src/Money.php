@@ -20,8 +20,6 @@ use ValueError;
  *
  * All arithmetic operations detect integer overflow and throw
  * OverflowException rather than silently wrapping around.
- *
- * @extends ValueObject<array<string, mixed>>
  */
 final class Money extends ValueObject
 {

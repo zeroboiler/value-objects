@@ -18,11 +18,6 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  *             This interface extends the contract for backward compatibility
  *             and will be removed in v1.0. Migrate your type-hints to the
  *             Contracts namespace.
- *
- * @template TKey of array-key
- * @template TValue
- *
- * @extends ValueObjectContract<TKey, TValue>
  */
 interface ValueObjectInterface extends ValueObjectContract
 {

@@ -21,9 +21,6 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  *
  * All value objects implement {@see ValueObjectContract} which serves
  * as the cross-package type for accepting arbitrary value objects.
- *
- * @template TKey of array-key
- * @template TValue
  */
 abstract class ValueObject implements ValueObjectInterface
 {

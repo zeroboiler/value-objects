@@ -12,8 +12,6 @@ use ValueError;
 
 /**
  * Geographic coordinates value object (latitude and longitude).
- *
- * @extends ValueObject<array<string, mixed>>
  */
 final class Coordinates extends ValueObject
 {
