@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -47,9 +48,8 @@ final class Url extends ValueObject
         $parsed = parse_url($normalized);
 
         if ($parsed === false) {
-            throw new ValidationException(
-                Validator::make(['url' => $normalized], ['url' => 'required|url'])
-            );
+            $factory = Container::getInstance()->make(ValidationFactory::class);
+            $factory->make(['url' => $normalized], ['url' => 'required|url'])->validate();
         }
 
         $this->value = $normalized;
@@ -144,13 +144,12 @@ final class Url extends ValueObject
         $scheme = strtolower(trim($scheme));
 
         // Validate scheme format per RFC 3986: ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
-        if (! preg_match('/^[a-z][a-z0-9+\-.]*$/', $scheme)) {
-            throw new ValidationException(
-                Validator::make(
-                    ['scheme' => $scheme],
-                    ['scheme' => 'required|string|regex:/^[a-z][a-z0-9+\-.]*$/']
-                )
-            );
+        if (! preg_match('/^[a-z][a-z0-9+\\-.]*$/', $scheme)) {
+            $validator = Container::getInstance()->make(ValidationFactory::class);
+            $validator->make(
+                ['scheme' => $scheme],
+                ['scheme' => 'required|string|regex:/^[a-z][a-z0-9+\\-.]*$/']
+            )->validate();
         }
 
         $parsed = $this->parsed;

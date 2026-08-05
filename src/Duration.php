@@ -180,10 +180,11 @@ final class Duration extends ValueObject
     /**
      * Subtract another duration.
      *
-     * Allows negative results to surface logic errors rather than
-     * silently clamping to zero. Use clamp() if non-negative is required.
+     * By default, negative results are allowed to surface logic errors
+     * rather than silently clamping to zero. Pass $allowNegative=false
+     * to throw a ValueError instead.
      *
-     * @throws \ValueError If result would be negative (set $allowNegative to false)
+     * @throws \ValueError If $allowNegative is false and result would be negative
      */
     public function subtract(self $other, bool $allowNegative = true): self
     {
