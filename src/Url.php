@@ -97,7 +97,10 @@ final class Url extends ValueObject
     }
 
     /**
-     * Get query parameters as array.
+     * Get query parameters as flat array.
+     *
+     * Note: `parse_str` can produce nested arrays for bracket-syntax params
+     * like `foo[bar]=baz`. Only the top-level string values are returned.
      *
      * @return array<string, string>
      */
@@ -109,7 +112,11 @@ final class Url extends ValueObject
 
         parse_str($this->query(), $params);
 
-        return $params;
+        // Flatten: keep only scalar string values for a consistent return type.
+        return array_filter(
+            $params,
+            fn (mixed $v): bool => is_string($v),
+        );
     }
 
     /**
