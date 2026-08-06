@@ -2,6 +2,19 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.4.0] - 2026-08-06
+
+### Added
+- `ProductionReadinessTest` with 25+ structural checks (strict types, final classes, trait usage, composer validation)
+
+### Changed
+- Version bump to 1.4.0
+
+## [1.3.0] - 2026-08-06
+
+### Changed
+- Mark ValueObjectCast final
+
 ## [1.2.0] - 2026-08-06
 
 ### Fixed
