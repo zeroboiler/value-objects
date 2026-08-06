@@ -44,7 +44,7 @@ The service provider is auto-registered via Laravel's package discovery.
 ### Basic Value Object
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Email;
+use ZeroBoiler\ValueObjects\Email;
 
 $email = new Email('user@example.com');
 
@@ -70,7 +70,7 @@ $email1->equals($email2); // true
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use ZeroBoiler\ValueObjects\ValueObjects\Email;
+use ZeroBoiler\ValueObjects\Email;
 
 class User extends Model
 {
@@ -90,8 +90,8 @@ $email = $user->email; // Email instance
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use ZeroBoiler\ValueObjects\Casts\ValueObjectCast;
-use ZeroBoiler\ValueObjects\ValueObjects\Money;
+use ZeroBoiler\ValueObjects\ValueObjectCast;
+use ZeroBoiler\ValueObjects\Money;
 
 class Product extends Model
 {
@@ -106,8 +106,8 @@ class Product extends Model
 ### Money
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Money;
-use ZeroBoiler\ValueObjects\ValueObjects\Currency;
+use ZeroBoiler\ValueObjects\Money;
+use ZeroBoiler\ValueObjects\Currency;
 
 $price = new Money(1999, 'USD'); // $19.99 in cents
 
@@ -155,7 +155,7 @@ $money = Money::fromMajor(19.99, 'USD');
 ### Currency
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Currency;
+use ZeroBoiler\ValueObjects\Currency;
 
 $usd = new Currency('USD');
 $usd->code;              // "USD"
@@ -186,7 +186,7 @@ $usd->equals(new Currency('EUR'));  // false
 ### Email
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Email;
+use ZeroBoiler\ValueObjects\Email;
 
 $email = new Email('USER@EXAMPLE.COM'); // auto-normalized to lowercase
 
@@ -198,7 +198,7 @@ $email->localPart(); // user
 ### PhoneNumber (E.164)
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\PhoneNumber;
+use ZeroBoiler\ValueObjects\PhoneNumber;
 
 $phone = new PhoneNumber('+15551234567');
 
@@ -210,7 +210,7 @@ $phone->format();        // +1 555 123 4567 (formatted)
 ### Address
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Address;
+use ZeroBoiler\ValueObjects\Address;
 
 $address = new Address(
     street: '123 Main St',
@@ -228,7 +228,7 @@ $address->lines(); // ['123 Main St', 'Apt 4B', 'Springfield, IL 62701', 'USA']
 ### Percentage
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Percentage;
+use ZeroBoiler\ValueObjects\Percentage;
 
 $tax = new Percentage(8.25);
 $discount = new Percentage(15);
@@ -248,7 +248,7 @@ $discount->isFull();  // false
 ### Duration
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Duration;
+use ZeroBoiler\ValueObjects\Duration;
 
 $duration = Duration::fromMinutes(90);
 
@@ -280,7 +280,7 @@ $duration = Duration::fromDays(7);    // 1 week
 ### Coordinates
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Coordinates;
+use ZeroBoiler\ValueObjects\Coordinates;
 
 $ny = new Coordinates(40.7128, -74.0060);
 $la = new Coordinates(34.0522, -118.2437);
@@ -298,7 +298,7 @@ $ny->isValidLng(-74.0060); // true
 ### Url
 
 ```php
-use ZeroBoiler\ValueObjects\ValueObjects\Url;
+use ZeroBoiler\ValueObjects\Url;
 
 $url = new Url('https://example.com/path?foo=bar#section');
 
@@ -453,7 +453,7 @@ composer ci
 
 ## License
 
-Proprietary
+MIT. See [LICENSE](LICENSE).
 
 ## Credits
 

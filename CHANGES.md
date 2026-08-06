@@ -2,6 +2,13 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.2.0] - 2026-08-06
+
+### Fixed
+- Fixed README namespace references: corrected `ZeroBoiler\ValueObjects\ValueObjects\*` to `ZeroBoiler\ValueObjects\*`
+- Fixed README License section: corrected from "Proprietary" to "MIT"
+- Version bump to 1.2.0
+
 ## [1.1.0] - 2026-08-06
 
 ### Fixed
