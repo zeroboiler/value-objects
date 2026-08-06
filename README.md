@@ -2,6 +2,20 @@
 
 Immutable value objects with validation and Eloquent auto-casting for Laravel 13 / PHP 8.5.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Built-in Value Objects](#built-in-value-objects)
+- [Custom Value Objects](#custom-value-objects)
+- [CLI Commands](#cli-commands)
+- [API Resources](#api-resources)
+- [Testing](#testing)
+- [Quality Assurance](#quality-assurance)
+- [Requirements](#requirements)
+- [License](#license)
+
 ## Features
 
 - ✅ Immutable value objects with validation
