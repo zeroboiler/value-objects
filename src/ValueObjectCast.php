@@ -43,7 +43,7 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  *
  * @implements CastsAttributes<T|null, T|null>
  */
-class ValueObjectCast implements CastsAttributes
+final class ValueObjectCast implements CastsAttributes
 {
     /** @var array<string, ReflectionParameter[]> */
     private static array $constructorCache = [];
