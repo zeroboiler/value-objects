@@ -50,6 +50,7 @@ abstract class ValueObject implements ValueObjectInterface
      * Default implementation returns the JSON-encoded array representation.
      * Single-value VOs should override this to return the scalar directly.
      */
+    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
@@ -109,6 +110,7 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @return bool True if all attributes are equal
      */
+    #[\Override]
     public function equals(?ValueObjectContract $other): bool
     {
         if (! $other instanceof ValueObjectContract) {
@@ -130,6 +132,7 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @param  int  $options  JSON encode options (JSON_THROW_ON_ERROR, etc.)
      */
+    #[\Override]
     public function toJson($options = 0): string
     {
         return json_encode($this, $options);
@@ -140,6 +143,7 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @return array<string, mixed>
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->toArray();

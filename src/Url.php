@@ -207,6 +207,7 @@ final class Url extends ValueObject
      *
      * @return array<string, string>
      */
+    #[\Override]
     public function toArray(): array
     {
         return ['url' => $this->value];
@@ -233,6 +234,7 @@ final class Url extends ValueObject
         ];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->value;
@@ -241,6 +243,7 @@ final class Url extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

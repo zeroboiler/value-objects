@@ -100,6 +100,7 @@ final class Coordinates extends ValueObject
         return $this->distanceTo($other) / 1609.344;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [
@@ -108,6 +109,7 @@ final class Coordinates extends ValueObject
         ];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return "({$this->latitude}, {$this->longitude})";
@@ -116,6 +118,7 @@ final class Coordinates extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

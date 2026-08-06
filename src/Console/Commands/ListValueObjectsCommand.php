@@ -26,6 +26,7 @@ final class ListValueObjectsCommand extends Command
 
     protected $description = 'List all ValueObject classes in the app directory';
 
+    #[\Override]
     public function handle(): int
     {
         $path = (string) $this->option('path');

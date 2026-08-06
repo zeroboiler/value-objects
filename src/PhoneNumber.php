@@ -166,11 +166,13 @@ final class PhoneNumber extends ValueObject
         return "+{$code} {$formatted}";
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return ['phone' => $this->value];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->value;
@@ -179,6 +181,7 @@ final class PhoneNumber extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

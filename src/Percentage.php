@@ -120,11 +120,13 @@ final class Percentage extends ValueObject
         return abs($this->value - 100.0) < 0.0001;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return ['value' => $this->value];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return number_format($this->value, $this->isDecimal() ? 2 : 0).'%';
@@ -133,6 +135,7 @@ final class Percentage extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

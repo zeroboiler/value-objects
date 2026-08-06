@@ -66,11 +66,13 @@ final class Email extends ValueObject
         return substr($this->value, 0, $atPos);
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return ['email' => $this->value];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->value;
@@ -79,6 +81,7 @@ final class Email extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

@@ -670,6 +670,7 @@ final class Money extends ValueObject
         return new self((int) round($floatResult), $currency);
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [
@@ -678,6 +679,7 @@ final class Money extends ValueObject
         ];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->format();
@@ -688,6 +690,7 @@ final class Money extends ValueObject
      *
      * Returns JSON string of amount + currency for composite storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

@@ -23,6 +23,7 @@ final class MakeValueObjectCommand extends Command
 
     protected $description = 'Generate a custom ValueObject class scaffold';
 
+    #[\Override]
     public function handle(): int
     {
         $name = (string) $this->argument('name');

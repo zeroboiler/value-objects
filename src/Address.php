@@ -96,6 +96,7 @@ final class Address extends ValueObject
         ], fn (?string $line): bool => $line !== null && $line !== '');
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [
@@ -108,6 +109,7 @@ final class Address extends ValueObject
         ];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->full();
@@ -116,6 +118,7 @@ final class Address extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

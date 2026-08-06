@@ -171,6 +171,7 @@ final class Currency extends ValueObject
      * Check if this currency equals another.
      */
     #[\Override]
+    #[\Override]
     public function equals(?ValueObjectContract $other): bool
     {
         return $other instanceof self && $this->code === $other->code;
@@ -202,6 +203,7 @@ final class Currency extends ValueObject
         return in_array(strtoupper(trim($code)), self::ISO_4217_CODES, true);
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [
@@ -210,6 +212,7 @@ final class Currency extends ValueObject
         ];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->code;
@@ -218,6 +221,7 @@ final class Currency extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {

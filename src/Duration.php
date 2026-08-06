@@ -252,11 +252,13 @@ final class Duration extends ValueObject
         return $isNegative ? "-{$result}" : $result;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return ['milliseconds' => $this->milliseconds];
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->humanReadable();
@@ -265,6 +267,7 @@ final class Duration extends ValueObject
     /**
      * Get the primitive value for database storage.
      */
+    #[\Override]
     #[\Override]
     public function toPrimitive(): mixed
     {
