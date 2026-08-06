@@ -70,11 +70,10 @@
         "giggsey/libphonenumber-for-php": "For accurate phone number parsing, validation, and country code detection instead of the prefix-based heuristic"
     },
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
-    "version": "1.0.0"
+    "version": "1.1.0"
 }
