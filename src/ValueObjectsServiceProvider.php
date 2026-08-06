@@ -12,6 +12,11 @@ use Illuminate\Support\ServiceProvider;
 use ZeroBoiler\ValueObjects\Console\Commands\ListValueObjectsCommand;
 use ZeroBoiler\ValueObjects\Console\Commands\MakeValueObjectCommand;
 
+/**
+ * Laravel service provider for the ZeroBoiler Value Objects package.
+ *
+ * Registers console commands for scaffolding and listing value objects.
+ */
 final class ValueObjectsServiceProvider extends ServiceProvider
 {
     #[\Override]
