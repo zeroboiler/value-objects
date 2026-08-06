@@ -25,6 +25,7 @@ final class ValueObjectsServiceProvider extends ServiceProvider
         //
     }
 
+    #[\Override]
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
