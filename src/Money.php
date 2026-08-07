@@ -282,7 +282,7 @@ final class Money extends ValueObject
      *
      * @throws ValueError If parts is less than 1
      *
-     * Note on negative amounts (IMP-2 R42):
+     * Note on negative amounts:
      * For negative amounts, the remainder is distributed to the first parts,
      * meaning the first recipients bear the larger debt. For example:
      *   Money(-100)->allocate(3) → [-34, -33, -33]

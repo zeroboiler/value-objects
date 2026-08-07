@@ -2,6 +2,11 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.5.0] - 2026-08-07
+
+### Changed
+- Removed internal tracking reference (IMP-2 R42) from Money::allocate() docblock
+
 ## [1.4.0] - 2026-08-06
 
 ### Added
