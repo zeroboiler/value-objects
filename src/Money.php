@@ -691,7 +691,6 @@ final class Money extends ValueObject
      * Returns JSON string of amount + currency for composite storage.
      */
     #[\Override]
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode([

@@ -119,7 +119,6 @@ final class Address extends ValueObject
      * Get the primitive value for database storage.
      */
     #[\Override]
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR);

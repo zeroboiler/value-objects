@@ -2,6 +2,12 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.6.0] - 2026-08-07
+
+### Fixed
+- Removed duplicate `#[Override]` attributes from all value object classes (Email, Url, PhoneNumber, Money, Currency, Percentage, Address, Coordinates, Duration)
+- Duplicate attributes affected `toPrimitive()` in all VOs and `equals()` in Currency
+
 ## [1.5.0] - 2026-08-07
 
 ### Fixed

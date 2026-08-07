@@ -82,7 +82,6 @@ final class Email extends ValueObject
      * Get the primitive value for database storage.
      */
     #[\Override]
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
