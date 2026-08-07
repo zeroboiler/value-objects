@@ -77,7 +77,7 @@ final class Currency extends ValueObject
      *
      * @throws ValueError If the currency code is not a valid ISO 4217 code
      */
-    public function __construct(string $code)
+    public function __construct(string $code): void
     {
         $code = strtoupper(trim($code));
 

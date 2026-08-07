@@ -36,7 +36,7 @@ final class Url extends ValueObject
      *
      * @throws ValidationException If URL is invalid
      */
-    public function __construct(string $url)
+    public function __construct(string $url): void
     {
         $normalized = trim($url);
 

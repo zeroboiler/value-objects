@@ -26,7 +26,7 @@ final class Email extends ValueObject
      *
      * @throws ValidationException If email is invalid
      */
-    public function __construct(string $email)
+    public function __construct(string $email): void
     {
         $normalized = strtolower(trim($email));
 

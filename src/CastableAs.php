@@ -39,5 +39,5 @@ final readonly class CastableAs
     public function __construct(
         public ?string $fromArray = null,
         public ?string $toArray = null,
-    ) {}
+    ): void {}
 }

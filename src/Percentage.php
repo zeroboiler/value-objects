@@ -22,7 +22,7 @@ final class Percentage extends ValueObject
     /**
      * @param  float  $value  Percentage value (0-100)
      */
-    public function __construct(float $value)
+    public function __construct(float $value): void
     {
         $this->validate(
             ['value' => $value],

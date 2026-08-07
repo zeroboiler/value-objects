@@ -33,7 +33,7 @@ final class PhoneNumber extends ValueObject
      *
      * @throws ValidationException If phone number is invalid
      */
-    public function __construct(string $phoneNumber)
+    public function __construct(string $phoneNumber): void
     {
         $normalized = trim($phoneNumber);
 

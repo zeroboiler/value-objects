@@ -38,7 +38,7 @@ final class Money extends ValueObject
      *
      * @throws ValueError If the currency code is not a valid ISO 4217 code
      */
-    public function __construct(int $amount, string|Currency $currency = 'USD')
+    public function __construct(int $amount, string|Currency $currency = 'USD'): void
     {
         if ($currency instanceof Currency) {
             $currency = $currency->code;

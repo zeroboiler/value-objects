@@ -54,7 +54,7 @@ final class ValueObjectCast implements CastsAttributes
     /**
      * @param  class-string<T>  $valueObjectClass
      */
-    public function __construct(private readonly string $valueObjectClass) {}
+    public function __construct(private readonly string $valueObjectClass): void {}
 
     /**
      * Cast DB value to ValueObject instance.
