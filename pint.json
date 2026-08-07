@@ -14,7 +14,7 @@
         },
         "header_comment": {
             "comment_type": "PHPDoc",
-            "header": "This file is part of ZeroBoiler, licensed under the proprietary license.",
+            "header": "This file is part of ZeroBoiler, licensed under the MIT license.",
             "location": "after_open",
             "separate": "bottom"
         }

@@ -46,7 +46,7 @@ test('percentage addition throws on overflow above 100 (#36)', function (): void
     $p2 = new Percentage(50.0);
 
     expect(fn (): Percentage => $p1->add($p2))
-        ->toThrow(InvalidArgumentException::class);
+        ->toThrow(ValueError::class);
 });
 
 test('percentage can be subtracted', function (): void {
@@ -63,7 +63,7 @@ test('percentage subtraction throws on overflow below 0 (#36)', function (): voi
     $p2 = new Percentage(30.0);
 
     expect(fn (): Percentage => $p1->subtract($p2))
-        ->toThrow(InvalidArgumentException::class);
+        ->toThrow(ValueError::class);
 });
 
 test('percentage can be multiplied', function (): void {

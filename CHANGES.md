@@ -2,7 +2,18 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
-## [1.5.0] - 2026-08-07
+## [1.8.0] - 2026-08-07
+
+### Fixed
+- Fixed `pint.json` header comment: corrected from "proprietary license" to "MIT license"
+- Fixed `DummyValueObject` constructor missing `:void` return type (PHP 8.5)
+- Fixed `ValueObjectCastTest` removing stray `#[Override]` attributes from anonymous test model classes (no import available in global scope)
+- Fixed `PercentageTest` assertions: `add()`/`subtract()` throw `ValueError`, not `InvalidArgumentException`
+
+### Changed
+- Version bump to 1.8.0
+
+## [1.7.0] - 2026-08-07
 
 ### Changed
 - Removed internal tracking reference (IMP-2 R42) from Money::allocate() docblock

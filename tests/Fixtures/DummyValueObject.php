@@ -18,7 +18,7 @@ final class DummyValueObject extends ValueObject
 
     public readonly int $count;
 
-    public function __construct(string $value, int $count)
+    public function __construct(string $value, int $count): void
     {
         $this->validate(
             ['value' => $value, 'count' => $count],

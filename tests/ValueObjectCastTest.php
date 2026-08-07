@@ -12,23 +12,19 @@ use ZeroBoiler\ValueObjects\ValueObjectCast;
 
 final class TestModelWithCast extends Model
 {
-    #[Override]
     protected $casts = [
         'price' => ValueObjectCast::class.':'.Money::class,
     ];
 
-    #[Override]
     protected $table = 'test_models';
 }
 
 final class TestModelWithCastable extends Model
 {
-    #[Override]
     protected $casts = [
         'price' => Money::class,
     ];
 
-    #[Override]
     protected $table = 'test_models';
 }
 
