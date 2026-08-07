@@ -2,6 +2,12 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.7.0] - 2026-08-07
+
+### Added
+- Added `CONTRIBUTING.md` with code standards, quality commands, and architecture overview
+- Phase 2-3-4 production readiness audit — all 19 source files pass quality checks
+
 ## [1.6.0] - 2026-08-07
 
 ### Fixed
