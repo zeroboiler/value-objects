@@ -6,6 +6,7 @@ All notable changes to the `zeroboiler/value-objects` package will be documented
 
 ### Fixed
 - Added missing `:void` return type to constructors in Coordinates, Currency, Duration, Email, Money, Percentage, PhoneNumber, Url for PHP 8.5 strict compliance.
+- Fixed duplicate `:void` declarations from initial automated fix.
 
 ## [1.7.0] - 2026-08-07
 
