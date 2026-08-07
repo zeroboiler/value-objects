@@ -23,7 +23,7 @@ final class Duration extends ValueObject
      * @param  int  $milliseconds  Duration in milliseconds (can be negative for differences)
      */
     public function __construct(int $milliseconds): void
-: void {
+    {
         $this->validate(
             ['milliseconds' => $milliseconds],
             ['milliseconds' => 'required|integer']
