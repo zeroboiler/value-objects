@@ -31,7 +31,7 @@ final class Coordinates extends ValueObject
      * @throws ValueError If coordinates are invalid
      */
     public function __construct(float $latitude, float $longitude): void
-    {
+: void {
         if (! $this->isValidLat($latitude)) {
             throw new ValueError("Invalid latitude: {$latitude}. Must be between -90 and 90.");
         }
