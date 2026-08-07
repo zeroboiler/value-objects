@@ -74,7 +74,7 @@ final class ValueObjectCast implements CastsAttributes
      *                          If you need graceful degradation, wrap your model access in try/catch.
      */
     #[\Override]
-    public function get($model, string $key, $value, array $attributes)
+    public function get($model, string $key, $value, array $attributes): mixed
     {
         if ($value === null) {
             return null;
@@ -137,7 +137,7 @@ final class ValueObjectCast implements CastsAttributes
      * @return string|null
      */
     #[\Override]
-    public function set($model, string $key, $value, array $attributes)
+    public function set($model, string $key, $value, array $attributes): ?string
     {
         if ($value === null) {
             return null;
@@ -163,7 +163,7 @@ final class ValueObjectCast implements CastsAttributes
      * @return array<string, mixed>|null
      */
     #[\Override]
-    public function serialize($model, string $key, $value, array $attributes)
+    public function serialize($model, string $key, $value, array $attributes): ?array
     {
         return $value?->toArray();
     }
