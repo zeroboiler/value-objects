@@ -2,6 +2,11 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.9.0] - 2026-08-08
+
+### Added
+- Phase 2-3-4 production test suite (`Phase234ProductionTest.php`)
+
 ## [1.8.2] - 2026-08-07
 
 ### Fixed
