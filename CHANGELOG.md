@@ -1,6 +1,13 @@
 # Changelog
 
-All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
+All notable changes to the package will be documented in this file.
+
+## [1.10.1] - 2026-08-08
+
+### Changed
+- Phase 2-3-4 production readiness audit confirmed — all source files verified
+
+
 
 ## [1.10.0] - 2026-08-08
 
