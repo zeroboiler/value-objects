@@ -2,6 +2,16 @@
 
 All notable changes to the `zeroboiler/value-objects` package will be documented in this file.
 
+## [1.10.0] - 2026-08-08
+
+### Fixed
+- Fixed `Address` constructor formatting: separated `): void` and `{` to distinct lines for consistent style
+- Fixed README phone number example: replaced asterisk-masked number with valid E.164 number
+
+### Removed
+- Removed legacy `CHANGES.md` (duplicate of `CHANGELOG.md`)
+- Removed redundant `phpunit.xml` (superseded by `pest.xml`)
+
 ## [1.9.0] - 2026-08-08
 
 ### Added

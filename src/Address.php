@@ -41,7 +41,8 @@ final class Address extends ValueObject
         string $state,
         string $postalCode,
         string $country
-    ) : void {
+    ): void
+    {
         $this->validate(
             ['street' => $street, 'street2' => $street2, 'city' => $city, 'state' => $state, 'postalCode' => $postalCode, 'country' => $country],
             [
