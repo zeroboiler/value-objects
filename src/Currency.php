@@ -152,6 +152,12 @@ final class Currency extends ValueObject
 
     /**
      * Get the currency symbol (e.g., "$", "€", "¥").
+     *
+     * Uses PHP's NumberFormatter with the given locale (defaults to en_US).
+     * Falls back to the ISO code itself if the symbol cannot be extracted.
+     *
+     * @param  string|null  $locale  Locale for formatting (e.g., "en_US", "tr_TR")
+     * @return string Currency symbol (e.g., "$", "€", "¥") or ISO code as fallback
      */
     public function symbol(?string $locale = null): string
     {
