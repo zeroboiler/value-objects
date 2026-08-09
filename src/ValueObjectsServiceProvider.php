@@ -24,6 +24,7 @@ final class ValueObjectsServiceProvider extends ServiceProvider
      *
      * @return list<string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [
