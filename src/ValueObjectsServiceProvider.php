@@ -19,10 +19,21 @@ use ZeroBoiler\ValueObjects\Console\Commands\MakeValueObjectCommand;
  */
 final class ValueObjectsServiceProvider extends ServiceProvider
 {
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return list<string>
+     */
+    public function provides(): array
+    {
+        return [
+            // ValueObjectsServiceProvider registers no singletons —
+            // only console commands loaded in boot().
+        ];
+    }
+
     #[\Override]
     public function register(): void
-    {
-        //
     }
 
     #[\Override]
