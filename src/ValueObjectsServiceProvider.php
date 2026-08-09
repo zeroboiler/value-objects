@@ -34,6 +34,8 @@ final class ValueObjectsServiceProvider extends ServiceProvider
 
     #[\Override]
     public function register(): void
+    {
+        // No bindings — ValueObjectsServiceProvider only loads console commands in boot().
     }
 
     #[\Override]
