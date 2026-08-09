@@ -16,6 +16,8 @@ use Illuminate\Console\Command;
  * Usage:
  *   php artisan zeroboiler:value-object:make ProductPrice
  *   php artisan zeroboiler:value-object:make ProductPrice --namespace=App\\ValueObjects
+ *
+ * @since 1.0.0
  */
 final class MakeValueObjectCommand extends Command
 {

@@ -63,6 +63,8 @@ test('Phase 4: all public classes have @since annotation', function (): void {
         \ZeroBoiler\ValueObjects\Castable::class,
         \ZeroBoiler\ValueObjects\CastableAs::class,
         \ZeroBoiler\ValueObjects\ValueObjectCast::class,
+        \ZeroBoiler\ValueObjects\Console\Commands\ListValueObjectsCommand::class,
+        \ZeroBoiler\ValueObjects\Console\Commands\MakeValueObjectCommand::class,
     ];
 
     foreach ($classes as $class) {

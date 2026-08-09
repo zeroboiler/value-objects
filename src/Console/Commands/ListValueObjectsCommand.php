@@ -19,6 +19,8 @@ use ZeroBoiler\ValueObjects\ValueObject;
  * Usage:
  *   php artisan zeroboiler:value-object:list
  *   php artisan zeroboiler:value-object:list --path=app/ValueObjects
+ *
+ * @since 1.0.0
  */
 final class ListValueObjectsCommand extends Command
 {

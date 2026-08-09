@@ -2,6 +2,15 @@
 
 All notable changes to the package will be documented in this file.
 
+## [1.14.0] - 2026-08-09
+
+### Added
+- `@since 1.0.0` annotations on console commands (`ListValueObjectsCommand`, `MakeValueObjectCommand`)
+- Console commands added to Phase234 `@since` verification test
+
+### Changed
+- README version badge updated to 1.14.0
+
 ## [1.13.0] - 2026-08-09
 
 ### Added
