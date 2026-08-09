@@ -16,6 +16,8 @@ use ZeroBoiler\ValueObjects\Console\Commands\MakeValueObjectCommand;
  * Laravel service provider for the ZeroBoiler Value Objects package.
  *
  * Registers console commands for scaffolding and listing value objects.
+ *
+ * @since 1.0.0
  */
 final class ValueObjectsServiceProvider extends ServiceProvider
 {

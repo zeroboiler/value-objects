@@ -12,6 +12,8 @@ use ValueError;
 
 /**
  * Geographic coordinates value object (latitude and longitude).
+ *
+ * @since 1.0.0
  */
 final class Coordinates extends ValueObject
 {

@@ -37,10 +37,39 @@ test('Phase 2: composer.json PHP 8.5+ and stable', function (): void {
 test('Phase 3: ServiceProvider final with #[Override]', function (): void {
     $r = new ReflectionClass(\ZeroBoiler\ValueObjects\ValueObjectsServiceProvider::class);
     expect($r->isFinal())->toBeTrue();
-    foreach (['register', 'boot'] as $m) {
+    foreach (['register', 'boot', 'provides'] as $m) {
         $method = $r->getMethod($m);
         $has = array_any($method->getAttributes(), fn (\ReflectionAttribute $a): bool => $a->getName() === 'Override');
         expect($has, "ServiceProvider::{$m}() needs #[Override]")->toBeTrue();
+    }
+});
+
+test('Phase 4: all public classes have @since annotation', function (): void {
+    $classes = [
+        \ZeroBoiler\ValueObjects\ValueObject::class,
+        \ZeroBoiler\ValueObjects\ValueObjectInterface::class,
+        \ZeroBoiler\ValueObjects\Contracts\ValueObject::class,
+        \ZeroBoiler\ValueObjects\ValueObjectsServiceProvider::class,
+        \ZeroBoiler\ValueObjects\Email::class,
+        \ZeroBoiler\ValueObjects\Url::class,
+        \ZeroBoiler\ValueObjects\PhoneNumber::class,
+        \ZeroBoiler\ValueObjects\Money::class,
+        \ZeroBoiler\ValueObjects\Currency::class,
+        \ZeroBoiler\ValueObjects\Address::class,
+        \ZeroBoiler\ValueObjects\Coordinates::class,
+        \ZeroBoiler\ValueObjects\Duration::class,
+        \ZeroBoiler\ValueObjects\Percentage::class,
+        \ZeroBoiler\ValueObjects\ExchangeRateProvider::class,
+        \ZeroBoiler\ValueObjects\Castable::class,
+        \ZeroBoiler\ValueObjects\CastableAs::class,
+        \ZeroBoiler\ValueObjects\ValueObjectCast::class,
+    ];
+
+    foreach ($classes as $class) {
+        $ref = new ReflectionClass($class);
+        $doc = $ref->getDocComment();
+        expect($doc)->not->toBeFalse("{$class} has no docblock");
+        expect($doc)->toContain('@since', "{$class} is missing @since annotation in docblock");
     }
 });
 

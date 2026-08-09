@@ -17,6 +17,8 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  * Include this in your ValueObject subclass to enable automatic
  * cast registration without manual configuration.
  *
+ * @since 1.0.0
+ *
  * Usage:
  *   use ZeroBoiler\ValueObjects\ValueObject;
  *   use ZeroBoiler\ValueObjects\Castable;

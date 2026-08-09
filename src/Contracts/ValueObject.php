@@ -26,6 +26,8 @@ use ZeroBoiler\ValueObjects\ValueObjectInterface;
  * this contract for backward compatibility.
  *
  * @extends Arrayable<array-key, mixed>
+ *
+ * @since 1.0.0
  */
 interface ValueObject extends Arrayable, Jsonable, JsonSerializable, Stringable
 {

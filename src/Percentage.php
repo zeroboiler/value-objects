@@ -10,6 +10,8 @@ namespace ZeroBoiler\ValueObjects;
 
 /**
  * Percentage value object (0-100).
+ *
+ * @since 1.0.0
  */
 final class Percentage extends ValueObject
 {

@@ -20,6 +20,8 @@ use ValueError;
  *
  * All arithmetic operations detect integer overflow and throw
  * OverflowException rather than silently wrapping around.
+ *
+ * @since 1.0.0
  */
 final class Money extends ValueObject
 {

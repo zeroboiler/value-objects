@@ -12,6 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 /**
  * Email value object with normalization and validation.
+ *
+ * @since 1.0.0
  */
 final class Email extends ValueObject
 {

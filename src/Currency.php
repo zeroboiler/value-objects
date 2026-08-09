@@ -16,6 +16,8 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  *
  * Encapsulates the currency code together with its metadata:
  * the number of decimal places and the subunit divisor.
+ *
+ * @since 1.0.0
  */
 final class Currency extends ValueObject
 {

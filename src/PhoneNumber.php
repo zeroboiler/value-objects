@@ -19,6 +19,8 @@ use Illuminate\Validation\ValidationException;
  * share a code (e.g., US/Canada/Caribbean all use +1). For full phone number
  * parsing including region detection, install giggsey/libphonenumber-for-php
  * (suggested in composer.json) and use it alongside this value object.
+ *
+ * @since 1.0.0
  */
 final class PhoneNumber extends ValueObject
 {

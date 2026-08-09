@@ -10,6 +10,8 @@ namespace ZeroBoiler\ValueObjects;
 
 /**
  * Address value object.
+ *
+ * @since 1.0.0
  */
 final class Address extends ValueObject
 {

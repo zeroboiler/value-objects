@@ -30,6 +30,8 @@ namespace ZeroBoiler\ValueObjects;
  *     }
  * }
  * ```
+ *
+ * @since 1.0.0
  */
 interface ExchangeRateProvider
 {

@@ -42,6 +42,8 @@ use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
  * @template T of ValueObjectContract
  *
  * @implements CastsAttributes<T|null, T|null>
+ *
+ * @since 1.0.0
  */
 final class ValueObjectCast implements CastsAttributes
 {

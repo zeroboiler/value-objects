@@ -17,6 +17,8 @@ use Illuminate\Validation\ValidationException;
  *
  * Supports all standard URL schemes (http, https, ftp, mailto, ws, etc.)
  * rather than being limited to http/https only.
+ *
+ * @since 1.0.0
  */
 final class Url extends ValueObject
 {

@@ -16,6 +16,8 @@ use Attribute;
  * Solves the ambiguity in {@see ValueObjectCast} when a ValueObject's
  * constructor signature differs from its `toArray()` output shape.
  *
+ * @since 1.0.0
+ *
  * When a VO has this attribute, ValueObjectCast uses the declared methods
  * instead of the reflection-based heuristic.
  *

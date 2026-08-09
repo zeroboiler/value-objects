@@ -2,6 +2,13 @@
 
 All notable changes to the package will be documented in this file.
 
+## [1.13.0] - 2026-08-09
+
+### Added
+- `@since 1.0.0` annotations on all 17 public classes, traits, and interfaces
+- Phase234 test: `@since` annotation verification for all public classes
+- Phase234 test: `provides()` method `#[Override]` verification
+
 ## [1.10.1] - 2026-08-08
 
 ### Changed
