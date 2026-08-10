@@ -2,6 +2,15 @@
 
 All notable changes to the package will be documented in this file.
 
+## [1.15.0] - 2026-08-10
+
+### Added
+- `pestphp/pest-plugin-type-coverage` to require-dev
+
+### Changed
+- PHPStan level upgraded from 6 to 8 with `checkUnusedParameters` and `checkUninitializedProperties`
+- Version bump to 1.15.0
+
 ## [1.14.0] - 2026-08-09
 
 ### Added

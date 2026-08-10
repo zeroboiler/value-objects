@@ -33,6 +33,7 @@
         "laravel/pint": "^1.18",
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-type-coverage": "^3.0",
         "phpstan/phpstan": "^2.0",
         "rector/rector": "^2.0",
         "illuminate/database": "^13.0"
@@ -75,5 +76,5 @@
             "pestphp/pest-plugin": true
         }
     },
-    "version": "1.14.0"
+    "version": "1.15.0"
 }
