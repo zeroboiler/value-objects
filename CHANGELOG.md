@@ -2,6 +2,12 @@
 
 All notable changes to the package will be documented in this file.
 
+## [1.18.0] - 2026-08-12
+
+### Changed
+- Version bump to 1.18.0
+- Manual code review: verified all source files use `declare(strict_types=1)`, concrete classes are `final`, override methods use `#[Override]`, readonly properties, constructor `:void` return types, full docblock coverage
+
 ## [1.15.0] - 2026-08-10
 
 ### Added
