@@ -2,6 +2,11 @@
 
 All notable changes to the package will be documented in this file.
 
+## [1.22.0] - 2026-08-12
+
+### Changed
+- Updated README assertion metrics: 683+ assertions across 21 test files (verified via grep)
+
 ## [1.21.0] - 2026-08-12
 
 ### Changed
