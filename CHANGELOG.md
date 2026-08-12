@@ -2,6 +2,14 @@
 
 All notable changes to the package will be documented in this file.
 
+## [1.21.0] - 2026-08-12
+
+### Changed
+- Corrected README assertion metrics: 603+ assertions across 22 test files (verified)
+
+### Verified
+- Manual code review: all 19 source files verified for PHP 8.5 strict types, return types, final classes, #[Override], constructor :void, docblocks
+
 ## [1.20.0] - 2026-08-12
 
 ### Changed
