@@ -1,6 +1,6 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.18.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.19.0-blue)
 Immutable value objects with validation and Eloquent auto-casting for Laravel 13 / PHP 8.5.
 
 ## Table of Contents
@@ -148,6 +148,9 @@ $price->isNegative();  // bool
 echo $price->format();              // $19.99
 echo $price->format('en_GB');       // £19.99 (if currency is GBP)
 echo $price->toMajor();             // 19.99
+
+// Percentage calculation (e.g., 19% tax)
+$withTax = $price->percentage(19);  // adds 19% to the amount
 
 // Factory methods
 $money = Money::fromMajor(19.99, 'USD');
@@ -465,7 +468,7 @@ This package maintains strict production-quality standards:
 - **Return type declarations** on all public and protected methods
 - **Constructor `:void` return types** (PHP 8.5 feature) on all constructors
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 563+ assertions across 20 test files
+- **Comprehensive test suite** with 665+ assertions across 20 test files
 
 ## Credits
 
