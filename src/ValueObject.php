@@ -51,6 +51,8 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * Default implementation returns the JSON-encoded array representation.
      * Single-value VOs should override this to return the scalar directly.
+     *
+     * @return mixed The primitive representation (scalar or JSON string)
      */
     #[\Override]
     public function toPrimitive(): mixed

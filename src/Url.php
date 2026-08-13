@@ -244,6 +244,8 @@ final class Url extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed The URL as a string
      */
     #[\Override]
     public function toPrimitive(): mixed

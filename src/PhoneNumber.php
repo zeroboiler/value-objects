@@ -182,6 +182,8 @@ final class PhoneNumber extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed The phone number as a string
      */
     #[\Override]
     public function toPrimitive(): mixed

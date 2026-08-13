@@ -119,6 +119,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed JSON-encoded string of latitude and longitude
      */
     #[\Override]
     public function toPrimitive(): mixed

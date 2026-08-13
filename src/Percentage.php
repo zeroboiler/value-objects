@@ -136,6 +136,8 @@ final class Percentage extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed The percentage value as a float
      */
     #[\Override]
     public function toPrimitive(): mixed

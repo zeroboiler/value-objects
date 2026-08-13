@@ -227,6 +227,8 @@ final class Currency extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed The ISO 4217 currency code as a string
      */
     #[\Override]
     public function toPrimitive(): mixed

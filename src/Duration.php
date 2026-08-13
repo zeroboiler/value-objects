@@ -268,6 +268,8 @@ final class Duration extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed Duration in milliseconds as an integer
      */
     #[\Override]
     public function toPrimitive(): mixed

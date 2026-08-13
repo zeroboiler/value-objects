@@ -82,6 +82,8 @@ final class Email extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed The email address as a string
      */
     #[\Override]
     public function toPrimitive(): mixed

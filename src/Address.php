@@ -120,6 +120,8 @@ final class Address extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @return mixed JSON-encoded string of all address components
      */
     #[\Override]
     public function toPrimitive(): mixed

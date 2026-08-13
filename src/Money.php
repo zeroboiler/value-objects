@@ -691,6 +691,8 @@ final class Money extends ValueObject
      * Get the primitive value for database storage.
      *
      * Returns JSON string of amount + currency for composite storage.
+     *
+     * @return mixed JSON-encoded string of amount and currency
      */
     #[\Override]
     public function toPrimitive(): mixed
