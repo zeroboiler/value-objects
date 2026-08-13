@@ -1,6 +1,6 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.22.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.23.0-blue)
 Immutable value objects with validation and Eloquent auto-casting for Laravel 13 / PHP 8.5.
 
 ## Table of Contents
@@ -468,7 +468,7 @@ This package maintains strict production-quality standards:
 - **Return type declarations** on all public and protected methods
 - **Constructor `:void` return types** (PHP 8.5 feature) on all constructors
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 683+ assertions across 21 test files
+- **Comprehensive test suite** with 660+ assertions across 22 test files
 
 ## Credits
 
