@@ -469,7 +469,7 @@ This package maintains strict production-quality standards:
 - **Return type declarations** on all public and protected methods
 - **Constructor `:void` return types** (PHP 8.5 feature) on all constructors
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 660+ assertions across 23 test files
+- **Comprehensive test suite** with 620+ assertions across 24 test files
 
 ## Credits
 
