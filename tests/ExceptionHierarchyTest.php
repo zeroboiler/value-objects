@@ -8,34 +8,34 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects\Tests;
 
-use ZeroBoiler\ValueObjects\Exceptions\Value-objectsException;
-use ZeroBoiler\ValueObjects\Exceptions\InvalidValue-objectsArgumentException;
-use ZeroBoiler\ValueObjects\Exceptions\Value-objectsRuntimeException;
+use ZeroBoiler\ValueObjects\Exceptions\ValueObjectsException;
+use ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException;
+use ZeroBoiler\ValueObjects\Exceptions\ValueObjectsRuntimeException;
 use Exception;
 
 test('value-objects exception hierarchy extends Exception', function (): void {
-    $exception = new class('test') extends Value-objectsException {};
+    $exception = new class('test') extends ValueObjectsException {};
 
     expect($exception)
         ->toBeInstanceOf(Exception::class)
-        ->toBeInstanceOf(Value-objectsException::class)
+        ->toBeInstanceOf(ValueObjectsException::class)
         ->and($exception->getMessage())->toBe('test');
 });
 
-test('InvalidValue-objectsArgumentException extends Value-objectsException', function (): void {
-    $exception = new InvalidValue-objectsArgumentException('bad value');
+test('InvalidValueObjectsArgumentException extends ValueObjectsException', function (): void {
+    $exception = new InvalidValueObjectsArgumentException('bad value');
 
     expect($exception)
-        ->toBeInstanceOf(Value-objectsException::class)
+        ->toBeInstanceOf(ValueObjectsException::class)
         ->toBeInstanceOf(Exception::class)
         ->and($exception->getMessage())->toBe('bad value');
 });
 
-test('Value-objectsRuntimeException extends Value-objectsException', function (): void {
-    $exception = new Value-objectsRuntimeException('operation failed');
+test('ValueObjectsRuntimeException extends ValueObjectsException', function (): void {
+    $exception = new ValueObjectsRuntimeException('operation failed');
 
     expect($exception)
-        ->toBeInstanceOf(Value-objectsException::class)
+        ->toBeInstanceOf(ValueObjectsException::class)
         ->toBeInstanceOf(Exception::class)
         ->and($exception->getMessage())->toBe('operation failed');
 });
@@ -43,11 +43,25 @@ test('Value-objectsRuntimeException extends Value-objectsException', function ()
 test('value-objects exceptions catchable by base type', function (): void {
     $caught = false;
     try {
-        throw new Value-objectsRuntimeException('catch me');
-    } catch (Value-objectsException $e) {
+        throw new ValueObjectsRuntimeException('catch me');
+    } catch (ValueObjectsException $e) {
         $caught = true;
         expect($e->getMessage())->toBe('catch me');
     }
 
     expect($caught)->toBeTrue();
+});
+
+test('InvalidValueObjectsArgumentException has correct namespace', function (): void {
+    $exception = new InvalidValueObjectsArgumentException('test');
+
+    expect($exception::class)
+        ->toBe('ZeroBoiler\\ValueObjects\\Exceptions\\InvalidValueObjectsArgumentException');
+});
+
+test('ValueObjectsRuntimeException has correct namespace', function (): void {
+    $exception = new ValueObjectsRuntimeException('test');
+
+    expect($exception::class)
+        ->toBe('ZeroBoiler\\ValueObjects\\Exceptions\\ValueObjectsRuntimeException');
 });
