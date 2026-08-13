@@ -737,7 +737,7 @@ final class Money extends ValueObject
             }
         }
 
-        throw new \InvalidArgumentException(
+        throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
             'Money::fromPrimitive() expects JSON string, int, or array, got '.get_debug_type($value)
         );
     }

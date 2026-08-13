@@ -110,7 +110,7 @@ final class ValueObjectCast implements CastsAttributes
         } catch (JsonException $e) {
             // #659: Throw instead of silently returning null.
             // Silent null hides data corruption — the developer needs to know.
-            throw new RuntimeException(
+            throw new \ZeroBoiler\ValueObjects\Exceptions\ValueObjectsRuntimeException(
                 "Failed to decode JSON for ValueObjectCast({$this->valueObjectClass}): ".$value,
                 0,
                 $e

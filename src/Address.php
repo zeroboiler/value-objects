@@ -142,7 +142,7 @@ final class Address extends ValueObject
         }
 
         if (! is_array($data)) {
-            throw new \InvalidArgumentException(
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
                 'Address::fromPrimitive() expects JSON string or array, got '.get_debug_type($value)
             );
         }

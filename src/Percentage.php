@@ -161,7 +161,7 @@ final class Percentage extends ValueObject
             return new self((float) $value);
         }
 
-        throw new \InvalidArgumentException(
+        throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
             'Percentage expects a numeric value, got '.get_debug_type($value)
         );
     }

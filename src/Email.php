@@ -96,7 +96,7 @@ final class Email extends ValueObject
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
-            throw new \InvalidArgumentException('Email expects a string, got '.get_debug_type($value));
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException('Email expects a string, got '.get_debug_type($value));
         }
 
         return new self($value);

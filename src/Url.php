@@ -258,7 +258,7 @@ final class Url extends ValueObject
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
-            throw new \InvalidArgumentException('Url expects a string, got '.get_debug_type($value));
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException('Url expects a string, got '.get_debug_type($value));
         }
 
         return new self($value);

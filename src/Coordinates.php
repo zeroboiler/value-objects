@@ -162,7 +162,7 @@ final class Coordinates extends ValueObject
             }
         }
 
-        throw new \InvalidArgumentException(
+        throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
             'Coordinates::fromPrimitive() expects JSON string or array with latitude/longitude, got '.get_debug_type($value)
         );
     }

@@ -82,7 +82,7 @@ final class Duration extends ValueObject
         $trimmed = trim($input);
 
         if ($trimmed === '') {
-            throw new \InvalidArgumentException('Duration::fromHuman() received an empty string');
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException('Duration::fromHuman() received an empty string');
         }
 
         $isNegative = str_starts_with($trimmed, '-');
@@ -94,7 +94,7 @@ final class Duration extends ValueObject
         $pattern = '/(\d+)\s*(ms|s|m|h|d)/i';
 
         if (! preg_match_all($pattern, $trimmed, $matches, PREG_SET_ORDER)) {
-            throw new \InvalidArgumentException(
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
                 "Duration::fromHuman() could not parse '{$input}'. "
                 .'Expected format like "1h 30m", "2d 4h", "500ms", "90s".'
             );
@@ -106,7 +106,7 @@ final class Duration extends ValueObject
         $strippedReconstructed = preg_replace('/[\s,]+/', '', $reconstructed);
 
         if (strtolower($strippedInput) !== strtolower($strippedReconstructed)) {
-            throw new \InvalidArgumentException(
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
                 "Duration::fromHuman() could not fully parse '{$input}'. "
                 .'Unrecognized segments remain. Expected format: "1h 30m", "2d 4h", "500ms".'
             );
@@ -287,7 +287,7 @@ final class Duration extends ValueObject
                 return new self((int) $value);
             }
 
-            throw new \InvalidArgumentException(
+            throw new \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException(
                 'Duration expects an integer (milliseconds), got '.get_debug_type($value)
             );
         }
