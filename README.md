@@ -1,9 +1,14 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.41.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.42.0-blue)
+![PHP 8.5+](https://img.shields.io/badge/PHP-8.5%2B-blue)
+![MIT License](https://img.shields.io/badge/License-MIT-green)
+|[![CI](https://github.com/zeroboiler/value-objects/workflows/CI/badge.svg)](https://github.com/zeroboiler/value-objects/actions)
+|[![Total Downloads](https://img.shields.io/packagist/dt/zeroboiler/value-objects)](https://packagist.org/packages/zeroboiler/value-objects)
+
 Immutable value objects with validation and Eloquent auto-casting for Laravel 13 / PHP 8.5.
 
-> **v1.41.0** — Phase 35 production audit: verified all 22 source files — no redundant imports found, added Phase35ProductionAuditTest.
+> **v1.42.0** — Phase 36 production readiness audit: comprehensive audit covering strict_types, final classes, exception hierarchy, constructor :void, readonly properties, interface compliance, ServiceProvider/Command/ValueObjectCast #[Override] audit, CastableAs attribute verification, json_encode safety (JSON_THROW_ON_ERROR), cross-reference integrity, public method return types, project structure files, and composer metadata integrity.
 
 ## Table of Contents
 - [What's New in v1.27.0](#whats-new-in-v1270)
@@ -467,11 +472,15 @@ MIT. See [LICENSE](LICENSE).
 This package maintains strict production-quality standards:
 
 - **PHP 8.5 strict types** on every source file
-- **Final classes** on all service, cast, and console classes
-- **Return type declarations** on all public and protected methods
+- **Final classes** on all value object, service, cast, attribute, exception, and console classes
+- **Return type declarations** on all public methods
 - **Constructor `:void` return types** (PHP 8.5 feature) on all constructors
+- **Readonly promoted properties** on all value objects (Email, Money, Currency, Address, etc.)
+- **Exception hierarchy** with `ValueObjectsException` (abstract) → `InvalidValueObjectsArgumentException` (final), `ValueObjectsRuntimeException` (final)
+- **#[Override] attributes** on all interface method implementations (CastsAttributes, ServiceProvider)
+- **JSON_THROW_ON_ERROR** on all `json_encode()` calls in `ValueObjectCast::set()`
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 570+ expect assertions across 23 test files + 1 fixture
+- **Comprehensive test suite** with 762+ expect assertions across 31 test files + 1 fixture
 
 ## Credits
 

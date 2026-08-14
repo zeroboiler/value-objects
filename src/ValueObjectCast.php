@@ -153,7 +153,7 @@ final class ValueObjectCast implements CastsAttributes
             return (string) $value->$method();
         }
 
-        return json_encode($value);
+        return json_encode($value, JSON_THROW_ON_ERROR);
     }
 
     /**

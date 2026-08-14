@@ -28,9 +28,9 @@ function vo_glob_recursive(string $pattern, int $flags = 0): array
 use ZeroBoiler\ValueObjects\Exceptions\ValueObjectsException;
 use ZeroBoiler\ValueObjects\Contracts\ValueObject;
 
-test('version is 1.41.0', function (): void {
+test('version is 1.42.0', function (): void {
     $json = json_decode(file_get_contents(__DIR__ . '/../composer.json'), true);
-    expect($json['version'])->toBe('1.41.0');
+    expect($json['version'])->toBe('1.42.0');
 });
 
 test('all source files have strict types declaration', function (): void {
