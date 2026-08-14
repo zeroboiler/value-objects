@@ -236,9 +236,9 @@ test('composer.json has provider registration', function (): void {
     );
 });
 
-test('composer.json version is 1.38.0', function (): void {
+test('composer.json version is 1.39.0', function (): void {
     $composer = json_decode(file_get_contents(__DIR__.'/../composer.json'), true);
-    expect($composer['version'])->toBe('1.38.0');
+    expect($composer['version'])->toBe('1.39.0');
 });
 
 // ─── Version Consistency ─────────────────────────────────────────────────────
