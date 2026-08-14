@@ -11,8 +11,6 @@ Immutable value objects with validation and Eloquent auto-casting for Laravel 13
 > **v1.42.0** — Phase 36 production readiness audit: comprehensive audit covering strict_types, final classes, exception hierarchy, constructor :void, readonly properties, interface compliance, ServiceProvider/Command/ValueObjectCast #[Override] audit, CastableAs attribute verification, json_encode safety (JSON_THROW_ON_ERROR), cross-reference integrity, public method return types, project structure files, and composer metadata integrity.
 
 ## Table of Contents
-- [What's New in v1.27.0](#whats-new-in-v1270)
-
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
