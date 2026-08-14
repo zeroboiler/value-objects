@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.37.0] - 2026-08-14
+
+### Fixed
+- ValueObjectsException base constructor `$previous` parameter type changed from `?Exception` to `?\Throwable`
+
+### Added
+- Phase 31 production audit test: strict_types (22 files), license headers, zero TODO/FIXME, exception hierarchy, composer metadata
+
 ## [1.35.0] - 2026-08-14
 
 ### Added
