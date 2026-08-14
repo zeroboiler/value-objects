@@ -1,7 +1,9 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.40.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.41.0-blue)
 Immutable value objects with validation and Eloquent auto-casting for Laravel 13 / PHP 8.5.
+
+> **v1.41.0** — Phase 35 production audit: verified all 22 source files — no redundant imports found, added Phase35ProductionAuditTest.
 
 ## Table of Contents
 - [What's New in v1.27.0](#whats-new-in-v1270)
