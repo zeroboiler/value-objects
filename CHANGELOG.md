@@ -1,4 +1,16 @@
 # Changelog
+
+## [1.35.0] - 2026-08-14
+
+### Added
+- Phase 28 production audit — 26 new assertions (544+ → 570+)
+- Value object interface compliance, exception hierarchy, CastableAs readonly
+- Service class finality, source/test file count verification
+
+### Changed
+- Version bump to 1.35.0
+- Updated README assertion metrics (544+ → 570+)
+
 ## [1.28.0] - 2026-08-13
 
 ### Fixed
