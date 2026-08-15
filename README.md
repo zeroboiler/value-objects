@@ -1,6 +1,6 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.43.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.44.0-blue)
 ![PHP 8.5+](https://img.shields.io/badge/PHP-8.5%2B-blue)
 ![MIT License](https://img.shields.io/badge/License-MIT-green)
 |[![CI](https://github.com/zeroboiler/value-objects/workflows/CI/badge.svg)](https://github.com/zeroboiler/value-objects/actions)
@@ -8,7 +8,7 @@
 
 Immutable value objects with validation and Eloquent auto-casting for Laravel 13 / PHP 8.5.
 
-> **v1.42.0** — Phase 36 production readiness audit: comprehensive audit covering strict_types, final classes, exception hierarchy, constructor :void, readonly properties, interface compliance, ServiceProvider/Command/ValueObjectCast #[Override] audit, CastableAs attribute verification, json_encode safety (JSON_THROW_ON_ERROR), cross-reference integrity, public method return types, project structure files, and composer metadata integrity.
+> **v1.44.0** — Phase 38 final production readiness: add leaf exception @see parent references, add phpstan.neon extended checks (checkUnusedParameters, checkUninitializedProperties), fix Phase37 test bugs (ExchangeRateProvider is interface not class, Castable::castUsing returns CastsAttributes not string), comprehensive Phase38 test suite (50+ assertions) covering exception hierarchy @see + finality, source file counts, strict_types coverage, final class enforcement, constructor :void audit, interface compliance, ServiceProvider/Facade #[Override] audit, console commands #[Override] + int return, Castable trait + CastableAs attribute verification, VO API surface validation, ValueObjectCast interface compliance, static factory methods, cross-reference integrity, license headers, no TODO/FIXME, @since annotations, phpstan level 9 + extended checks, composer metadata integrity, version bump to 1.44.0.
 
 ## Table of Contents
 - [Features](#features)
@@ -347,16 +347,17 @@ This generates a scaffold in `app/ValueObjects/ProductPrice.php`.
 
 namespace App\ValueObjects;
 
+use ZeroBoiler\ValueObjects\Castable;
 use ZeroBoiler\ValueObjects\ValueObject;
 
-final readonly class ProductPrice extends ValueObject
+final class ProductPrice extends ValueObject
 {
     use Castable; // Optional: enables Eloquent auto-casting
 
-    public int $cents;
-    public string $currency;
+    public readonly int $cents;
+    public readonly string $currency;
 
-    public function __construct(int $cents, string $currency = 'USD')
+    public function __construct(int $cents, string $currency = 'USD'): void
     {
         $this->validate(
             ['cents' => $cents, 'currency' => $currency],
@@ -478,7 +479,7 @@ This package maintains strict production-quality standards:
 - **#[Override] attributes** on all interface method implementations (CastsAttributes, ServiceProvider)
 - **JSON_THROW_ON_ERROR** on all `json_encode()` calls in `ValueObjectCast::set()`
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 762+ expect assertions across 31 test files + 1 fixture
+- **Comprehensive test suite** with 812+ expect assertions across 32 test files + 1 fixture
 
 ## Credits
 

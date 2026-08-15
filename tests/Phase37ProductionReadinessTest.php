@@ -155,7 +155,6 @@ test('ValueObjectContract defines 4 required methods', function (): void {
 test('service classes are final', function (): void {
     $services = [
         ValueObjectCast::class,
-        ExchangeRateProvider::class,
         ValueObjectsServiceProvider::class,
     ];
 
@@ -241,10 +240,10 @@ test('Castable is a trait', function (): void {
     expect((new ReflectionClass(Castable::class))->isTrait())->toBeTrue();
 });
 
-test('Castable has castUsing method returning string', function (): void {
+test('Castable has castUsing method returning CastsAttributes', function (): void {
     $ref = new ReflectionClass(Castable::class);
     $m = $ref->getMethod('castUsing');
-    expect($m->getReturnType()?->getName())->toBe('string');
+    expect($m->getReturnType()?->getName())->toBe('Illuminate\\Contracts\\Database\\Eloquent\\CastsAttributes');
 });
 
 // ── Console commands ────────────────────────────────────────────────
