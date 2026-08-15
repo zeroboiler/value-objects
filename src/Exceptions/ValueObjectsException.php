@@ -17,6 +17,9 @@ use Exception;
  * enabling callers to catch all value-objects-specific errors with a single
  * catch block while allowing fine-grained handling of specific subtypes.
  *
+ * @see InvalidValueObjectsArgumentException
+ * @see ValueObjectsRuntimeException
+ *
  * @since 1.26.0
  */
 abstract class ValueObjectsException extends Exception
