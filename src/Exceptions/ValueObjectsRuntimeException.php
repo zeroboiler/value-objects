@@ -13,7 +13,6 @@ namespace ZeroBoiler\ValueObjects\Exceptions;
  * Replaces generic \RuntimeException with a domain-specific exception
  * for better error handling and debugging.
  *
- * @see \\ZeroBoiler\\ValueObjects\\Exceptions\\ValueObjectsException
  *
  * @see \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException
  * @see \ZeroBoiler\ValueObjects\Exceptions\ValueObjectsException
