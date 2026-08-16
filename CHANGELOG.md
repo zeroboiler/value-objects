@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.46.0] - 2026-08-16
+
+### Added
+- Phase 45 production readiness test (30+ assertions): comprehensive audit of 22 source files (strict_types, license headers, zero TODO/FIXME), final class enforcement on 14 classes, constructor :void return types on 14 classes, exception hierarchy (abstract ValueObjectsException with :void → 2 final leaves), ValueObject base implements ValueObjectContract, ServiceProvider finality + empty provides, 2 console commands finality, composer metadata integrity (PHP 8.5, namespace, provider, scripts, license), project structure files
+
+### Changed
+- Version bump to 1.46.0
+- Updated README assertion metrics: 998+ assertions across 37 test files
+
 ## [1.37.0] - 2026-08-14
 
 ### Fixed
