@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.47.0] - 2026-08-16
+
+### Fixed
+- **PSR-12 compliance** — Removed blank line after `<?php` opening tag in 56 source and test files.
+- **phpstan.neon parity** — Synced `phpstan.neon` with `phpstan.neon.dist`: added `treatPhpDocTypesAsCertain(false)`, `reportUnmatchedIgnoredErrors(false)`.
+
+### Changed
+- **Exception hierarchy @see audit** — All exceptions now use FQCN `@see` references. Bidirectional @see between base and all leaf exceptions.
+
+### Added
+- **Phase46ProductionReadinessTest** — 30+ assertions: PSR-12 audit, phpstan parity, exception hierarchy bidirectional FQCN @see, ServiceProvider/Facade finality, composer metadata, project structure, strict_types/@since/TODO audit, file counts.
+- **Project structure files** — Added `.editorconfig` and `.gitattributes`.
+- **Version sweep** — composer.json 1.46.0 → 1.47.0.
+
+
 ## [1.46.0] - 2026-08-16
 
 ### Added

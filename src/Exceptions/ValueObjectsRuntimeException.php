@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ZeroBoiler, licensed under the MIT license.
  */
@@ -14,8 +13,10 @@ namespace ZeroBoiler\ValueObjects\Exceptions;
  * Replaces generic \RuntimeException with a domain-specific exception
  * for better error handling and debugging.
  *
- * @see ValueObjectsException
+ * @see \\ZeroBoiler\\ValueObjects\\Exceptions\\ValueObjectsException
  *
+ * @see \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException
+ * @see \ZeroBoiler\ValueObjects\Exceptions\ValueObjectsException
  * @since 1.27.0
  */
 final class ValueObjectsRuntimeException extends ValueObjectsException

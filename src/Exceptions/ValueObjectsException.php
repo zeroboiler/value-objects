@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ZeroBoiler, licensed under the MIT license.
  */
@@ -17,9 +16,12 @@ use Exception;
  * enabling callers to catch all value-objects-specific errors with a single
  * catch block while allowing fine-grained handling of specific subtypes.
  *
- * @see InvalidValueObjectsArgumentException
- * @see ValueObjectsRuntimeException
+ * @see \\ZeroBoiler\\ValueObjects\\Exceptions\\InvalidValueObjectsArgumentException
+ * @see \\ZeroBoiler\\ValueObjects\\Exceptions\\ValueObjectsRuntimeException
  *
+ * @see \ZeroBoiler\ValueObjects\Exceptions\InvalidValueObjectsArgumentException
+ * @see \ZeroBoiler\ValueObjects\Exceptions\ValueObjectsException
+ * @see \ZeroBoiler\ValueObjects\Exceptions\ValueObjectsRuntimeException
  * @since 1.26.0
  */
 abstract class ValueObjectsException extends Exception
