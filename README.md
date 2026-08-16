@@ -479,7 +479,7 @@ This package maintains strict production-quality standards:
 - **#[Override] attributes** on all interface method implementations (CastsAttributes, ServiceProvider)
 - **JSON_THROW_ON_ERROR** on all `json_encode()` calls in `ValueObjectCast::set()`
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 812+ expect assertions across 35 test files + 1 fixture
+- **Comprehensive test suite** with 968+ expect assertions across 36 test files + 3 fixtures
 
 ## Credits
 
