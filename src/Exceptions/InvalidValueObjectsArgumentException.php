@@ -20,4 +20,21 @@ namespace ZeroBoiler\ValueObjects\Exceptions;
  */
 final class InvalidValueObjectsArgumentException extends ValueObjectsException
 {
+    /**
+     * Create an argument exception for a generic message.
+     *
+     * @param  string  $message  Human-readable error description
+     * @param  int  $code  Application-specific error code
+     * @param  \Throwable|null  $previous  The exception chain predecessor
+     * @return self
+     */
+    public static function forMessage(string $message, int $code = 0, ?\Throwable $previous = null): self
+    {
+        return new self($message, $code, $previous);
+    }
+
+    public function __construct(string $message = '', int $code = 0, ?\Throwable $previous = null): void
+    {
+        parent::__construct($message ?: 'Invalid value-objects argument.', $code, $previous);
+    }
 }

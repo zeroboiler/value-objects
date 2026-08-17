@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.48.0] - 2026-08-17
+
+### Added
+- `forMessage()` factory method + constructor with default message to both leaf exceptions (InvalidValueObjectsArgumentException, ValueObjectsRuntimeException)
+- Phase 48 production readiness test (50+ assertions): exception hierarchy cross-references, factory method audit, PSR-12 compliance, phpstan parity, ServiceProvider #[Override], composer integrity, file counts
+
+### Changed
+- Version bump to 1.48.0
+
 ## [1.47.0] - 2026-08-16
 
 ### Fixed
