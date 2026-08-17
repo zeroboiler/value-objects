@@ -12,3 +12,5 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     checkUnusedParameters: true
     checkUninitializedProperties: true
+    checkGenericClassInNonGenericObjectType: true
+    checkMissingIterableValueType: false

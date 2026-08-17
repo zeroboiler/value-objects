@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 return PHPStan\Config\Initiator::init()
@@ -8,4 +7,7 @@ return PHPStan\Config\Initiator::init()
     ->paths([__DIR__ . '/src'])
     ->checkMissingIterableValueType(false)
     ->checkUnusedParameters(false)
-    ->checkUninitializedProperties(false);
+    ->checkUninitializedProperties(false)
+    ->treatPhpDocTypesAsCertain(false)
+    ->reportUnmatchedIgnoredErrors(false)
+    ->checkGenericClassInNonGenericObjectType(true);
