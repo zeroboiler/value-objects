@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.49.0] - 2026-08-17
+
+### Fixed
+- README version badge sync (1.46.0 → 1.49.0)
+- README test suite sync (1047+ assertions across 38 test files)
+
 ## [1.48.0] - 2026-08-17
 
 ### Added
