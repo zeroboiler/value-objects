@@ -1,6 +1,6 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.49.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.50.0-blue)
 ![PHP 8.5+](https://img.shields.io/badge/PHP-8.5%2B-blue)
 ![MIT License](https://img.shields.io/badge/License-MIT-green)
 |[![CI](https://github.com/zeroboiler/value-objects/workflows/CI/badge.svg)](https://github.com/zeroboiler/value-objects/actions)

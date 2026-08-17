@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.50.0] - 2026-08-17
+
+### Added
+- Phase 51 production readiness test (50+ assertions): exception hierarchy integrity (abstract base, 2 final leaves, FQCN cross-references), composer metadata integrity, phpstan.neon.dist 4-check verification, strict_types + license headers (22 files), zero TODO/FIXME, version consistency, project structure files
+
+### Changed
+- Version bump to 1.50.0
+- Updated README assertion metrics: 1150+ expect assertions across 40 test files
+
 ## [1.49.0] - 2026-08-17
 
 ### Fixed
