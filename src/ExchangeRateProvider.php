@@ -44,6 +44,8 @@ interface ExchangeRateProvider
      * @param  string  $to  Target ISO 4217 currency code
      *
      * @throws \ValueError If the rate cannot be determined or is non-positive
+     *
+     * @since 1.0.0
      */
     public function getRate(string $from, string $to): float;
 }

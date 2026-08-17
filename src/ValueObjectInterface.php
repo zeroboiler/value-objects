@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
-use ZeroBoiler\ValueObjects\Contracts\ValueObject;
 use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
 /**

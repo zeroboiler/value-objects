@@ -73,6 +73,8 @@ final class ValueObjectCast implements CastsAttributes
      *                          Previously this returned null silently, hiding data corruption.
      *                          Now it throws so developers can catch and fix the root cause.
      *                          If you need graceful degradation, wrap your model access in try/catch.
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public function get($model, string $key, $value, array $attributes): mixed
@@ -136,6 +138,8 @@ final class ValueObjectCast implements CastsAttributes
      * @param  T|null  $value
      * @param  array<string, mixed>  $attributes
      * @return string|null
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public function set($model, string $key, $value, array $attributes): ?string
@@ -162,6 +166,8 @@ final class ValueObjectCast implements CastsAttributes
      * @param  T|null  $value
      * @param  array<string, mixed>  $attributes
      * @return array<string, mixed>|null
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public function serialize($model, string $key, $value, array $attributes): ?array

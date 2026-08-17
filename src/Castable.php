@@ -41,6 +41,8 @@ trait Castable
      *
      * @param  array<int|string, mixed>  $arguments
      * @return ValueObjectCast<self>
+     *
+     * @since 1.0.0
      */
     public static function castUsing(array $arguments = []): CastsAttributes
     {
@@ -54,6 +56,8 @@ trait Castable
      * Get the cast attributes for this ValueObject.
      *
      * @return array<string, string>
+     *
+     * @since 1.0.0
      */
     public static function getCastAttributes(): array
     {

@@ -116,7 +116,7 @@ abstract class ValueObject implements ValueObjectInterface
     #[\Override]
     public function equals(?ValueObjectContract $other): bool
     {
-        if (! $other instanceof ValueObjectContract) {
+        if ($other === null) {
             return false;
         }
 

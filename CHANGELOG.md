@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.51.0] - 2026-08-17
+
+### Added
+- Phase 52 production readiness test (154+ assertions): interface method count parity (ValueObjectContract 5, ExchangeRateProvider 1, ValueObjectCast 3, Castable 2), VO API surface audit (Money 30+, Url 15+, PhoneNumber, Currency, Duration, Coordinates, Address 6 readonly props, Percentage, Email), CastableAs attribute finality + CLASS target, all VOs final + readonly + constructor :void + Castable trait + #[Override] on core methods, ValueObjectInterface redundant import cleanup, ValueObject::equals() null-check fix, method-level @since annotations on Castable, CastableAs, ExchangeRateProvider, ValueObjectCast, ServiceProvider final + provides empty + #[Override], console commands final + #[Override] + int return, phpstan.neon ↔ neon.dist parity, rector PHP 8.5, composer metadata integrity, version consistency, source file count 22, exception leaf factories return self + non-empty defaults, Money static factory @since annotations
+
+### Fixed
+- Removed redundant `use ZeroBoiler\ValueObjects\Contracts\ValueObject` import in `ValueObjectInterface` (already imported with alias)
+- Fixed `ValueObject::equals()` to use `$other === null` instead of redundant `! $other instanceof ValueObjectContract` type check
+
+### Changed
+- Version bump to 1.51.0
+- Updated README assertion metrics: 1217+ expect assertions across 39 test files + 1 fixture
+
 ## [1.50.0] - 2026-08-17
 
 ### Added
