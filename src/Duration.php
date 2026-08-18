@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
+use ValueError;
+
 /**
  * Duration value object in milliseconds.
  *
@@ -185,14 +187,14 @@ final class Duration extends ValueObject
      * rather than silently clamping to zero. Pass $allowNegative=false
      * to throw a ValueError instead.
      *
-     * @throws \ValueError If $allowNegative is false and result would be negative
+     * @throws ValueError If $allowNegative is false and result would be negative
      */
     public function subtract(self $other, bool $allowNegative = true): self
     {
         $result = $this->milliseconds - $other->milliseconds;
 
         if ($result < 0 && ! $allowNegative) {
-            throw new \ValueError(
+            throw new ValueError(
                 'Duration subtraction results in a negative value ('.$result.'ms). '.
                 'Pass $allowNegative=true or check inputs.'
             );

@@ -1,6 +1,6 @@
 # ZeroBoiler Value Objects
 
-![Latest Version](https://img.shields.io/badge/version-1.51.0-blue)
+![Latest Version](https://img.shields.io/badge/version-1.52.0-blue)
 ![PHP 8.5+](https://img.shields.io/badge/PHP-8.5%2B-blue)
 ![MIT License](https://img.shields.io/badge/License-MIT-green)
 |[![CI](https://github.com/zeroboiler/value-objects/workflows/CI/badge.svg)](https://github.com/zeroboiler/value-objects/actions)
@@ -479,7 +479,7 @@ This package maintains strict production-quality standards:
 - **#[Override] attributes** on all interface method implementations (CastsAttributes, ServiceProvider)
 - **JSON_THROW_ON_ERROR** on all `json_encode()` calls in `ValueObjectCast::set()`
 - **No TODO/FIXME** comments in production code
-- **Comprehensive test suite** with 1214+ expect assertions across 39 test files + 1 fixture
+- **Comprehensive test suite** with 1294+ expect assertions across 39 test files + 1 fixture
 
 ## Credits
 

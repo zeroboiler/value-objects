@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
+use ValueError;
+
 /**
  * Percentage value object (0-100).
  *
@@ -69,7 +71,7 @@ final class Percentage extends ValueObject
         $newValue = $this->value + $other->value;
 
         if ($newValue > 100 || $newValue < 0) {
-            throw new \ValueError(
+            throw new ValueError(
                 sprintf('Percentage addition overflow: %.2f + %.2f = %.2f exceeds 0-100 range', $this->value, $other->value, $newValue)
             );
         }
@@ -87,7 +89,7 @@ final class Percentage extends ValueObject
         $newValue = $this->value - $other->value;
 
         if ($newValue > 100 || $newValue < 0) {
-            throw new \ValueError(
+            throw new ValueError(
                 sprintf('Percentage subtraction overflow: %.2f - %.2f = %.2f exceeds 0-100 range', $this->value, $other->value, $newValue)
             );
         }

@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.52.0] - 2026-08-18
+
+### Fixed
+- Currency.php: replaced FQN `\NumberFormatter` with imported `use NumberFormatter` for consistency
+- Percentage.php: replaced FQN `\ValueError` with imported `use ValueError` for consistency
+- Duration.php: replaced FQN `\ValueError` with imported `use ValueError`, fixed @throws docblock to use import
+- Address.php: added full `@param` docblock (6 parameters) and `@throws ValidationException` to constructor
+- MakeValueObjectCommand.php: added `@param` and `@return` docblock to `getStub()` method
+- phpstan.neon: synced `checkUnusedParameters(true)` and `checkUninitializedProperties(true)` with phpstan.neon.dist
+
+### Added
+- Phase 53 production readiness test (76 assertions): import consistency audit (Currency NumberFormatter, Percentage ValueError, Duration ValueError), Address constructor docblock, MakeValueObjectCommand docblock, phpstan.neon/neon.dist parity (6 checks), license headers, zero TODO/FIXME, all VOs final, constructor :void, ValueObjectInterface/ValueObjectContract implementation, exception hierarchy, forMessage factories, ServiceProvider/commands finality, CastableAs CLASS target, ValueObjectCast finality, ExchangeRateProvider interface method count, composer.json metadata, source file count, test file count, assertion count, JSON_THROW_ON_ERROR usage, rector PHP 8.5
+
+### Changed
+- Version bump to 1.52.0
+- Updated README assertion metrics: 1294+ expect assertions across 39 test files + 1 fixture
+
 ## [1.51.0] - 2026-08-17
 
 ### Added

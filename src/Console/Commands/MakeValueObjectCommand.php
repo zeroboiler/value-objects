@@ -67,6 +67,10 @@ final class MakeValueObjectCommand extends Command
 
     /**
      * Get the class stub template.
+     *
+     * @param  string  $className  The value object class name
+     * @param  string  $namespace  The target namespace
+     * @return string The PHP class stub
      */
     private function getStub(string $className, string $namespace): string
     {

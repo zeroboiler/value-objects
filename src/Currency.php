@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace ZeroBoiler\ValueObjects;
 
+use NumberFormatter;
 use ValueError;
 use ZeroBoiler\ValueObjects\Contracts\ValueObject as ValueObjectContract;
 
@@ -164,8 +165,8 @@ final class Currency extends ValueObject
     {
         $locale ??= 'en_US';
 
-        $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-        $formatter->setTextAttribute(\NumberFormatter::CURRENCY_CODE, $this->code);
+        $formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
+        $formatter->setTextAttribute(NumberFormatter::CURRENCY_CODE, $this->code);
         $formatted = $formatter->formatCurrency(0, $this->code);
 
         // Extract the symbol prefix (everything before the first digit)

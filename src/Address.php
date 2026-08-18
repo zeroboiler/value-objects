@@ -35,6 +35,16 @@ final class Address extends ValueObject
     /** Country name or ISO code */
     public readonly string $country;
 
+    /**
+     * @param  string  $street  Street address (line 1)
+     * @param  string|null  $street2  Optional apartment/suite number
+     * @param  string  $city  City
+     * @param  string  $state  State/Province
+     * @param  string  $postalCode  ZIP/Postal code
+     * @param  string  $country  Country name or ISO code
+     *
+     * @throws ValidationException If validation fails
+     */
     public function __construct(
         string $street,
         ?string $street2,
