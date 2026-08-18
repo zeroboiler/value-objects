@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.52.1] - 2026-08-18
+
+### Fixed
+- Version consistency: composer.json and README badge synced to 1.52.1
+
 ## [1.52.0] - 2026-08-18
 
 ### Fixed
