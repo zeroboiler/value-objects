@@ -34,6 +34,8 @@ use Attribute;
 final readonly class CastableAs
 {
     /**
+     * @since 1.0.0
+     *
      * @param  string|null  $fromArray  Static method name: `public static function(array $data): static`
      * @param  string|null  $toArray  Instance method name: `public function(): mixed` (string for DB storage)
      */

@@ -23,6 +23,8 @@ final class Duration extends ValueObject
     public readonly int $milliseconds;
 
     /**
+     * @since 1.0.0
+     *
      * @param  int  $milliseconds  Duration in milliseconds (can be negative for differences)
      */
     public function __construct(int $milliseconds): void
@@ -37,6 +39,8 @@ final class Duration extends ValueObject
 
     /**
      * Create from seconds.
+     *
+     * @since 1.0.0
      */
     public static function fromSeconds(int|float $seconds): self
     {
@@ -45,6 +49,8 @@ final class Duration extends ValueObject
 
     /**
      * Create from minutes.
+     *
+     * @since 1.0.0
      */
     public static function fromMinutes(int|float $minutes): self
     {
@@ -53,6 +59,8 @@ final class Duration extends ValueObject
 
     /**
      * Create from hours.
+     *
+     * @since 1.0.0
      */
     public static function fromHours(int|float $hours): self
     {
@@ -61,6 +69,8 @@ final class Duration extends ValueObject
 
     /**
      * Create from days.
+     *
+     * @since 1.0.0
      */
     public static function fromDays(int|float $days): self
     {
@@ -73,6 +83,8 @@ final class Duration extends ValueObject
      * Supports combinations of: days (d), hours (h), minutes (m), seconds (s), milliseconds (ms).
      * Examples: "1h 30m", "2d 4h", "500ms", "90s", "1d 2h 30m 45s 500ms".
      * Whitespace between units is optional. Negative durations: "-1h 30m".
+     *
+     * @since 1.0.0
      *
      * @param  string  $input  Human-readable duration string
      *
@@ -135,6 +147,8 @@ final class Duration extends ValueObject
     /**
      * Get duration in seconds.
      *
+     * @since 1.0.0
+     *
      * @return float Seconds (may be fractional)
      */
     public function toSeconds(): float
@@ -144,6 +158,8 @@ final class Duration extends ValueObject
 
     /**
      * Get duration in minutes.
+     *
+     * @since 1.0.0
      *
      * @return float Minutes (may be fractional)
      */
@@ -155,6 +171,8 @@ final class Duration extends ValueObject
     /**
      * Get duration in hours.
      *
+     * @since 1.0.0
+     *
      * @return float Hours (may be fractional)
      */
     public function toHours(): float
@@ -165,6 +183,8 @@ final class Duration extends ValueObject
     /**
      * Get duration in days.
      *
+     * @since 1.0.0
+     *
      * @return float Days (may be fractional)
      */
     public function toDays(): float
@@ -174,6 +194,8 @@ final class Duration extends ValueObject
 
     /**
      * Add another duration.
+     *
+     * @since 1.0.0
      */
     public function add(self $other): self
     {
@@ -186,6 +208,8 @@ final class Duration extends ValueObject
      * By default, negative results are allowed to surface logic errors
      * rather than silently clamping to zero. Pass $allowNegative=false
      * to throw a ValueError instead.
+     *
+     * @since 1.0.0
      *
      * @throws ValueError If $allowNegative is false and result would be negative
      */
@@ -205,6 +229,8 @@ final class Duration extends ValueObject
 
     /**
      * Clamp duration to a minimum of zero.
+     *
+     * @since 1.0.0
      */
     public function clampToZero(): self
     {
@@ -213,6 +239,8 @@ final class Duration extends ValueObject
 
     /**
      * Get human-readable string.
+     *
+     * @since 1.0.0
      *
      * @return string e.g., "2 hours 15 minutes 30 seconds"
      */
@@ -255,12 +283,18 @@ final class Duration extends ValueObject
         return $isNegative ? "-{$result}" : $result;
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
         return ['milliseconds' => $this->milliseconds];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -269,6 +303,8 @@ final class Duration extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed Duration in milliseconds as an integer
      */
@@ -280,6 +316,8 @@ final class Duration extends ValueObject
 
     /**
      * Create from a primitive database value (integer milliseconds).
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -300,6 +338,8 @@ final class Duration extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

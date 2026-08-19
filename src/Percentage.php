@@ -23,6 +23,8 @@ final class Percentage extends ValueObject
     public readonly float $value;
 
     /**
+     * @since 1.0.0
+     *
      * @param  float  $value  Percentage value (0-100)
      */
     public function __construct(float $value): void
@@ -40,6 +42,8 @@ final class Percentage extends ValueObject
     /**
      * Calculate this percentage of a number.
      *
+     * @since 1.0.0
+     *
      * @param  float  $number  The number to calculate percentage of
      * @return float The calculated value
      *
@@ -53,6 +57,8 @@ final class Percentage extends ValueObject
     /**
      * Apply this percentage to an amount (alias of of()).
      *
+     * @since 1.0.0
+     *
      * @param  float  $amount  The amount to apply percentage to
      * @return float The calculated value
      */
@@ -63,6 +69,8 @@ final class Percentage extends ValueObject
 
     /**
      * Add percentage to this value.
+     *
+     * @since 1.0.0
      *
      * @throws \ValueError If the result exceeds 0-100 range
      */
@@ -82,6 +90,8 @@ final class Percentage extends ValueObject
     /**
      * Subtract percentage from this value.
      *
+     * @since 1.0.0
+     *
      * @throws \ValueError If the result exceeds 0-100 range
      */
     public function subtract(self $other): self
@@ -99,6 +109,8 @@ final class Percentage extends ValueObject
 
     /**
      * Multiply by factor (clamped to 0-100).
+     *
+     * @since 1.0.0
      */
     public function multiply(float $factor): self
     {
@@ -109,6 +121,8 @@ final class Percentage extends ValueObject
 
     /**
      * Check if percentage is zero.
+     *
+     * @since 1.0.0
      */
     public function isZero(): bool
     {
@@ -117,18 +131,26 @@ final class Percentage extends ValueObject
 
     /**
      * Check if percentage is 100%.
+     *
+     * @since 1.0.0
      */
     public function isFull(): bool
     {
         return abs($this->value - 100.0) < 0.0001;
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
         return ['value' => $this->value];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -137,6 +159,8 @@ final class Percentage extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed The percentage value as a float
      */
@@ -148,6 +172,8 @@ final class Percentage extends ValueObject
 
     /**
      * Create from a primitive database value (float).
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -171,6 +197,8 @@ final class Percentage extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

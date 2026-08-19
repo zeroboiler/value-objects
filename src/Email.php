@@ -23,6 +23,8 @@ final class Email extends ValueObject
     public readonly string $value;
 
     /**
+     * @since 1.0.0
+     *
      * @param  string  $email  Email address
      *
      * @throws ValidationException If email is invalid
@@ -41,6 +43,8 @@ final class Email extends ValueObject
 
     /**
      * Get domain part of email.
+     *
+     * @since 1.0.0
      */
     public function domain(): string
     {
@@ -55,6 +59,8 @@ final class Email extends ValueObject
 
     /**
      * Get local part (before @) of email.
+     *
+     * @since 1.0.0
      */
     public function localPart(): string
     {
@@ -67,12 +73,18 @@ final class Email extends ValueObject
         return substr($this->value, 0, $atPos);
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
         return ['email' => $this->value];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -81,6 +93,8 @@ final class Email extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed The email address as a string
      */
@@ -92,6 +106,8 @@ final class Email extends ValueObject
 
     /**
      * Create from a primitive database value (string).
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -105,6 +121,8 @@ final class Email extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

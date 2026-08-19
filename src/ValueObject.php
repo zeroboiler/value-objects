@@ -30,6 +30,8 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * Call this in your constructor to ensure data integrity.
      *
+     * @since 1.0.0
+     *
      * @param  array<string, mixed>  $data
      * @param  array<string, string>  $rules
      *
@@ -51,6 +53,8 @@ abstract class ValueObject implements ValueObjectInterface
      * Default implementation returns the JSON-encoded array representation.
      * Single-value VOs should override this to return the scalar directly.
      *
+     * @since 1.0.0
+     *
      * @return mixed The primitive representation (scalar or JSON string)
      */
     #[\Override]
@@ -66,6 +70,8 @@ abstract class ValueObject implements ValueObjectInterface
      * natural spread behavior: sequential arrays become positional
      * arguments, associative arrays become named arguments.
      * Single-value VOs should override this.
+     *
+     * @since 1.0.0
      *
      * @throws \InvalidArgumentException If reconstruction fails
      * @throws ValidationException If validation fails
@@ -101,6 +107,8 @@ abstract class ValueObject implements ValueObjectInterface
      * Default is 'json' for composite VOs. Single-value VOs should
      * override to return the appropriate scalar type.
      *
+     * @since 1.0.0
+     *
      * @return non-empty-string
      */
     public static function columnType(): string
@@ -110,6 +118,8 @@ abstract class ValueObject implements ValueObjectInterface
 
     /**
      * Compare this value object with another by value.
+     *
+     * @since 1.0.0
      *
      * @return bool True if all attributes are equal
      */
@@ -126,12 +136,16 @@ abstract class ValueObject implements ValueObjectInterface
     /**
      * Serialize value object to array.
      *
+     * @since 1.0.0
+     *
      * @return array<string, mixed>
      */
     abstract public function toArray(): array;
 
     /**
      * Serialize value object to JSON.
+     *
+     * @since 1.0.0
      *
      * @param  int  $options  JSON encode options (JSON_THROW_ON_ERROR, etc.)
      */
@@ -144,6 +158,8 @@ abstract class ValueObject implements ValueObjectInterface
     /**
      * Serialize for json_encode().
      *
+     * @since 1.0.0
+     *
      * @return array<string, mixed>
      */
     #[\Override]
@@ -154,6 +170,8 @@ abstract class ValueObject implements ValueObjectInterface
 
     /**
      * String representation of value object.
+     *
+     * @since 1.0.0
      */
     abstract public function __toString(): string;
 }

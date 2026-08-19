@@ -75,6 +75,8 @@ final class Currency extends ValueObject
     ];
 
     /**
+     * @since 1.0.0
+     *
      * @param  string  $code  ISO 4217 currency code (case-insensitive)
      *
      * @throws ValueError If the currency code is not a valid ISO 4217 code
@@ -99,6 +101,8 @@ final class Currency extends ValueObject
      * Create from a 3-letter ISO 4217 code.
      *
      * Convenience named constructor for readability.
+     *
+     * @since 1.0.0
      */
     public static function fromCode(string $code): self
     {
@@ -111,6 +115,8 @@ final class Currency extends ValueObject
      * Most currencies use 2 (e.g., USD: 100 cents = 1 dollar).
      * JPY, KRW, etc. use 0 (no subunit).
      * BHD, KWD, etc. use 3.
+     *
+     * @since 1.0.0
      */
     public function decimalPlaces(): int
     {
@@ -127,6 +133,8 @@ final class Currency extends ValueObject
 
     /**
      * Get the subunit divisor (e.g., 100 for USD, 1 for JPY, 1000 for KWD).
+     *
+     * @since 1.0.0
      */
     public function subunitDivisor(): int
     {
@@ -135,6 +143,8 @@ final class Currency extends ValueObject
 
     /**
      * Get the name of the subunit (e.g., "cent", "sen", "fils").
+     *
+     * @since 1.0.0
      */
     public function subunitName(): string
     {
@@ -158,6 +168,8 @@ final class Currency extends ValueObject
      * Uses PHP's NumberFormatter with the given locale (defaults to en_US).
      * Falls back to the ISO code itself if the symbol cannot be extracted.
      *
+     * @since 1.0.0
+     *
      * @param  string|null  $locale  Locale for formatting (e.g., "en_US", "tr_TR")
      * @return string Currency symbol (e.g., "$", "€", "¥") or ISO code as fallback
      */
@@ -177,6 +189,8 @@ final class Currency extends ValueObject
 
     /**
      * Check if this currency equals another.
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public function equals(?ValueObjectContract $other): bool
@@ -195,6 +209,8 @@ final class Currency extends ValueObject
     /**
      * Get all valid ISO 4217 currency codes.
      *
+     * @since 1.0.0
+     *
      * @return array<int, string>
      */
     public static function validCodes(): array
@@ -204,12 +220,17 @@ final class Currency extends ValueObject
 
     /**
      * Check if a code is a valid ISO 4217 currency code.
+     *
+     * @since 1.0.0
      */
     public static function isValid(string $code): bool
     {
         return in_array(strtoupper(trim($code)), self::ISO_4217_CODES, true);
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
@@ -219,6 +240,9 @@ final class Currency extends ValueObject
         ];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -227,6 +251,8 @@ final class Currency extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed The ISO 4217 currency code as a string
      */
@@ -238,6 +264,8 @@ final class Currency extends ValueObject
 
     /**
      * Create from a primitive database value (string code).
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -251,6 +279,8 @@ final class Currency extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

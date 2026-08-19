@@ -24,6 +24,9 @@ final class MakeValueObjectCommand extends Command
 
     protected $description = 'Generate a custom ValueObject class scaffold';
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function handle(): int
     {

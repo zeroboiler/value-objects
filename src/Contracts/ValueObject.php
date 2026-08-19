@@ -37,6 +37,8 @@ interface ValueObject extends Arrayable, Jsonable, JsonSerializable, Stringable
      * primary scalar (string). For composite VOs (Money, Address), this
      * returns the JSON-encoded array representation.
      *
+     * @since 1.0.0
+     *
      * @return mixed The primitive value suitable for DB storage
      */
     public function toPrimitive(): mixed;
@@ -46,6 +48,8 @@ interface ValueObject extends Arrayable, Jsonable, JsonSerializable, Stringable
      *
      * This is the inverse of {@see toPrimitive()}. It accepts whatever
      * {@see toPrimitive()} produces and reconstructs the VO.
+     *
+     * @since 1.0.0
      *
      * @param  mixed  $value  The primitive value from the database
      *
@@ -59,6 +63,8 @@ interface ValueObject extends Arrayable, Jsonable, JsonSerializable, Stringable
      *
      * Two value objects are equal if all their attributes are equal.
      *
+     * @since 1.0.0
+     *
      * @param  self|null  $other  The value object to compare with
      * @return bool True if both VOs have the same value
      */
@@ -69,6 +75,8 @@ interface ValueObject extends Arrayable, Jsonable, JsonSerializable, Stringable
      *
      * Returns a string like 'string', 'integer', 'decimal', 'json',
      * 'float', 'boolean' that maps to Laravel migration column types.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string The column type for database schema
      */

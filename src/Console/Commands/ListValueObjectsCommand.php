@@ -27,6 +27,9 @@ final class ListValueObjectsCommand extends Command
 
     protected $description = 'List all ValueObject classes in the app directory';
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function handle(): int
     {

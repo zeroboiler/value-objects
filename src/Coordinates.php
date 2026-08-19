@@ -26,6 +26,8 @@ final class Coordinates extends ValueObject
     public readonly float $longitude;
 
     /**
+     * @since 1.0.0
+     *
      * @param  float  $latitude  Latitude (-90 to 90)
      * @param  float  $longitude  Longitude (-180 to 180)
      *
@@ -47,6 +49,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Check if latitude is valid.
+     *
+     * @since 1.0.0
      */
     public function isValidLat(float $lat): bool
     {
@@ -55,6 +59,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Check if longitude is valid.
+     *
+     * @since 1.0.0
      */
     public function isValidLng(float $lng): bool
     {
@@ -63,6 +69,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Calculate distance to another coordinate using Haversine formula.
+     *
+     * @since 1.0.0
      *
      * @param  self  $other  Target coordinates
      * @return float Distance in meters
@@ -87,6 +95,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Get distance in kilometers.
+     *
+     * @since 1.0.0
      */
     public function distanceToKm(self $other): float
     {
@@ -95,12 +105,17 @@ final class Coordinates extends ValueObject
 
     /**
      * Get distance in miles.
+     *
+     * @since 1.0.0
      */
     public function distanceToMiles(self $other): float
     {
         return $this->distanceTo($other) / 1609.344;
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
@@ -110,6 +125,9 @@ final class Coordinates extends ValueObject
         ];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -118,6 +136,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed JSON-encoded string of latitude and longitude
      */
@@ -135,6 +155,8 @@ final class Coordinates extends ValueObject
      *
      * Accepts JSON string, array with latitude/longitude keys, or
      * comma-separated string like "40.7128,-74.0060".
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -170,6 +192,8 @@ final class Coordinates extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

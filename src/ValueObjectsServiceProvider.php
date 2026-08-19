@@ -23,6 +23,8 @@ final class ValueObjectsServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      *
+     * @since 1.0.0
+     *
      * @return list<string>
      */
     #[\Override]
@@ -34,12 +36,18 @@ final class ValueObjectsServiceProvider extends ServiceProvider
         ];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function register(): void
     {
         // No bindings — ValueObjectsServiceProvider only loads console commands in boot().
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function boot(): void
     {

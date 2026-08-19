@@ -23,6 +23,8 @@ final class InvalidValueObjectsArgumentException extends ValueObjectsException
     /**
      * Create an argument exception for a generic message.
      *
+     * @since 1.26.0
+     *
      * @param  string  $message  Human-readable error description
      * @param  int  $code  Application-specific error code
      * @param  \Throwable|null  $previous  The exception chain predecessor

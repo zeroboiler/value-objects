@@ -26,10 +26,12 @@ final class PhoneNumber extends ValueObject
     /** @use Castable<self> */
     use Castable;
 
-    /** E.164 formatted phone number (e.g., "+1234567890") */
+    /** E.164 formatted phone number (e.g., "+12345678900") */
     public readonly string $value;
 
     /**
+     * @since 1.0.0
+     *
      * @param  string  $phoneNumber  Phone number in E.164 format
      *
      * @throws ValidationException If phone number is invalid
@@ -87,6 +89,8 @@ final class PhoneNumber extends ValueObject
      *
      * For country-level resolution, use giggsey/libphonenumber-for-php.
      *
+     * @since 1.0.0
+     *
      * @return string Country calling code (e.g., "1", "44", "90", "351")
      */
     public function countryCode(): string
@@ -109,6 +113,8 @@ final class PhoneNumber extends ValueObject
 
     /**
      * Format for display (add spaces for readability).
+     *
+     * @since 1.0.0
      *
      * @return string Human-readable format (e.g., "+1 234 567 8900")
      */
@@ -167,12 +173,18 @@ final class PhoneNumber extends ValueObject
         return "+{$code} {$formatted}";
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
         return ['phone' => $this->value];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -181,6 +193,8 @@ final class PhoneNumber extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed The phone number as a string
      */
@@ -192,6 +206,8 @@ final class PhoneNumber extends ValueObject
 
     /**
      * Create from a primitive database value (string).
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -205,6 +221,8 @@ final class PhoneNumber extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.53.0] - 2026-08-19
+
+### Added
+- Phase 88 @since annotation completeness audit: all 168 public methods across 21 source files now have @since annotations (183 total @since including class-level)
+- Phase88SinceAnnotationAuditTest (40+ assertions): public method @since completeness for all VOs, base class, interfaces, traits, exceptions, console commands, service provider, and CastableAs constructor
+
+### Changed
+- Version bump to 1.53.0
+- Updated README badge to 1.53.0, assertion metrics (1300+ / 40 test files)
+- Added @since to all public/protected methods in: ValueObject (base), Url, Currency, Email, Duration, Percentage, Coordinates, Address, PhoneNumber, Money, CastableAs, ValueObjectCast, ValueObjectsServiceProvider, ListValueObjectsCommand, MakeValueObjectCommand, Contracts\ValueObject, ValueObjectsException, InvalidValueObjectsArgumentException, ValueObjectsRuntimeException
+
 ## [1.52.1] - 2026-08-18
 
 ### Fixed

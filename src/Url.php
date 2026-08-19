@@ -33,6 +33,8 @@ final class Url extends ValueObject
     private array $parsed;
 
     /**
+     * @since 1.0.0
+     *
      * @param  string  $url  Valid URL
      *
      * @throws ValidationException If URL is invalid
@@ -59,6 +61,8 @@ final class Url extends ValueObject
 
     /**
      * Get URL scheme (e.g., "https", "http", "ftp").
+     *
+     * @since 1.0.0
      */
     public function scheme(): string
     {
@@ -67,6 +71,8 @@ final class Url extends ValueObject
 
     /**
      * Get URL host (e.g., "example.com").
+     *
+     * @since 1.0.0
      */
     public function host(): string
     {
@@ -75,6 +81,8 @@ final class Url extends ValueObject
 
     /**
      * Get URL path (e.g., "/path/to/resource").
+     *
+     * @since 1.0.0
      */
     public function path(): string
     {
@@ -83,6 +91,8 @@ final class Url extends ValueObject
 
     /**
      * Get URL query string (e.g., "foo=bar&baz=qux").
+     *
+     * @since 1.0.0
      */
     public function query(): string
     {
@@ -91,6 +101,8 @@ final class Url extends ValueObject
 
     /**
      * Get URL fragment (e.g., "section").
+     *
+     * @since 1.0.0
      */
     public function fragment(): string
     {
@@ -102,6 +114,8 @@ final class Url extends ValueObject
      *
      * Note: `parse_str` can produce nested arrays for bracket-syntax params
      * like `foo[bar]=baz`. Only the top-level string values are returned.
+     *
+     * @since 1.0.0
      *
      * @return array<string, string>
      */
@@ -122,6 +136,8 @@ final class Url extends ValueObject
 
     /**
      * Check if URL uses HTTPS.
+     *
+     * @since 1.0.0
      */
     public function isHttps(): bool
     {
@@ -130,6 +146,8 @@ final class Url extends ValueObject
 
     /**
      * Check if URL uses HTTP.
+     *
+     * @since 1.0.0
      */
     public function isHttp(): bool
     {
@@ -142,6 +160,8 @@ final class Url extends ValueObject
      * Supports any valid URI scheme per RFC 3986 (http, https, ftp, mailto,
      * ws, wss, etc.). For schemes that use authority-less format (mailto:,
      * tel:, data:), the URL is reconstructed appropriately.
+     *
+     * @since 1.0.0
      *
      * @param  string  $scheme  New scheme (e.g., "https", "ftp", "mailto")
      *
@@ -180,6 +200,8 @@ final class Url extends ValueObject
     /**
      * Reconstruct URL from parsed components.
      *
+     * @since 1.0.0
+     *
      * @param  array<string, string|int|null>  $parsed
      */
     private function buildUrl(array $parsed): string
@@ -206,6 +228,8 @@ final class Url extends ValueObject
      * Use {@see toExpandedArray()} for display/API output that
      * includes all parsed URL components.
      *
+     * @since 1.0.0
+     *
      * @return array<string, string>
      */
     #[\Override]
@@ -221,6 +245,8 @@ final class Url extends ValueObject
      * wants direct access to scheme, host, path, query, fragment
      * without re-parsing the URL.
      *
+     * @since 1.0.0
+     *
      * @return array<string, string>
      */
     public function toExpandedArray(): array
@@ -235,6 +261,9 @@ final class Url extends ValueObject
         ];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -243,6 +272,8 @@ final class Url extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed The URL as a string
      */
@@ -254,6 +285,8 @@ final class Url extends ValueObject
 
     /**
      * Create from a primitive database value (string).
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -267,6 +300,8 @@ final class Url extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

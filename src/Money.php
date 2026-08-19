@@ -34,6 +34,8 @@ final class Money extends ValueObject
     public readonly string $currency;
 
     /**
+     * @since 1.0.0
+     *
      * @param  int  $amount  Amount in minor units (cents)
      * @param  string|Currency  $currency  ISO 4217 currency code or Currency VO
      *
@@ -65,6 +67,8 @@ final class Money extends ValueObject
 
     /**
      * Get the Currency value object for this money.
+     *
+     * @since 1.0.0
      */
     public function currency(): Currency
     {
@@ -75,6 +79,8 @@ final class Money extends ValueObject
      * Convert this money to a different currency using an exchange rate.
      *
      * Alias for convert(), matching the naming convention requested in #592.
+     *
+     * @since 1.0.0
      *
      * @param  Currency|string  $to  Target currency (code or VO)
      * @param  float  $rate  Exchange rate (source → target)
@@ -89,6 +95,8 @@ final class Money extends ValueObject
 
     /**
      * Convert using an ExchangeRateProvider for automatic rate lookup.
+     *
+     * @since 1.0.0
      *
      * @param  Currency|string  $to  Target currency
      * @param  ExchangeRateProvider  $provider  Rate provider implementation
@@ -107,6 +115,8 @@ final class Money extends ValueObject
     /**
      * Static factory for USD amounts.
      *
+     * @since 1.0.0
+     *
      * @param  int  $amount  Amount in cents
      */
     public static function usd(int $amount): self
@@ -116,6 +126,8 @@ final class Money extends ValueObject
 
     /**
      * Static factory for EUR amounts.
+     *
+     * @since 1.0.0
      *
      * @param  int  $amount  Amount in cents
      */
@@ -127,6 +139,8 @@ final class Money extends ValueObject
     /**
      * Static factory for GBP amounts.
      *
+     * @since 1.0.0
+     *
      * @param  int  $amount  Amount in pence
      */
     public static function gbp(int $amount): self
@@ -137,6 +151,8 @@ final class Money extends ValueObject
     /**
      * Static factory for JPY amounts.
      *
+     * @since 1.0.0
+     *
      * @param  int  $amount  Amount in yen (no subunit)
      */
     public static function jpy(int $amount): self
@@ -146,6 +162,8 @@ final class Money extends ValueObject
 
     /**
      * Add two money values (must be same currency).
+     *
+     * @since 1.0.0
      *
      * @throws ValueError If currencies differ
      * @throws OverflowException If the result exceeds PHP_INT_MAX or PHP_INT_MIN
@@ -170,6 +188,8 @@ final class Money extends ValueObject
 
     /**
      * Subtract money from this value.
+     *
+     * @since 1.0.0
      *
      * @throws ValueError If currencies differ
      * @throws OverflowException If the result exceeds integer limits
@@ -198,6 +218,8 @@ final class Money extends ValueObject
      *
      * Rounding follows the target currency's decimal places to ensure the
      * result is a valid minor-unit amount in the target currency.
+     *
+     * @since 1.0.0
      *
      * @param  Currency|string  $to  Target currency (code or VO)
      * @param  float  $rate  Exchange rate (source → target)
@@ -278,6 +300,8 @@ final class Money extends ValueObject
      *
      * Example: 100 cents / 3 = [34, 33, 33] (not [33, 33, 33])
      *
+     * @since 1.0.0
+     *
      * @param  int  $parts  Number of parts to split into
      * @return array<int, self>
      *
@@ -322,6 +346,8 @@ final class Money extends ValueObject
      * Allocate money according to proportions (ratios).
      *
      * Example: Money(100)->allocateRatios([1, 1, 2]) = [25, 25, 50]
+     *
+     * @since 1.0.0
      *
      * @param  array<int, int>  $ratios  Integer ratios (all must be >= 0)
      * @return array<int, self>
@@ -386,6 +412,8 @@ final class Money extends ValueObject
      * Falls back to float with rounding for environments without ext-bcmath.
      * Both paths use round-half-away-from-zero for consistency.
      *
+     * @since 1.0.0
+     *
      * @throws OverflowException If the result exceeds integer limits
      */
     public function multiply(float $factor): self
@@ -437,6 +465,8 @@ final class Money extends ValueObject
      * Both paths use round-half-away-from-zero for consistency.
      * Both paths detect integer overflow from very small divisors.
      *
+     * @since 1.0.0
+     *
      * @throws ValueError If divisor is zero
      * @throws OverflowException If the result exceeds integer limits
      */
@@ -484,6 +514,8 @@ final class Money extends ValueObject
      *
      * Example: Money::fromMajor(9.99, 'EUR')->percentage(19) for 19% VAT.
      *
+     * @since 1.0.0
+     *
      * @param  float  $percent  Percentage to apply (e.g., 19 for 19%)
      *
      * @throws OverflowException If the result exceeds integer limits
@@ -495,6 +527,8 @@ final class Money extends ValueObject
 
     /**
      * Check if amount is zero.
+     *
+     * @since 1.0.0
      */
     public function isZero(): bool
     {
@@ -503,6 +537,8 @@ final class Money extends ValueObject
 
     /**
      * Check if amount is positive.
+     *
+     * @since 1.0.0
      */
     public function isPositive(): bool
     {
@@ -511,6 +547,8 @@ final class Money extends ValueObject
 
     /**
      * Check if amount is negative.
+     *
+     * @since 1.0.0
      */
     public function isNegative(): bool
     {
@@ -523,6 +561,8 @@ final class Money extends ValueObject
      * Most currencies use 2 (e.g., USD: 100 cents = 1 dollar).
      * JPY, KRW, etc. use 0 (no subunit).
      * BHD, KWD, etc. use 3.
+     *
+     * @since 1.0.0
      */
     public function decimalPlaces(): int
     {
@@ -531,6 +571,8 @@ final class Money extends ValueObject
 
     /**
      * Get the subunit divisor (e.g., 100 for USD, 1 for JPY, 1000 for KWD).
+     *
+     * @since 1.0.0
      */
     public function subunitDivisor(): int
     {
@@ -544,6 +586,8 @@ final class Money extends ValueObject
      * When bcmath is available, the major-unit string is split into integer
      * and fraction parts and passed to NumberFormatter separately to avoid
      * float precision loss on very large amounts.
+     *
+     * @since 1.0.0
      *
      * @param  string|null  $locale  Locale for formatting (e.g., "en_US")
      * @return string Formatted amount (e.g., "$1,234.56" or "¥1,234")
@@ -594,6 +638,8 @@ final class Money extends ValueObject
      * via NumberFormatter (which handles grouping and currency symbol), then
      * appends the decimal separator and fraction digits manually.
      *
+     * @since 1.0.0
+     *
      * @param  NumberFormatter  $formatter  Configured currency formatter
      * @param  string  $majorBC  Major amount as bcmath string (e.g., "9999999999999.99")
      * @param  int  $decimals  Number of decimal places for the currency
@@ -633,6 +679,8 @@ final class Money extends ValueObject
 
     /**
      * Get amount in major units (dollars, euros, etc.).
+     *
+     * @since 1.0.0
      */
     public function toMajor(): float
     {
@@ -650,6 +698,8 @@ final class Money extends ValueObject
 
     /**
      * Create from major units (dollars, euros, etc.).
+     *
+     * @since 1.0.0
      *
      * @param  float  $amount  Amount in major units
      *
@@ -671,6 +721,9 @@ final class Money extends ValueObject
         return new self((int) round($floatResult), $currency);
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
@@ -680,6 +733,9 @@ final class Money extends ValueObject
         ];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -690,6 +746,8 @@ final class Money extends ValueObject
      * Get the primitive value for database storage.
      *
      * Returns JSON string of amount + currency for composite storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed JSON-encoded string of amount and currency
      */
@@ -707,6 +765,8 @@ final class Money extends ValueObject
      *
      * Accepts JSON string ({"amount":100,"currency":"USD"}),
      * plain integer (treated as amount in USD), or array.
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -746,6 +806,8 @@ final class Money extends ValueObject
     /**
      * Get the SQL column type for migrations.
      *
+     * @since 1.0.0
+     *
      * @return non-empty-string
      */
     #[\Override]
@@ -756,6 +818,8 @@ final class Money extends ValueObject
 
     /**
      * Check if this money is greater than another.
+     *
+     * @since 1.0.0
      *
      * @throws ValueError If currencies differ
      */
@@ -769,6 +833,8 @@ final class Money extends ValueObject
     /**
      * Check if this money is less than another.
      *
+     * @since 1.0.0
+     *
      * @throws ValueError If currencies differ
      */
     public function lessThan(self $other): bool
@@ -780,6 +846,8 @@ final class Money extends ValueObject
 
     /**
      * Check if this money is greater than or equal to another.
+     *
+     * @since 1.0.0
      *
      * @throws ValueError If currencies differ
      */
@@ -793,6 +861,8 @@ final class Money extends ValueObject
     /**
      * Check if this money is less than or equal to another.
      *
+     * @since 1.0.0
+     *
      * @throws ValueError If currencies differ
      */
     public function lessThanOrEqual(self $other): bool
@@ -804,6 +874,8 @@ final class Money extends ValueObject
 
     /**
      * Ensure currencies match for arithmetic operations.
+     *
+     * @since 1.0.0
      *
      * @throws ValueError If currencies differ
      */

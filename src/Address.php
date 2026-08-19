@@ -36,6 +36,8 @@ final class Address extends ValueObject
     public readonly string $country;
 
     /**
+     * @since 1.0.0
+     *
      * @param  string  $street  Street address (line 1)
      * @param  string|null  $street2  Optional apartment/suite number
      * @param  string  $city  City
@@ -77,6 +79,8 @@ final class Address extends ValueObject
     /**
      * Get full address as single line.
      *
+     * @since 1.0.0
+     *
      * @return string Formatted address
      */
     public function full(): string
@@ -96,6 +100,8 @@ final class Address extends ValueObject
     /**
      * Get address as multiline array.
      *
+     * @since 1.0.0
+     *
      * @return array<int, string>
      */
     public function lines(): array
@@ -108,6 +114,9 @@ final class Address extends ValueObject
         ], fn (?string $line): bool => $line !== null && $line !== '');
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function toArray(): array
     {
@@ -121,6 +130,9 @@ final class Address extends ValueObject
         ];
     }
 
+    /**
+     * @since 1.0.0
+     */
     #[\Override]
     public function __toString(): string
     {
@@ -129,6 +141,8 @@ final class Address extends ValueObject
 
     /**
      * Get the primitive value for database storage.
+     *
+     * @since 1.0.0
      *
      * @return mixed JSON-encoded string of all address components
      */
@@ -142,6 +156,8 @@ final class Address extends ValueObject
      * Create from a primitive database value.
      *
      * Accepts JSON string or array with address fields.
+     *
+     * @since 1.0.0
      */
     #[\Override]
     public static function fromPrimitive(mixed $value): static
@@ -170,6 +186,8 @@ final class Address extends ValueObject
 
     /**
      * Get the SQL column type for migrations.
+     *
+     * @since 1.0.0
      *
      * @return non-empty-string
      */

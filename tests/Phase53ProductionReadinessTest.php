@@ -228,7 +228,7 @@ describe('Phase 53 — Import Consistency, Docblock Completeness, phpstan Parity
         $testFiles = array_filter($testFiles, fn (string $f): bool =>
             basename($f) !== 'Pest.php' && basename($f) !== 'TestCase.php'
         );
-        expect(count($testFiles))->toBe(39);
+        expect(count($testFiles))->toBe(40);
     });
 
     test('assertion count matches README', function () {
@@ -243,7 +243,7 @@ describe('Phase 53 — Import Consistency, Docblock Completeness, phpstan Parity
             $count += substr_count($content, '->expect(');
         }
         // README claims 1214+, verify we have at least that many
-        expect($count)->toBeGreaterThanOrEqual(1214, "Assertion count {$count} is below 1214+");
+        expect($count)->toBeGreaterThanOrEqual(1300, "Assertion count {$count} is below 1300+");
     });
 
     test('ValueObject abstract class implements ValueObjectInterface', function () {

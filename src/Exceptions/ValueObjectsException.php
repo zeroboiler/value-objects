@@ -26,6 +26,8 @@ abstract class ValueObjectsException extends Exception
     /**
      * Create a value-objects exception with an optional previous cause.
      *
+     * @since 1.26.0
+     *
      * @param  string  $message  Human-readable error description
      * @param  int  $code  Application-specific error code (default: 0)
      * @param  \Throwable|null  $previous  The exception chain predecessor
