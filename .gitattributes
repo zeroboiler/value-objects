@@ -1,4 +1,11 @@
-* text=auto
-*.php text eol=lf
-/.editorconfig export-ignore
-/.gitattributes export-ignore
+/tests export-ignore
+/database export-ignore
+/phpunit.xml export-ignore
+/phpstan.neon export-ignore
+/phpstan.neon.dist export-ignore
+/phpstan-baseline.neon export-ignore
+/.github export-ignore
+/pint.json export-ignore
+/_ide_helper.php export-ignore
+/rector.php export-ignore
+/composer.lock export-ignore
