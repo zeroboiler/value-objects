@@ -142,7 +142,6 @@ final class Percentage extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function toArray(): array
     {
         return ['value' => $this->value];
@@ -151,7 +150,6 @@ final class Percentage extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function __toString(): string
     {
         return number_format($this->value, $this->isDecimal() ? 2 : 0).'%';
@@ -164,7 +162,6 @@ final class Percentage extends ValueObject
      *
      * @return mixed The percentage value as a float
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
@@ -175,7 +172,6 @@ final class Percentage extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (is_int($value)) {
@@ -202,7 +198,6 @@ final class Percentage extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'float';

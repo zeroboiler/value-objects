@@ -27,7 +27,6 @@ final class MakeValueObjectCommand extends Command
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function handle(): int
     {
         $name = (string) $this->argument('name');

@@ -76,7 +76,6 @@ final class ValueObjectCast implements CastsAttributes
      *
      * @since 1.0.0
      */
-    #[\Override]
     public function get($model, string $key, $value, array $attributes): mixed
     {
         if ($value === null) {
@@ -141,7 +140,6 @@ final class ValueObjectCast implements CastsAttributes
      *
      * @since 1.0.0
      */
-    #[\Override]
     public function set($model, string $key, $value, array $attributes): ?string
     {
         if ($value === null) {
@@ -169,7 +167,6 @@ final class ValueObjectCast implements CastsAttributes
      *
      * @since 1.0.0
      */
-    #[\Override]
     public function serialize($model, string $key, $value, array $attributes): ?array
     {
         return $value?->toArray();

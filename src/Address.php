@@ -117,7 +117,6 @@ final class Address extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function toArray(): array
     {
         return [
@@ -133,7 +132,6 @@ final class Address extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function __toString(): string
     {
         return $this->full();
@@ -146,7 +144,6 @@ final class Address extends ValueObject
      *
      * @return mixed JSON-encoded string of all address components
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
@@ -159,7 +156,6 @@ final class Address extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         $data = $value;
@@ -191,7 +187,6 @@ final class Address extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'json';

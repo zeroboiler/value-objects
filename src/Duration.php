@@ -286,7 +286,6 @@ final class Duration extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function toArray(): array
     {
         return ['milliseconds' => $this->milliseconds];
@@ -295,7 +294,6 @@ final class Duration extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function __toString(): string
     {
         return $this->humanReadable();
@@ -308,7 +306,6 @@ final class Duration extends ValueObject
      *
      * @return mixed Duration in milliseconds as an integer
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->milliseconds;
@@ -319,7 +316,6 @@ final class Duration extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_int($value)) {
@@ -343,7 +339,6 @@ final class Duration extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'integer';

@@ -30,7 +30,6 @@ final class ListValueObjectsCommand extends Command
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function handle(): int
     {
         $path = (string) $this->option('path');

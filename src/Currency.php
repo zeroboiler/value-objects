@@ -192,7 +192,6 @@ final class Currency extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public function equals(?ValueObjectContract $other): bool
     {
         return $other instanceof self && $this->code === $other->code;
@@ -231,7 +230,6 @@ final class Currency extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function toArray(): array
     {
         return [
@@ -243,7 +241,6 @@ final class Currency extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function __toString(): string
     {
         return $this->code;
@@ -256,7 +253,6 @@ final class Currency extends ValueObject
      *
      * @return mixed The ISO 4217 currency code as a string
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->code;
@@ -267,7 +263,6 @@ final class Currency extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
@@ -284,7 +279,6 @@ final class Currency extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'string';

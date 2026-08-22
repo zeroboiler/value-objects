@@ -232,7 +232,6 @@ final class Url extends ValueObject
      *
      * @return array<string, string>
      */
-    #[\Override]
     public function toArray(): array
     {
         return ['url' => $this->value];
@@ -264,7 +263,6 @@ final class Url extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function __toString(): string
     {
         return $this->value;
@@ -277,7 +275,6 @@ final class Url extends ValueObject
      *
      * @return mixed The URL as a string
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return $this->value;
@@ -288,7 +285,6 @@ final class Url extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (! is_string($value)) {
@@ -305,7 +301,6 @@ final class Url extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'string';

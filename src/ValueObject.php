@@ -57,7 +57,6 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @return mixed The primitive representation (scalar or JSON string)
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
@@ -123,7 +122,6 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @return bool True if all attributes are equal
      */
-    #[\Override]
     public function equals(?ValueObjectContract $other): bool
     {
         if ($other === null) {
@@ -149,7 +147,6 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @param  int  $options  JSON encode options (JSON_THROW_ON_ERROR, etc.)
      */
-    #[\Override]
     public function toJson($options = 0): string
     {
         return json_encode($this, $options);
@@ -162,7 +159,6 @@ abstract class ValueObject implements ValueObjectInterface
      *
      * @return array<string, mixed>
      */
-    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->toArray();

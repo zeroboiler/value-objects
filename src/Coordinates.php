@@ -116,7 +116,6 @@ final class Coordinates extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function toArray(): array
     {
         return [
@@ -128,7 +127,6 @@ final class Coordinates extends ValueObject
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function __toString(): string
     {
         return "({$this->latitude}, {$this->longitude})";
@@ -141,7 +139,6 @@ final class Coordinates extends ValueObject
      *
      * @return mixed JSON-encoded string of latitude and longitude
      */
-    #[\Override]
     public function toPrimitive(): mixed
     {
         return json_encode([
@@ -158,7 +155,6 @@ final class Coordinates extends ValueObject
      *
      * @since 1.0.0
      */
-    #[\Override]
     public static function fromPrimitive(mixed $value): static
     {
         if (is_array($value)) {
@@ -197,7 +193,6 @@ final class Coordinates extends ValueObject
      *
      * @return non-empty-string
      */
-    #[\Override]
     public static function columnType(): string
     {
         return 'json';

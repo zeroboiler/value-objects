@@ -27,7 +27,6 @@ final class ValueObjectsServiceProvider extends ServiceProvider
      *
      * @return list<string>
      */
-    #[\Override]
     public function provides(): array
     {
         return [
@@ -39,7 +38,6 @@ final class ValueObjectsServiceProvider extends ServiceProvider
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function register(): void
     {
         // No bindings — ValueObjectsServiceProvider only loads console commands in boot().
@@ -48,7 +46,6 @@ final class ValueObjectsServiceProvider extends ServiceProvider
     /**
      * @since 1.0.0
      */
-    #[\Override]
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
