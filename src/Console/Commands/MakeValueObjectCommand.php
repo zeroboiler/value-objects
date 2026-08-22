@@ -60,10 +60,8 @@ final class MakeValueObjectCommand extends Command
      */
     private function sanitizeClassName(string $name): string
     {
-        // Remove non-alphanumeric and underscore characters
         $name = preg_replace('/[^a-zA-Z0-9_]/', '', $name);
 
-        // Ensure it starts with uppercase
         return ucfirst((string) $name);
     }
 
@@ -90,10 +88,6 @@ final class MakeValueObjectCommand extends Command
              */
             final class {$className} extends ValueObject
             {
-                // Define your properties here
-                // Example:
-                // public string \$property;
-                // public int \$anotherProperty;
 
                 /**
                  * Create a new {$className} instance.
@@ -101,22 +95,17 @@ final class MakeValueObjectCommand extends Command
                  * @param  mixed  \$property
                  */
                 public function __construct(
-                    // Add constructor parameters here
                 ) {
-                    // Validate input if needed
-                    // \$this->validate([...], [...]);
                 }
 
                 public function toArray(): array
                 {
                     return [
-                        // Return array representation
                     ];
                 }
 
                 public function __toString(): string
                 {
-                    // Return string representation
                     return '';
                 }
             }

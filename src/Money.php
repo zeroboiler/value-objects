@@ -657,7 +657,6 @@ final class Money extends ValueObject
             $fracPart = str_repeat('0', $decimals);
         }
 
-        // Format the integer part with the currency symbol and grouping
         $formattedInt = $formatter->format((float) $intPart);
 
         // NumberFormatter with CURRENCY type already appends currency code/symbol.
@@ -667,7 +666,6 @@ final class Money extends ValueObject
             $formattedInt = rtrim(rtrim($formattedInt, '0'), $decimalSep);
         }
 
-        // Build the final formatted string
         $prefix = $isNegative ? '-' : '';
 
         if ($decimals > 0) {
