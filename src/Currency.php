@@ -25,7 +25,7 @@ final class Currency extends ValueObject
     use Castable;
 
     /** ISO 4217 currency code (e.g., "USD", "EUR", "JPY") */
-    public readonly string $code;
+    public string $code;
 
     /**
      * Currencies with zero decimal places (no "cents" subunit).
@@ -81,7 +81,7 @@ final class Currency extends ValueObject
      *
      * @throws ValueError If the currency code is not a valid ISO 4217 code
      */
-    public function __construct(string $code): void
+    public function __construct(string $code)
     {
         $code = strtoupper(trim($code));
 

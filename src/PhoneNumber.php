@@ -27,7 +27,7 @@ final class PhoneNumber extends ValueObject
     use Castable;
 
     /** E.164 formatted phone number (e.g., "+12345678900") */
-    public readonly string $value;
+    public string $value;
 
     /**
      * @since 1.0.0
@@ -36,7 +36,7 @@ final class PhoneNumber extends ValueObject
      *
      * @throws ValidationException If phone number is invalid
      */
-    public function __construct(string $phoneNumber): void
+    public function __construct(string $phoneNumber)
     {
         $normalized = trim($phoneNumber);
 

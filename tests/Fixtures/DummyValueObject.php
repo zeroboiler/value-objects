@@ -14,11 +14,11 @@ use ZeroBoiler\ValueObjects\ValueObject;
  */
 final class DummyValueObject extends ValueObject
 {
-    public readonly string $value;
+    public string $value;
 
-    public readonly int $count;
+    public $count;
 
-    public function __construct(string $value, int $count): void
+    public function __construct(string $value, int $count)
     {
         $this->validate(
             ['value' => $value, 'count' => $count],

@@ -107,7 +107,7 @@ test('url withScheme rejects invalid scheme starting with number (#7)', function
     try {
         $url->withScheme('1http');
         expect(false)->toBeTrue('Expected withScheme to throw for invalid scheme');
-    } catch (Throwable) {
+    } catch (Throwable $e) {
         expect(true)->toBeTrue();
     }
 });
@@ -118,7 +118,7 @@ test('url withScheme rejects empty scheme (#7)', function (): void {
     try {
         $url->withScheme('');
         expect(false)->toBeTrue('Expected withScheme to throw for empty scheme');
-    } catch (Throwable) {
+    } catch (Throwable $e) {
         expect(true)->toBeTrue();
     }
 });
@@ -134,10 +134,10 @@ test('url withScheme accepts custom scheme with plus (#7)', function (): void {
     try {
         $result = $url->withScheme('my+app');
         expect($result->scheme())->toBe('my+app');
-    } catch (ValidationException) {
+    } catch (ValidationException $e) {
         // Laravel url validator rejects custom schemes, which is expected
         expect(true)->toBeTrue();
-    } catch (RuntimeException) {
+    } catch (RuntimeException $e) {
         // Also acceptable
         expect(true)->toBeTrue();
     }
@@ -149,7 +149,7 @@ test('url withScheme accepts scheme with dots (#7)', function (): void {
     try {
         $result = $url->withScheme('v2.0');
         expect($result->scheme())->toBe('v2.0');
-    } catch (ValidationException|RuntimeException) {
+    } catch (ValidationException|RuntimeException $e) {
         expect(true)->toBeTrue();
     }
 });
@@ -160,7 +160,7 @@ test('url withScheme accepts scheme with hyphens (#7)', function (): void {
     try {
         $result = $url->withScheme('my-scheme');
         expect($result->scheme())->toBe('my-scheme');
-    } catch (ValidationException|RuntimeException) {
+    } catch (ValidationException|RuntimeException $e) {
         expect(true)->toBeTrue();
     }
 });

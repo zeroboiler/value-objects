@@ -20,10 +20,10 @@ final class Coordinates extends ValueObject
     use Castable;
 
     /** Latitude in decimal degrees (-90 to 90) */
-    public readonly float $latitude;
+    public float $latitude;
 
     /** Longitude in decimal degrees (-180 to 180) */
-    public readonly float $longitude;
+    public float $longitude;
 
     /**
      * @since 1.0.0
@@ -33,7 +33,7 @@ final class Coordinates extends ValueObject
      *
      * @throws ValueError If coordinates are invalid
      */
-    public function __construct(float $latitude, float $longitude): void
+    public function __construct(float $latitude, float $longitude)
     {
         if (! $this->isValidLat($latitude)) {
             throw new ValueError("Invalid latitude: {$latitude}. Must be between -90 and 90.");

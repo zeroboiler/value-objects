@@ -71,7 +71,7 @@ final class ListValueObjectsCommand extends Command
                     'class' => $className,
                     'file' => $relativePath,
                 ];
-            } catch (\ReflectionException) {
+            } catch (\ReflectionException $e) {
                 continue;
             }
         }

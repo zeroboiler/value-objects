@@ -28,10 +28,10 @@ final class Money extends ValueObject
     use Castable;
 
     /** Amount in minor units (cents, fils, etc.) */
-    public readonly int $amount;
+    public int $amount;
 
     /** ISO 4217 currency code (e.g., "USD", "EUR") */
-    public readonly string $currency;
+    public string $currency;
 
     /**
      * @since 1.0.0
@@ -41,7 +41,7 @@ final class Money extends ValueObject
      *
      * @throws ValueError If the currency code is not a valid ISO 4217 code
      */
-    public function __construct(int $amount, string|Currency $currency = 'USD'): void
+    public function __construct(int $amount, string|Currency $currency = 'USD')
     {
         if ($currency instanceof Currency) {
             $currency = $currency->code;

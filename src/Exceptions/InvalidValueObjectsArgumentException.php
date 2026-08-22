@@ -35,7 +35,7 @@ final class InvalidValueObjectsArgumentException extends ValueObjectsException
         return new self($message, $code, $previous);
     }
 
-    public function __construct(string $message = '', int $code = 0, ?\Throwable $previous = null): void
+    public function __construct(string $message = '', int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message ?: 'Invalid value-objects argument.', $code, $previous);
     }

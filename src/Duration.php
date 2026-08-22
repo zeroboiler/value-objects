@@ -20,14 +20,14 @@ final class Duration extends ValueObject
     use Castable;
 
     /** Duration in milliseconds */
-    public readonly int $milliseconds;
+    public int $milliseconds;
 
     /**
      * @since 1.0.0
      *
      * @param  int  $milliseconds  Duration in milliseconds (can be negative for differences)
      */
-    public function __construct(int $milliseconds): void
+    public function __construct(int $milliseconds)
     {
         $this->validate(
             ['milliseconds' => $milliseconds],

@@ -20,14 +20,14 @@ final class Percentage extends ValueObject
     use Castable;
 
     /** Percentage value (0-100) */
-    public readonly float $value;
+    public float $value;
 
     /**
      * @since 1.0.0
      *
      * @param  float  $value  Percentage value (0-100)
      */
-    public function __construct(float $value): void
+    public function __construct(float $value)
     {
         $this->validate(
             ['value' => $value],

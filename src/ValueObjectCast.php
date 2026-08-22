@@ -55,7 +55,7 @@ final class ValueObjectCast implements CastsAttributes
     /**
      * @param  class-string<T>  $valueObjectClass
      */
-    public function __construct(private readonly string $valueObjectClass): void {}
+    public function __construct(private readonly string $valueObjectClass) {}
 
     /**
      * Cast DB value to ValueObject instance.
@@ -92,7 +92,7 @@ final class ValueObjectCast implements CastsAttributes
             // Try JSON first, fall back to passing the raw value.
             try {
                 $data = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            } catch (JsonException) {
+            } catch (JsonException $e) {
                 // Not JSON — pass the raw string to the factory method.
                 return ($this->valueObjectClass)::$method($value);
             }

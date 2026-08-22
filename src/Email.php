@@ -20,7 +20,7 @@ final class Email extends ValueObject
     use Castable;
 
     /** Normalized email address (lowercase) */
-    public readonly string $value;
+    public string $value;
 
     /**
      * @since 1.0.0
@@ -29,7 +29,7 @@ final class Email extends ValueObject
      *
      * @throws ValidationException If email is invalid
      */
-    public function __construct(string $email): void
+    public function __construct(string $email)
     {
         $normalized = strtolower(trim($email));
 

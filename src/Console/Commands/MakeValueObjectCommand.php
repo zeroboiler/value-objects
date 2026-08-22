@@ -102,7 +102,7 @@ final class MakeValueObjectCommand extends Command
                  */
                 public function __construct(
                     // Add constructor parameters here
-                ): void {
+                ) {
                     // Validate input if needed
                     // \$this->validate([...], [...]);
                 }

@@ -25,7 +25,7 @@ final class Url extends ValueObject
     use Castable;
 
     /** Full URL */
-    public readonly string $value;
+    public string $value;
 
     /** Parsed URL components
      * @var array<string, string|int|null>
@@ -39,7 +39,7 @@ final class Url extends ValueObject
      *
      * @throws ValidationException If URL is invalid
      */
-    public function __construct(string $url): void
+    public function __construct(string $url)
     {
         $normalized = trim($url);
 

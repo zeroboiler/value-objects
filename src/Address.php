@@ -18,22 +18,22 @@ final class Address extends ValueObject
     use Castable;
 
     /** Street address (line 1) */
-    public readonly string $street;
+    public string $street;
 
     /** Optional apartment/suite number */
-    public readonly ?string $street2;
+    public ?string $street2;
 
     /** City */
-    public readonly string $city;
+    public string $city;
 
     /** State/Province */
-    public readonly string $state;
+    public string $state;
 
     /** ZIP/Postal code */
-    public readonly string $postalCode;
+    public string $postalCode;
 
     /** Country name or ISO code */
-    public readonly string $country;
+    public string $country;
 
     /**
      * @since 1.0.0
@@ -54,7 +54,7 @@ final class Address extends ValueObject
         string $state,
         string $postalCode,
         string $country
-    ): void
+    )
     {
         $this->validate(
             ['street' => $street, 'street2' => $street2, 'city' => $city, 'state' => $state, 'postalCode' => $postalCode, 'country' => $country],
